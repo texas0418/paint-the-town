@@ -31,6 +31,7 @@ export interface Database {
           subscription_tier: 'free' | 'standard' | 'premium' | 'family';
           subscription_expires_at: string | null;
           onboarding_completed: boolean;
+          push_token: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -65,8 +66,10 @@ export interface Database {
           subscription_tier?: 'free' | 'standard' | 'premium' | 'family';
           subscription_expires_at?: string | null;
           onboarding_completed?: boolean;
+          push_token?: string | null;
           updated_at?: string;
         };
+        Relationships: [];
       };
       user_preferences: {
         Row: {
@@ -80,6 +83,15 @@ export interface Database {
           preferred_airlines: string[] | null;
           preferred_hotels: string[] | null;
           avoid_countries: string[] | null;
+          food_loves: string[] | null;
+          food_dislikes: string[] | null;
+          activity_loves: string[] | null;
+          activity_dislikes: string[] | null;
+          music_genres: string[] | null;
+          drinks: string[] | null;
+          venue_style: string | null;
+          date_budget: number | null;
+          home_city: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -94,6 +106,15 @@ export interface Database {
           preferred_airlines?: string[] | null;
           preferred_hotels?: string[] | null;
           avoid_countries?: string[] | null;
+          food_loves?: string[] | null;
+          food_dislikes?: string[] | null;
+          activity_loves?: string[] | null;
+          activity_dislikes?: string[] | null;
+          music_genres?: string[] | null;
+          drinks?: string[] | null;
+          venue_style?: string | null;
+          date_budget?: number | null;
+          home_city?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -106,8 +127,97 @@ export interface Database {
           preferred_airlines?: string[] | null;
           preferred_hotels?: string[] | null;
           avoid_countries?: string[] | null;
+          food_loves?: string[] | null;
+          food_dislikes?: string[] | null;
+          activity_loves?: string[] | null;
+          activity_dislikes?: string[] | null;
+          music_genres?: string[] | null;
+          drinks?: string[] | null;
+          venue_style?: string | null;
+          date_budget?: number | null;
+          home_city?: string | null;
           updated_at?: string;
         };
+        Relationships: [];
+      };
+      date_plans: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          city: string;
+          plan_date: string | null;
+          start_time: string | null;
+          total_budget: number | null;
+          estimated_cost: number | null;
+          status: 'saved' | 'scheduled' | 'completed' | 'cancelled';
+          source: 'ai' | 'custom';
+          vibe: string | null;
+          items: Json;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          title: string;
+          city: string;
+          plan_date?: string | null;
+          start_time?: string | null;
+          total_budget?: number | null;
+          estimated_cost?: number | null;
+          status?: 'saved' | 'scheduled' | 'completed' | 'cancelled';
+          source?: 'ai' | 'custom';
+          vibe?: string | null;
+          items?: Json;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          title?: string;
+          city?: string;
+          plan_date?: string | null;
+          start_time?: string | null;
+          total_budget?: number | null;
+          estimated_cost?: number | null;
+          status?: 'saved' | 'scheduled' | 'completed' | 'cancelled';
+          source?: 'ai' | 'custom';
+          vibe?: string | null;
+          items?: Json;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      plan_jobs: {
+        Row: {
+          id: string;
+          user_id: string;
+          status: 'pending' | 'done' | 'error';
+          request: Json;
+          plans: Json | null;
+          partial: Json;
+          progress: Json | null;
+          error: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          status?: 'pending' | 'done' | 'error';
+          request?: Json;
+          plans?: Json | null;
+          error?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          status?: 'pending' | 'done' | 'error';
+          plans?: Json | null;
+          error?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
       };
       destinations: {
         Row: {
@@ -151,6 +261,7 @@ export interface Database {
           safety_rating?: 'low' | 'moderate' | 'high' | 'critical' | null;
         };
         Update: Partial<Database['public']['Tables']['destinations']['Insert']>;
+        Relationships: [];
       };
       trips: {
         Row: {
@@ -190,6 +301,7 @@ export interface Database {
           notes?: string | null;
         };
         Update: Partial<Database['public']['Tables']['trips']['Insert']>;
+        Relationships: [];
       };
       itinerary_days: {
         Row: {
@@ -211,6 +323,7 @@ export interface Database {
           notes?: string | null;
         };
         Update: Partial<Database['public']['Tables']['itinerary_days']['Insert']>;
+        Relationships: [];
       };
       itinerary_items: {
         Row: {
@@ -252,6 +365,7 @@ export interface Database {
           sort_order?: number;
         };
         Update: Partial<Database['public']['Tables']['itinerary_items']['Insert']>;
+        Relationships: [];
       };
       bookings: {
         Row: {
@@ -305,6 +419,7 @@ export interface Database {
           notes?: string | null;
         };
         Update: Partial<Database['public']['Tables']['bookings']['Insert']>;
+        Relationships: [];
       };
       notifications: {
         Row: {
@@ -335,6 +450,7 @@ export interface Database {
           expires_at?: string | null;
         };
         Update: Partial<Database['public']['Tables']['notifications']['Insert']>;
+        Relationships: [];
       };
       expenses: {
         Row: {
@@ -363,6 +479,7 @@ export interface Database {
           receipt_url?: string | null;
         };
         Update: Partial<Database['public']['Tables']['expenses']['Insert']>;
+        Relationships: [];
       };
       loyalty_programs: {
         Row: {
@@ -388,6 +505,7 @@ export interface Database {
           icon_url?: string | null;
         };
         Update: Partial<Database['public']['Tables']['loyalty_programs']['Insert']>;
+        Relationships: [];
       };
       bucket_list: {
         Row: {
@@ -413,6 +531,7 @@ export interface Database {
           completed_trip_id?: string | null;
         };
         Update: Partial<Database['public']['Tables']['bucket_list']['Insert']>;
+        Relationships: [];
       };
       trip_groups: {
         Row: {
@@ -438,6 +557,7 @@ export interface Database {
           invite_code?: string | null;
         };
         Update: Partial<Database['public']['Tables']['trip_groups']['Insert']>;
+        Relationships: [];
       };
       group_members: {
         Row: {
@@ -458,6 +578,7 @@ export interface Database {
           contribution?: number;
         };
         Update: Partial<Database['public']['Tables']['group_members']['Insert']>;
+        Relationships: [];
       };
       chat_messages: {
         Row: {
@@ -478,6 +599,7 @@ export interface Database {
           attachment_url?: string | null;
         };
         Update: Partial<Database['public']['Tables']['chat_messages']['Insert']>;
+        Relationships: [];
       };
     };
     Views: {};

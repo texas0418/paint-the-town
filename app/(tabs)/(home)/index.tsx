@@ -1,693 +1,271 @@
 // app/(tabs)/(home)/index.tsx
-import { useState, useCallback, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Pressable,
-  RefreshControl,
-  Dimensions,
-  ActivityIndicator,
-} from 'react-native';
-import { Image } from 'expo-image';
+import React, { useCallback, useMemo, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import {
-  Bell,
-  MapPin,
-  Calendar,
-  Users,
-  ChevronRight,
   Sparkles,
-  Plus,
+  CalendarDays,
+  SlidersHorizontal,
+  CalendarHeart,
+  MapPin,
+  ChevronRight,
   Heart,
-  Gift,
-  Crown,
-  Ticket,
-  Shuffle,
-  MessageCircle,
-  UtensilsCrossed,
-  CloudSun,
-  DollarSign,
-  Camera,
-  Briefcase,
-  Hospital,
-  Wallet,
-  Languages,
-  Globe,
-  ShieldCheck,
-  Hotel,
-  Car,
   Plane,
-  Train,
-  LayoutTemplate,
-  Accessibility,
 } from 'lucide-react-native';
-import colors from '@/constants/colors';
-import { useAuth } from '@/contexts/AuthContext';
+import { ThemeColors } from '@/constants/colors';
+import { useTheme } from '@/hooks/useTheme';
+import { fonts } from '@/constants/typography';
 import { useApp } from '@/contexts/AppContext';
-import {
-  getTrips,
-  getUpcomingBookings,
-  getTrendingDestinations,
-  Booking,
-} from '@/services';
-import { Trip, Destination } from '@/types';
-
-const { width } = Dimensions.get('window');
-const CARD_WIDTH = width - 48;
+import { useAuth } from '@/contexts/AuthContext';
+import { DatePlan } from '@/types/planner';
+import { listPlans } from '@/services/datePlanService';
 
 export default function HomeScreen() {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
   const router = useRouter();
+  const { user: appUser } = useApp();
   const { user: authUser } = useAuth();
-  const { user: appUser, unreadNotificationsCount } = useApp();
-  const [refreshing, setRefreshing] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [recentPlans, setRecentPlans] = useState<DatePlan[]>([]);
 
-  // Real data from Supabase
-  const [trips, setTrips] = useState<Trip[]>([]);
-  const [bookings, setBookings] = useState<Booking[]>([]);
-  const [destinations, setDestinations] = useState<Destination[]>([]);
-
-  // Get display name - prefer auth user's name, fall back to app user
   const displayName = authUser?.fullName || appUser.name || 'Traveler';
+  const firstName = displayName.split(' ')[0];
 
-  // Fetch data from Supabase
-  const fetchData = useCallback(async () => {
-    try {
-      const [tripsData, bookingsData, destinationsData] = await Promise.all([
-        getTrips(),
-        getUpcomingBookings(),
-        getTrendingDestinations(5),
-      ]);
-
-      setTrips(tripsData);
-      setBookings(bookingsData);
-      setDestinations(destinationsData);
-    } catch (error) {
-      console.error('Error fetching home data:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    await fetchData();
-    setRefreshing(false);
-  }, [fetchData]);
-
-  const upcomingTrips = trips.filter(
-    (t) => t.status === 'upcoming' || t.status === 'planning' || t.status === 'booked'
+  useFocusEffect(
+    useCallback(() => {
+      listPlans()
+        .then((plans) => setRecentPlans(plans.slice(0, 3)))
+        .catch((e) => console.error('Failed to load recent plans:', e));
+    }, [])
   );
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const greeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
   };
-
-  const getStatusColor = (status: Trip['status']) => {
-    switch (status) {
-      case 'upcoming':
-      case 'booked':
-        return colors.success;
-      case 'planning':
-        return colors.warning;
-      case 'ongoing':
-      case 'in_progress':
-        return colors.secondary;
-      default:
-        return colors.textTertiary;
-    }
-  };
-
-  const getStatusLabel = (status: Trip['status']) => {
-    switch (status) {
-      case 'upcoming':
-      case 'booked':
-        return 'Confirmed';
-      case 'planning':
-        return 'Planning';
-      case 'ongoing':
-      case 'in_progress':
-        return 'In Progress';
-      default:
-        return 'Completed';
-    }
-  };
-
-  const getBookingIcon = (type: Booking['type']) => {
-    switch (type) {
-      case 'flight':
-        return Plane;
-      case 'hotel':
-        return Hotel;
-      case 'car':
-        return Car;
-      case 'restaurant':
-        return UtensilsCrossed;
-      default:
-        return Ticket;
-    }
-  };
-
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
-    );
-  }
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={[colors.primary, colors.primaryLight]}
-        style={styles.headerGradient}
-      />
-      <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <ScrollView
-          style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          <View style={styles.header}>
-            <View style={styles.headerTop}>
-              <View>
-                <Text style={styles.greeting}>Welcome back,</Text>
-                <Text style={styles.userName}>{displayName}</Text>
-              </View>
-              <Pressable
-                style={styles.notificationButton}
-                onPress={() => router.push('/notifications')}
-              >
-                <Bell size={22} color={colors.textLight} />
-                {unreadNotificationsCount > 0 && (
-                  <View style={styles.notificationBadge} />
-                )}
-              </Pressable>
-            </View>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+        <LinearGradient colors={[colors.primary, colors.primaryLight]} style={styles.headerGradient}>
+          <SafeAreaView edges={['top']}>
+            <View style={styles.headerContent}>
+              <Text style={styles.greeting}>
+                {greeting()}, {firstName} 👋
+              </Text>
+              <Text style={styles.tagline}>Bad at planning dates? That's our job.</Text>
 
-            <Pressable
-              style={styles.aiCard}
-              onPress={() => router.push('/plan-trip')}
-            >
-              <LinearGradient
-                colors={[colors.secondary, colors.secondaryLight]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.aiCardGradient}
+              <Pressable
+                style={styles.heroCard}
+                onPress={() =>
+                  router.push({ pathname: '/plan-date', params: { mode: 'plan_for_me' } })
+                }
               >
-                <View style={styles.aiCardContent}>
-                  <View style={styles.aiIconContainer}>
-                    <Sparkles size={24} color={colors.textLight} />
+                <LinearGradient
+                  colors={[colors.secondary, colors.secondaryLight]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.heroGradient}
+                >
+                  <View style={styles.heroIcon}>
+                    <Sparkles size={26} color={colors.textLight} />
                   </View>
-                  <View style={styles.aiTextContainer}>
-                    <Text style={styles.aiTitle}>Plan with AI</Text>
-                    <Text style={styles.aiSubtitle}>
-                      Create your perfect itinerary in seconds
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.heroTitle}>Plan it for me</Text>
+                    <Text style={styles.heroSubtitle}>
+                      3 complete dates, real venues, your budget
                     </Text>
                   </View>
-                  <ChevronRight size={20} color={colors.textLight} />
-                </View>
-              </LinearGradient>
+                  <ChevronRight size={22} color={colors.textLight} />
+                </LinearGradient>
+              </Pressable>
+            </View>
+          </SafeAreaView>
+        </LinearGradient>
+
+        <View style={styles.body}>
+          <View style={styles.quickActions}>
+            <Pressable
+              style={styles.actionCard}
+              onPress={() => router.push({ pathname: '/plan-date', params: { mode: 'single' } })}
+            >
+              <View style={styles.actionIcon}>
+                <CalendarDays size={22} color={colors.primary} />
+              </View>
+              <Text style={styles.actionTitle}>Plan a date</Text>
+              <Text style={styles.actionDesc}>Around your notes</Text>
+            </Pressable>
+            <Pressable
+              style={styles.actionCard}
+              onPress={() => router.push({ pathname: '/plan-date', params: { mode: 'vacation' } })}
+            >
+              <View style={styles.actionIcon}>
+                <Plane size={22} color={colors.primary} />
+              </View>
+              <Text style={styles.actionTitle}>Vacation</Text>
+              <Text style={styles.actionDesc}>A trip anywhere</Text>
+            </Pressable>
+            <Pressable style={styles.actionCard} onPress={() => router.push('/taste-profile')}>
+              <View style={styles.actionIcon}>
+                <SlidersHorizontal size={22} color={colors.primary} />
+              </View>
+              <Text style={styles.actionTitle}>My taste</Text>
+              <Text style={styles.actionDesc}>Food & vibes</Text>
             </Pressable>
           </View>
 
-          <View style={styles.content}>
-            <View style={styles.quickActions}>
-              <Pressable
-                style={styles.quickAction}
-                onPress={() => router.push('/packing-list')}
-              >
-                <View
-                  style={[
-                    styles.quickActionIcon,
-                    { backgroundColor: `${colors.secondary}15` },
-                  ]}
-                >
-                  <Briefcase size={22} color={colors.secondary} />
-                </View>
-                <Text style={styles.quickActionText}>Packing</Text>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Recent plans</Text>
+            {recentPlans.length > 0 && (
+              <Pressable onPress={() => router.push('/(tabs)/my-plans')}>
+                <Text style={styles.seeAll}>See all</Text>
               </Pressable>
-              <Pressable
-                style={styles.quickAction}
-                onPress={() => router.push('/restaurants')}
-              >
-                <View
-                  style={[
-                    styles.quickActionIcon,
-                    { backgroundColor: `${colors.accentDark}15` },
-                  ]}
-                >
-                  <UtensilsCrossed size={22} color={colors.accentDark} />
-                </View>
-                <Text style={styles.quickActionText}>Dining</Text>
-              </Pressable>
-              <Pressable
-                style={styles.quickAction}
-                onPress={() => router.push('/group-trip')}
-              >
-                <View
-                  style={[
-                    styles.quickActionIcon,
-                    { backgroundColor: `${colors.primary}15` },
-                  ]}
-                >
-                  <Users size={22} color={colors.primary} />
-                </View>
-                <Text style={styles.quickActionText}>Group</Text>
-              </Pressable>
-              <Pressable
-                style={styles.quickAction}
-                onPress={() => router.push('/lodging')}
-              >
-                <View
-                  style={[
-                    styles.quickActionIcon,
-                    { backgroundColor: `${colors.success}15` },
-                  ]}
-                >
-                  <Hotel size={22} color={colors.success} />
-                </View>
-                <Text style={styles.quickActionText}>Lodging</Text>
-              </Pressable>
-            </View>
-
-            <View style={styles.quickActions}>
-              <Pressable
-                style={styles.quickAction}
-                onPress={() => router.push('/car-rental')}
-              >
-                <View
-                  style={[
-                    styles.quickActionIcon,
-                    { backgroundColor: `${colors.warning}15` },
-                  ]}
-                >
-                  <Car size={22} color={colors.warning} />
-                </View>
-                <Text style={styles.quickActionText}>Car Rental</Text>
-              </Pressable>
-              <Pressable
-                style={styles.quickAction}
-                onPress={() => router.push('/flight-search')}
-              >
-                <View
-                  style={[
-                    styles.quickActionIcon,
-                    { backgroundColor: `${colors.primary}15` },
-                  ]}
-                >
-                  <Plane size={22} color={colors.primary} />
-                </View>
-                <Text style={styles.quickActionText}>Flights</Text>
-              </Pressable>
-              <Pressable
-                style={styles.quickAction}
-                onPress={() => router.push('/trip-templates')}
-              >
-                <View
-                  style={[
-                    styles.quickActionIcon,
-                    { backgroundColor: `${colors.secondary}15` },
-                  ]}
-                >
-                  <LayoutTemplate size={22} color={colors.secondary} />
-                </View>
-                <Text style={styles.quickActionText}>Templates</Text>
-              </Pressable>
-              <Pressable
-                style={styles.quickAction}
-                onPress={() => router.push('/date-night')}
-              >
-                <View
-                  style={[
-                    styles.quickActionIcon,
-                    { backgroundColor: `${colors.secondary}15` },
-                  ]}
-                >
-                  <Heart size={22} color={colors.secondary} />
-                </View>
-                <Text style={styles.quickActionText}>Date Night</Text>
-              </Pressable>
-            </View>
-
-            {/* Upcoming Bookings - from Supabase */}
-            {bookings.length > 0 && (
-              <View style={styles.section}>
-                <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>Upcoming Bookings</Text>
-                  <Pressable onPress={() => router.push('/bookings')}>
-                    <Text style={styles.seeAll}>See all</Text>
-                  </Pressable>
-                </View>
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={styles.bookingsScroll}
-                >
-                  {bookings.slice(0, 5).map((booking) => {
-                    const IconComponent = getBookingIcon(booking.type);
-                    return (
-                      <Pressable
-                        key={booking.id}
-                        style={styles.bookingCard}
-                        onPress={() => router.push(`/booking/${booking.id}`)}
-                      >
-                        <View style={styles.bookingIcon}>
-                          <IconComponent size={20} color={colors.primary} />
-                        </View>
-                        <View style={styles.bookingInfo}>
-                          <Text style={styles.bookingName} numberOfLines={1}>
-                            {booking.name}
-                          </Text>
-                          <Text style={styles.bookingDate}>
-                            {formatDate(booking.startDate)}
-                          </Text>
-                        </View>
-                        <ChevronRight size={18} color={colors.textTertiary} />
-                      </Pressable>
-                    );
-                  })}
-                </ScrollView>
-              </View>
             )}
-
-            {/* Your Trips - from Supabase */}
-            <View style={styles.section}>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Your Trips</Text>
-                <Pressable
-                  style={styles.addButton}
-                  onPress={() => router.push('/plan-trip')}
-                >
-                  <Plus size={18} color={colors.primary} />
-                  <Text style={styles.addButtonText}>New</Text>
-                </Pressable>
-              </View>
-
-              {upcomingTrips.length > 0 ? (
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={styles.tripsScroll}
-                  decelerationRate="fast"
-                  snapToInterval={CARD_WIDTH + 16}
-                >
-                  {upcomingTrips.map((trip) => (
-                    <Pressable
-                      key={trip.id}
-                      style={styles.tripCard}
-                      onPress={() => router.push(`/trip/${trip.id}`)}
-                    >
-                      <Image
-                        source={{ uri: trip.coverImage || trip.destination?.image || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800' }}
-                        style={styles.tripImage}
-                        contentFit="cover"
-                      />
-                      <LinearGradient
-                        colors={['transparent', 'rgba(0,0,0,0.8)']}
-                        style={styles.tripGradient}
-                      />
-                      <View style={styles.tripContent}>
-                        <View
-                          style={[
-                            styles.statusBadge,
-                            { backgroundColor: getStatusColor(trip.status) },
-                          ]}
-                        >
-                          <Text style={styles.statusText}>
-                            {getStatusLabel(trip.status)}
-                          </Text>
-                        </View>
-                        <Text style={styles.tripName}>
-                          {trip.destination?.name || 'Trip'}
-                        </Text>
-                        <Text style={styles.tripCountry}>
-                          {trip.destination?.country || ''}
-                        </Text>
-                        <View style={styles.tripDetails}>
-                          <View style={styles.tripDetail}>
-                            <Calendar size={14} color={colors.textLight} />
-                            <Text style={styles.tripDetailText}>
-                              {formatDate(trip.startDate)} -{' '}
-                              {formatDate(trip.endDate)}
-                            </Text>
-                          </View>
-                          <View style={styles.tripDetail}>
-                            <Users size={14} color={colors.textLight} />
-                            <Text style={styles.tripDetailText}>
-                              {trip.travelers || 1} traveler{trip.travelers !== 1 ? 's' : ''}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                    </Pressable>
-                  ))}
-                </ScrollView>
-              ) : (
-                <View style={styles.emptyTrips}>
-                  <Text style={styles.emptyText}>No trips planned yet</Text>
-                  <Pressable
-                    style={styles.planButton}
-                    onPress={() => router.push('/plan-trip')}
-                  >
-                    <Text style={styles.planButtonText}>
-                      Plan Your First Trip
-                    </Text>
-                  </Pressable>
-                </View>
-              )}
-            </View>
-
-            {/* Trending Destinations - from Supabase */}
-            <View style={styles.section}>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Trending Destinations</Text>
-                <Pressable onPress={() => router.push('/explore')}>
-                  <Text style={styles.seeAll}>See all</Text>
-                </Pressable>
-              </View>
-
-              <View style={styles.destinationsGrid}>
-                {destinations.map((dest, index) => (
-                  <Pressable
-                    key={dest.id}
-                    style={[
-                      styles.destCard,
-                      index === 0 && styles.destCardLarge,
-                    ]}
-                    onPress={() => router.push(`/destination/${dest.id}`)}
-                  >
-                    <Image
-                      source={{ uri: dest.image }}
-                      style={styles.destImage}
-                      contentFit="cover"
-                    />
-                    <LinearGradient
-                      colors={['transparent', 'rgba(0,0,0,0.7)']}
-                      style={styles.destGradient}
-                    />
-                    <View style={styles.destContent}>
-                      <Text style={styles.destName}>{dest.name}</Text>
-                      <View style={styles.destLocation}>
-                        <MapPin size={12} color={colors.textLight} />
-                        <Text style={styles.destCountry}>{dest.country}</Text>
-                      </View>
-                    </View>
-                  </Pressable>
-                ))}
-              </View>
-            </View>
-
-            {/* Rewards Promo */}
-            <View style={styles.rewardsPromo}>
-              <LinearGradient
-                colors={[colors.warning, '#F59E0B']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.rewardsPromoGradient}
-              >
-                <Gift size={32} color={colors.textLight} />
-                <View style={styles.rewardsPromoContent}>
-                  <Text style={styles.rewardsPromoTitle}>
-                    Earn rewards on every trip!
-                  </Text>
-                  <Text style={styles.rewardsPromoSubtitle}>
-                    Redeem for exclusive perks
-                  </Text>
-                </View>
-                <Pressable
-                  style={styles.rewardsPromoButton}
-                  onPress={() => router.push('/rewards')}
-                >
-                  <Text style={styles.rewardsPromoButtonText}>View</Text>
-                </Pressable>
-              </LinearGradient>
-            </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
+
+          {recentPlans.length === 0 ? (
+            <View style={styles.emptyCard}>
+              <Heart size={28} color={colors.textTertiary} />
+              <Text style={styles.emptyText}>
+                No plans yet. Tap "Plan it for me" and pick from 3 ready-made dates.
+              </Text>
+            </View>
+          ) : (
+            recentPlans.map((plan) => (
+              <Pressable
+                key={plan.id}
+                style={styles.planCard}
+                onPress={() => router.push({ pathname: '/saved-plan', params: { id: plan.id } })}
+              >
+                <View style={styles.planIcon}>
+                  <CalendarHeart size={20} color={colors.secondary} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.planTitle}>{plan.title}</Text>
+                  <View style={styles.planMeta}>
+                    <MapPin size={12} color={colors.textSecondary} />
+                    <Text style={styles.planMetaText}>
+                      {plan.city}
+                      {plan.planDate ? ` · ${plan.planDate}` : ''} · {plan.stops.length} stops
+                    </Text>
+                  </View>
+                </View>
+                <ChevronRight size={18} color={colors.textTertiary} />
+              </Pressable>
+            ))
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: ThemeColors) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
   },
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.background,
+  scrollContent: {
+    paddingBottom: 32,
   },
   headerGradient: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 280,
-  },
-  safeArea: {
-    flex: 1,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: 8,
     paddingBottom: 24,
+    borderBottomLeftRadius: 28,
+    borderBottomRightRadius: 28,
   },
-  headerTop: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 24,
+  headerContent: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
   },
   greeting: {
-    fontSize: 15,
-    color: colors.accent,
-    opacity: 0.9,
-  },
-  userName: {
     fontSize: 26,
-    fontWeight: '700',
+    fontFamily: fonts.display,
     color: colors.textLight,
   },
-  notificationButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
+  tagline: {
+    fontSize: 15,
+    color: colors.accent,
+    marginTop: 4,
+    marginBottom: 20,
   },
-  notificationBadge: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: colors.secondary,
-    borderWidth: 2,
-    borderColor: colors.primary,
-  },
-  aiCard: {
+  heroCard: {
     borderRadius: 20,
     overflow: 'hidden',
   },
-  aiCardGradient: {
-    padding: 20,
-  },
-  aiCardContent: {
+  heroGradient: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 14,
+    padding: 18,
   },
-  aiIconContainer: {
+  heroIcon: {
     width: 48,
     height: 48,
     borderRadius: 14,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(255,255,255,0.25)',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  aiTextContainer: {
-    flex: 1,
-    marginLeft: 16,
-  },
-  aiTitle: {
+  heroTitle: {
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily: fonts.display,
     color: colors.textLight,
   },
-  aiSubtitle: {
+  heroSubtitle: {
     fontSize: 13,
     color: colors.textLight,
-    opacity: 0.85,
+    opacity: 0.9,
     marginTop: 2,
   },
-  content: {
-    backgroundColor: colors.background,
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-    marginTop: -20,
-    paddingTop: 24,
-    minHeight: 500,
+  body: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
   quickActions: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
-    gap: 10,
-    marginBottom: 24,
+    gap: 12,
+    marginBottom: 28,
   },
-  quickAction: {
+  actionCard: {
     flex: 1,
     backgroundColor: colors.surface,
-    borderRadius: 16,
-    padding: 14,
-    alignItems: 'center',
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 16,
+    gap: 4,
   },
-  quickActionIcon: {
-    width: 44,
-    height: 44,
+  actionIcon: {
+    width: 42,
+    height: 42,
     borderRadius: 12,
+    backgroundColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
   },
-  quickActionText: {
-    fontSize: 12,
-    fontWeight: '600',
+  actionTitle: {
+    fontSize: 15,
+    fontWeight: '700',
     color: colors.text,
-    textAlign: 'center',
   },
-  section: {
-    marginBottom: 28,
+  actionDesc: {
+    fontSize: 12,
+    color: colors.textSecondary,
   },
   sectionHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    marginBottom: 16,
+    justifyContent: 'space-between',
+    marginBottom: 12,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 18,
+    fontFamily: fonts.display,
     color: colors.text,
   },
   seeAll: {
@@ -695,223 +273,53 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: colors.primary,
   },
-  addButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    backgroundColor: colors.accent,
-    borderRadius: 20,
-  },
-  addButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.primary,
-  },
-  bookingsScroll: {
-    paddingHorizontal: 20,
-  },
-  bookingCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  emptyCard: {
     backgroundColor: colors.surface,
-    borderRadius: 14,
-    padding: 14,
-    marginRight: 12,
-    width: 220,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 24,
+    alignItems: 'center',
+    gap: 10,
   },
-  bookingIcon: {
+  emptyText: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  planCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    backgroundColor: colors.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 14,
+    marginBottom: 10,
+  },
+  planIcon: {
     width: 40,
     height: 40,
-    borderRadius: 10,
-    backgroundColor: colors.accent,
+    borderRadius: 12,
+    backgroundColor: colors.surfaceSecondary,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  bookingInfo: {
-    flex: 1,
-    marginLeft: 12,
-  },
-  bookingName: {
-    fontSize: 14,
-    fontWeight: '600',
+  planTitle: {
+    fontSize: 15,
+    fontWeight: '700',
     color: colors.text,
   },
-  bookingDate: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    marginTop: 2,
-  },
-  tripsScroll: {
-    paddingHorizontal: 20,
-  },
-  tripCard: {
-    width: CARD_WIDTH,
-    height: 200,
-    borderRadius: 24,
-    overflow: 'hidden',
-    marginRight: 16,
-    position: 'relative',
-  },
-  tripImage: {
-    width: '100%',
-    height: '100%',
-  },
-  tripGradient: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  tripContent: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 20,
-  },
-  statusBadge: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  statusText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: colors.textLight,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  tripName: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: colors.textLight,
-  },
-  tripCountry: {
-    fontSize: 15,
-    color: colors.textLight,
-    opacity: 0.85,
-    marginBottom: 8,
-  },
-  tripDetails: {
-    flexDirection: 'row',
-    gap: 16,
-  },
-  tripDetail: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  tripDetailText: {
-    fontSize: 13,
-    color: colors.textLight,
-    opacity: 0.9,
-  },
-  emptyTrips: {
-    marginHorizontal: 20,
-    padding: 32,
-    backgroundColor: colors.surfaceSecondary,
-    borderRadius: 20,
-    alignItems: 'center',
-  },
-  emptyText: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    marginBottom: 16,
-  },
-  planButton: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 24,
-  },
-  planButtonText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: colors.textLight,
-  },
-  destinationsGrid: {
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  destCard: {
-    width: (width - 52) / 2,
-    height: 140,
-    borderRadius: 20,
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  destCardLarge: {
-    width: width - 40,
-    height: 180,
-  },
-  destImage: {
-    width: '100%',
-    height: '100%',
-  },
-  destGradient: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  destContent: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 16,
-  },
-  destName: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: colors.textLight,
-  },
-  destLocation: {
+  planMeta: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    marginTop: 4,
+    marginTop: 3,
   },
-  destCountry: {
-    fontSize: 13,
-    color: colors.textLight,
-    opacity: 0.85,
-  },
-  rewardsPromo: {
-    marginHorizontal: 20,
-    marginBottom: 40,
-    borderRadius: 20,
-    overflow: 'hidden',
-  },
-  rewardsPromoGradient: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 20,
-    gap: 16,
-  },
-  rewardsPromoContent: {
-    flex: 1,
-  },
-  rewardsPromoTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: colors.textLight,
-  },
-  rewardsPromoSubtitle: {
-    fontSize: 13,
-    color: colors.textLight,
-    opacity: 0.9,
-    marginTop: 2,
-  },
-  rewardsPromoButton: {
-    backgroundColor: 'rgba(255,255,255,0.25)',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 12,
-  },
-  rewardsPromoButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.textLight,
+  planMetaText: {
+    fontSize: 12,
+    color: colors.textSecondary,
   },
 });

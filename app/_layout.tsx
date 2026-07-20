@@ -3,11 +3,16 @@ import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {
+  useFonts,
+  Fraunces_600SemiBold,
+  Fraunces_700Bold,
+} from '@expo-google-fonts/fraunces';
 import { AppProvider, useApp } from '@/contexts/AppContext';
 import { DateNightProvider } from '@/contexts/DateNightContext';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import colors from '@/constants/colors';
+import { View, ActivityIndicator } from 'react-native';
+import { useTheme } from '@/hooks/useTheme';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,6 +32,7 @@ const defaultModalOptions = {
 function RootLayoutNav() {
   const { isOnboarded, isLoading: isAppLoading } = useApp();
   const { user, isLoading: isAuthLoading } = useAuth();
+  const { colors } = useTheme();
   const segments = useSegments();
   const router = useRouter();
 
@@ -58,7 +64,14 @@ function RootLayoutNav() {
 
   if (isAppLoading || isAuthLoading) {
     return (
-      <View style={styles.loading}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: colors.background,
+        }}
+      >
         <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
@@ -77,6 +90,11 @@ function RootLayoutNav() {
       <Stack.Screen name="trip/[id]" options={defaultCardOptions} />
       <Stack.Screen name="destination/[id]" options={defaultCardOptions} />
       <Stack.Screen name="booking/[id]" options={defaultCardOptions} />
+
+      {/* ===== Core Date Planning ===== */}
+      <Stack.Screen name="plan-date" options={defaultModalOptions} />
+      <Stack.Screen name="saved-plan" options={defaultCardOptions} />
+      <Stack.Screen name="taste-profile" options={defaultCardOptions} />
 
       {/* ===== Modal Flows (creation/planning) ===== */}
       <Stack.Screen name="plan-trip" options={defaultModalOptions} />
@@ -197,9 +215,20 @@ function RootLayoutNav() {
 }
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    Fraunces_600SemiBold,
+    Fraunces_700Bold,
+  });
+
   useEffect(() => {
-    SplashScreen.hideAsync();
-  }, []);
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -215,12 +244,3 @@ export default function RootLayout() {
     </QueryClientProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.background,
-  },
-});
