@@ -37,6 +37,7 @@ import {
 } from 'lucide-react-native';
 import type { LucideProps } from 'lucide-react-native';
 import Slider from '@react-native-community/slider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemeColors } from '@/constants/colors';
 import { useTheme } from '@/hooks/useTheme';
 import {
@@ -52,6 +53,11 @@ import { getTasteProfile } from '@/services/tasteProfileService';
 import { generatePlans, savePlan, suggestDestinations } from '@/services/datePlanService';
 
 type Phase = 'form' | 'loading' | 'results' | 'destinations';
+
+// Generated plans survive the app being backgrounded/killed (each generation
+// costs quota, so losing results is losing money). Restored for up to 24h.
+const RESULTS_STORAGE_KEY = 'w4nder:lastPlanResults';
+const RESULTS_TTL_MS = 24 * 60 * 60 * 1000;
 
 const dateChips = [
   { id: 'today', label: 'Today' },
@@ -162,6 +168,7 @@ export default function PlanDateScreen() {
   const [destinations, setDestinations] = useState<DestinationSuggestion[]>([]);
   const [suggesting, setSuggesting] = useState(false);
   const [expandedPlan, setExpandedPlan] = useState<number | null>(0);
+  const [expandedStops, setExpandedStops] = useState<Set<string>>(new Set());
   const [remixMode, setRemixMode] = useState(false);
   const [selectedStops, setSelectedStops] = useState<Set<string>>(new Set());
   const [savingIndex, setSavingIndex] = useState<number | null>(null);
@@ -177,6 +184,26 @@ export default function PlanDateScreen() {
         if (p.dateBudget) setBudget(p.dateBudget);
       })
       .catch((e) => console.error('Failed to load taste profile:', e));
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.getItem(RESULTS_STORAGE_KEY)
+      .then((raw) => {
+        if (!raw) return;
+        const saved: { plans?: GeneratedPlan[]; planMode?: PlanMode; savedAt?: number } =
+          JSON.parse(raw);
+        if (!saved.plans?.length) return;
+        if (Date.now() - (saved.savedAt ?? 0) > RESULTS_TTL_MS) {
+          AsyncStorage.removeItem(RESULTS_STORAGE_KEY).catch(() => {});
+          return;
+        }
+        setPlans(saved.plans);
+        if (saved.planMode) setPlanMode(saved.planMode);
+        setExpandedPlan(saved.plans.length === 1 ? 0 : null);
+        // Don't clobber a generation the user already kicked off.
+        setPhase((p) => (p === 'form' ? 'results' : p));
+      })
+      .catch((e) => console.error('Failed to restore plan results:', e));
   }, []);
 
   useEffect(() => {
@@ -246,9 +273,14 @@ export default function PlanDateScreen() {
       setPlans(result);
       // Multiple plans start collapsed so the choice reads as clean headers.
       setExpandedPlan(result.length === 1 ? 0 : null);
+      setExpandedStops(new Set());
       setRemixMode(false);
       setSelectedStops(new Set());
       setPhase('results');
+      AsyncStorage.setItem(
+        RESULTS_STORAGE_KEY,
+        JSON.stringify({ plans: result, planMode, savedAt: Date.now() })
+      ).catch(() => {});
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.');
       setPhase('form');
@@ -555,14 +587,23 @@ export default function PlanDateScreen() {
   const renderStop = (stop: PlanStop, planIndex: number) => {
     const key = stopKey(planIndex, stop.order);
     const isPicked = selectedStops.has(key);
+    const isOpen = expandedStops.has(key);
     const CategoryIcon = categoryIcons[stop.category] ?? MapPin;
     return (
       <Pressable
         key={key}
         style={[styles.stopRow, remixMode && isPicked && styles.stopRowPicked]}
         onPress={() => {
-          if (!remixMode) return;
-          setSelectedStops((prev) => {
+          if (remixMode) {
+            setSelectedStops((prev) => {
+              const next = new Set(prev);
+              if (next.has(key)) next.delete(key);
+              else next.add(key);
+              return next;
+            });
+            return;
+          }
+          setExpandedStops((prev) => {
             const next = new Set(prev);
             if (next.has(key)) next.delete(key);
             else next.add(key);
@@ -580,17 +621,25 @@ export default function PlanDateScreen() {
         <View style={styles.stopBody}>
           <View style={styles.stopHeader}>
             <Text style={styles.stopName}>{stop.name}</Text>
-            {remixMode && (
+            {remixMode ? (
               <View style={[styles.pickCircle, isPicked && styles.pickCircleActive]}>
                 {isPicked && <Check size={12} color={colors.textLight} />}
               </View>
+            ) : isOpen ? (
+              <ChevronUp size={16} color={colors.textTertiary} />
+            ) : (
+              <ChevronDown size={16} color={colors.textTertiary} />
             )}
           </View>
           <Text style={styles.stopVenue}>
             {stop.venueName} · {stop.address}
           </Text>
-          <Text style={styles.stopDesc}>{stop.description}</Text>
-          <Text style={styles.stopWhy}>{stop.whyItMatches}</Text>
+          {isOpen && (
+            <>
+              <Text style={styles.stopDesc}>{stop.description}</Text>
+              <Text style={styles.stopWhy}>{stop.whyItMatches}</Text>
+            </>
+          )}
           <View style={styles.stopMeta}>
             <View style={styles.stopMetaItem}>
               <DollarSign size={13} color={colors.textSecondary} />
