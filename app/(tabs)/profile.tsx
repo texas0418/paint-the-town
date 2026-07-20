@@ -16,6 +16,7 @@ import { useRouter, useFocusEffect } from 'expo-router';
 import {
   SlidersHorizontal,
   CalendarHeart,
+  BellRing,
   LogOut,
   ChevronRight,
   Crown,
@@ -27,6 +28,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { signOut } from '@/services';
 import { supabase } from '@/lib/supabase';
 import { listPlans } from '@/services/datePlanService';
+import {
+  ReminderSettings,
+  describeReminder,
+  getReminderSettings,
+} from '@/services/dateNightReminderService';
 import { DatePlan } from '@/types/planner';
 
 export default function ProfileScreen() {
@@ -37,12 +43,16 @@ export default function ProfileScreen() {
   const [plans, setPlans] = useState<DatePlan[]>([]);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [reminder, setReminder] = useState<ReminderSettings | null>(null);
 
   useFocusEffect(
     useCallback(() => {
       listPlans()
         .then(setPlans)
         .catch((e) => console.error('Failed to load plans:', e));
+      getReminderSettings()
+        .then(setReminder)
+        .catch(() => {});
       supabase.auth.getUser().then(({ data: { user: authUser } }) => {
         if (!authUser) return;
         supabase
@@ -171,6 +181,25 @@ export default function ProfileScreen() {
             <View style={{ flex: 1 }}>
               <Text style={styles.rowTitle}>My plans</Text>
               <Text style={styles.rowDesc}>Saved dates and trips</Text>
+            </View>
+            <ChevronRight size={18} color={colors.textTertiary} />
+          </Pressable>
+
+          <Pressable
+            style={styles.row}
+            // Route types regenerate on the next dev-server start; the route exists.
+            onPress={() => router.push('/date-night-reminder' as never)}
+          >
+            <View style={styles.rowIcon}>
+              <BellRing size={20} color={colors.primaryLight} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.rowTitle}>Date night reminder</Text>
+              <Text style={styles.rowDesc}>
+                {reminder?.enabled
+                  ? `On · ${describeReminder(reminder)}`
+                  : 'Get a weekly nudge to plan something'}
+              </Text>
             </View>
             <ChevronRight size={18} color={colors.textTertiary} />
           </Pressable>

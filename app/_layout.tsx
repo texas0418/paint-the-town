@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import * as Notifications from 'expo-notifications';
 import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AppProvider, useApp } from '@/contexts/AppContext';
@@ -37,6 +38,22 @@ function RootLayoutNav() {
   const { colors } = useTheme();
   const segments = useSegments();
   const router = useRouter();
+
+  // Deep-link from notifications that carry a `url` in their data (e.g. the
+  // date night reminder opens the planner). Covers both a tap while running
+  // and a cold start from the notification.
+  useEffect(() => {
+    const openFromNotification = (response: Notifications.NotificationResponse | null) => {
+      const url = response?.notification.request.content.data?.url;
+      if (typeof url === 'string' && url.startsWith('/')) {
+        // Let the auth/onboarding redirect settle first.
+        setTimeout(() => router.push(url as never), 400);
+      }
+    };
+    Notifications.getLastNotificationResponseAsync().then(openFromNotification);
+    const sub = Notifications.addNotificationResponseReceivedListener(openFromNotification);
+    return () => sub.remove();
+  }, [router]);
 
   useEffect(() => {
     if (isAppLoading || isAuthLoading) return;
@@ -131,6 +148,7 @@ function RootLayoutNav() {
 
       {/* ===== Date Night ===== */}
       <Stack.Screen name="date-night" options={{ headerShown: false }} />
+      <Stack.Screen name="date-night-reminder" options={defaultCardOptions} />
       <Stack.Screen name="anniversaries" options={defaultCardOptions} />
 
       {/* ===== Social & Sharing ===== */}
