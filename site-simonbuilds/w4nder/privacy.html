@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W4nder Privacy Policy | Simon Builds</title>
+<meta name="description" content="Privacy policy for W4nder, the AI date & vacation planner by Simon Builds.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06060b;--bg2:#0c0c14;--card:#111119;--tx:#eeeef2;--tx2:#8d8da0;--tx3:#5c5c70;--ac:#4f6ef7;--ac-l:#7b93fa;--bdr:rgba(255,255,255,.05);--bdr2:rgba(255,255,255,.1);--fd:'Outfit',sans-serif;--fb:'DM Sans',sans-serif}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased}
+body{font-family:var(--fb);background:var(--bg);color:var(--tx);line-height:1.7}
+::selection{background:var(--ac);color:#fff}
+a{color:var(--ac-l);text-decoration:none}
+a:hover{text-decoration:underline}
+nav{padding:16px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,6,11,.78);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr)}
+.logo{font-family:var(--fd);font-weight:800;font-size:1.3rem;letter-spacing:-.03em;color:var(--tx)}
+.logo em{color:var(--ac-l);font-style:normal}
+nav .back{font-size:.84rem;font-weight:500;color:var(--tx2)}
+nav .back:hover{color:var(--tx);text-decoration:none}
+main{max-width:720px;margin:0 auto;padding:72px 32px 110px}
+.app-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:var(--card);border:1px solid var(--bdr2);border-radius:50px;font-size:.76rem;color:var(--tx2);font-weight:500;margin-bottom:22px}
+.app-tag .star{color:#e0ac6c}
+h1{font-family:var(--fd);font-size:2.5rem;font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
+.updated{color:var(--tx3);font-size:.85rem;margin-bottom:42px}
+h2{font-family:var(--fd);font-size:1.2rem;font-weight:700;margin:38px 0 12px}
+p,li{color:var(--tx2);font-size:.94rem}
+ul{padding-left:22px;display:flex;flex-direction:column;gap:8px;margin:10px 0}
+strong{color:var(--tx)}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem}
+th,td{text-align:left;padding:10px 12px;border:1px solid var(--bdr2);color:var(--tx2)}
+th{color:var(--tx);background:var(--card);font-family:var(--fd);font-weight:700}
+footer{border-top:1px solid var(--bdr);padding:32px;text-align:center;font-size:.8rem;color:var(--tx3)}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="https://simonbuilds.app">Simon<em>Builds</em></a>
+  <a class="back" href="https://simonbuilds.app">← simonbuilds.app</a>
+</nav>
+<main>
+  <span class="app-tag"><span class="star">✦</span> W4nder — AI date &amp; vacation planner</span>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: July 20, 2026</p>
+
+  <p>W4nder ("the app") is built and operated by Simon Builds. This policy explains what information W4nder collects, why, and what happens to it. The short version: we collect only what's needed to plan dates and trips for you, we don't run ads, and we never sell your data.</p>
+
+  <h2>What we collect</h2>
+  <ul>
+    <li><strong>Account information.</strong> Your email address and a password (stored as a secure hash), used to sign you in and keep your data yours.</li>
+    <li><strong>Taste profile.</strong> The preferences you enter — cuisines, activities, music, drinks, venue style, home city, and typical budget. This is the data that makes plans personal.</li>
+    <li><strong>Plans and history.</strong> The date and trip plans you generate, save, schedule, and complete, including your thumbs-up/down feedback on venues. Venue history is used so we don't suggest places you've already been.</li>
+    <li><strong>Push token.</strong> If you allow notifications, a device push token so we can tell you when your plans are ready.</li>
+    <li><strong>Usage metadata.</strong> Counts of plan generations (to enforce fair-use quotas) and technical usage measurements (AI token counts) that contain no personal content.</li>
+  </ul>
+
+  <h2>What we don't collect</h2>
+  <ul>
+    <li><strong>No precise location tracking.</strong> Plans are generated from the city name you type. If you grant location permission, it's used on-device for maps, directions, and travel-time features — it isn't logged to our servers.</li>
+    <li><strong>No calendar contents.</strong> Calendar access (if you grant it) is used only to add plans you choose to your calendar, on your device. We never read or upload your existing events.</li>
+    <li><strong>No advertising identifiers, no third-party analytics trackers, no data brokers.</strong></li>
+  </ul>
+
+  <h2>How plans are generated</h2>
+  <p>When you request a plan, W4nder sends your request (city, date, budget, preferences from your taste profile, and any notes you type) to Anthropic's Claude API, which performs live web searches to find real venues. Anthropic processes this data to generate your plans and does not use it to train models. Don't include sensitive personal information in free-text notes — it's sent as part of the planning request.</p>
+
+  <h2>Service providers</h2>
+  <table>
+    <tr><th>Provider</th><th>Purpose</th><th>Data involved</th></tr>
+    <tr><td>Supabase</td><td>Authentication, database, and API hosting (US East)</td><td>Account, taste profile, plans, usage counts</td></tr>
+    <tr><td>Anthropic</td><td>AI plan generation with web search</td><td>Planning requests (city, date, budget, preferences, notes)</td></tr>
+    <tr><td>Expo</td><td>Push notification delivery</td><td>Device push token</td></tr>
+    <tr><td>Apple</td><td>App distribution and (when available) subscription billing</td><td>Handled under Apple's own terms; we never see payment details</td></tr>
+  </table>
+
+  <h2>Data retention and deletion</h2>
+  <p>Your data is kept while your account is active. To delete your account and all associated data (profile, plans, history), email <a href="mailto:simonshih@hotmail.com?subject=W4nder%20data%20deletion">simonshih@hotmail.com</a> from the address on the account — deletion is completed within 30 days. You can also clear individual saved plans in the app at any time.</p>
+
+  <h2>Security</h2>
+  <p>Data is encrypted in transit (TLS) and at rest. Database access is protected by row-level security, meaning your records are readable only by your authenticated account.</p>
+
+  <h2>Children</h2>
+  <p>W4nder is not directed at children under 13 (or the minimum age in your jurisdiction) and we do not knowingly collect data from them.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes materially, we'll update this page and note it in the app. Continued use after changes means acceptance.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about privacy: <a href="mailto:simonshih@hotmail.com?subject=W4nder%20privacy">simonshih@hotmail.com</a></p>
+</main>
+<footer>© 2026 Simon Builds · <a href="https://simonbuilds.app">simonbuilds.app</a> · <a href="support.html">W4nder Support</a></footer>
+</body>
+</html>
