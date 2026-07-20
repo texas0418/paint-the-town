@@ -481,7 +481,7 @@ export default function PlanDateScreen() {
                 : ''}
             </Text>
             <Text style={styles.destPitch}>{dest.pitch}</Text>
-            <Text style={styles.destWhy}>✨ {dest.whyItMatches}</Text>
+            <Text style={styles.destWhy}>{dest.whyItMatches}</Text>
             <View style={styles.destMeta}>
               <Text style={styles.destMetaText}>{dest.travelNote}</Text>
               <Text style={styles.destMetaText}>~${Math.round(dest.estimatedTripCost)} trip</Text>
@@ -519,7 +519,7 @@ export default function PlanDateScreen() {
         }}
       >
         <View style={styles.stopTimeCol}>
-          <Text style={styles.stopTime}>{stop.time}</Text>
+          <Text style={styles.stopTime} maxFontSizeMultiplier={1}>{stop.time}</Text>
           <View style={styles.stopMedallion}>
             <CategoryIcon size={16} color={colors.primaryLight} />
           </View>
@@ -538,7 +538,7 @@ export default function PlanDateScreen() {
             {stop.venueName} · {stop.address}
           </Text>
           <Text style={styles.stopDesc}>{stop.description}</Text>
-          <Text style={styles.stopWhy}>✨ {stop.whyItMatches}</Text>
+          <Text style={styles.stopWhy}>{stop.whyItMatches}</Text>
           <View style={styles.stopMeta}>
             <View style={styles.stopMetaItem}>
               <DollarSign size={13} color={colors.textSecondary} />
@@ -667,7 +667,7 @@ export default function PlanDateScreen() {
 
   return (
     <View style={styles.container}>
-      <LinearGradient colors={[colors.primary, colors.primaryLight]} style={styles.headerGradient}>
+      <LinearGradient colors={colors.gradient.primary} style={styles.headerGradient}>
         <SafeAreaView edges={['top']}>
           <View style={styles.headerRow}>
             <Pressable onPress={() => router.back()} style={styles.backBtn}>
@@ -999,7 +999,7 @@ const createStyles = (colors: ThemeColors) =>
     color: colors.text,
   },
   planVibe: {
-    fontSize: 14,
+    fontSize: 13,
     color: colors.textSecondary,
     marginTop: 2,
   },
@@ -1028,13 +1028,14 @@ const createStyles = (colors: ThemeColors) =>
   },
   stopTimeCol: {
     alignItems: 'center',
-    width: 48,
+    width: 56,
   },
   stopTime: {
     fontSize: 13,
-    fontWeight: '700',
+    fontWeight: '600',
     color: colors.primaryLight,
     marginBottom: 6,
+    fontVariant: ['tabular-nums'],
   },
   stopMedallion: {
     width: 32,
@@ -1062,8 +1063,8 @@ const createStyles = (colors: ThemeColors) =>
     justifyContent: 'space-between',
   },
   stopName: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '600',
     color: colors.text,
     flex: 1,
   },
@@ -1081,21 +1082,22 @@ const createStyles = (colors: ThemeColors) =>
     borderColor: colors.primary,
   },
   stopVenue: {
-    fontSize: 13,
-    color: colors.textSecondary,
+    fontSize: 12,
+    color: colors.textTertiary,
     marginTop: 2,
   },
   stopDesc: {
-    fontSize: 14,
-    color: colors.text,
+    fontSize: 13,
+    color: colors.textSecondary,
     marginTop: 6,
-    lineHeight: 19,
+    lineHeight: 18,
   },
   stopWhy: {
-    fontSize: 13,
+    fontSize: 12,
     color: colors.accentDark,
     marginTop: 6,
     fontStyle: 'italic',
+    lineHeight: 17,
   },
   stopMeta: {
     flexDirection: 'row',

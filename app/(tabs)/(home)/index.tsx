@@ -51,11 +51,11 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        <LinearGradient colors={[colors.primary, colors.primaryLight]} style={styles.headerGradient}>
+        <LinearGradient colors={colors.gradient.primary} style={styles.headerGradient}>
           <SafeAreaView edges={['top']}>
             <View style={styles.headerContent}>
               <Text style={styles.greeting}>
-                {greeting()}, {firstName} 👋
+                {greeting()}, {firstName}
               </Text>
               <Text style={styles.tagline}>Bad at planning dates? That's our job.</Text>
 

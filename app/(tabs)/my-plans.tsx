@@ -79,7 +79,7 @@ export default function MyPlansScreen() {
 
   return (
     <View style={styles.container}>
-      <LinearGradient colors={[colors.primary, colors.primaryLight]} style={styles.headerGradient}>
+      <LinearGradient colors={colors.gradient.primary} style={styles.headerGradient}>
         <SafeAreaView edges={['top']}>
           <View style={styles.headerContent}>
             <Text style={styles.headerTitle}>My Plans</Text>

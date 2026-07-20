@@ -117,7 +117,7 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        <LinearGradient colors={[colors.primary, colors.primaryLight]} style={styles.headerGradient}>
+        <LinearGradient colors={colors.gradient.primary} style={styles.headerGradient}>
           <SafeAreaView edges={['top']}>
             <View style={styles.headerContent}>
               <Pressable style={styles.avatar} onPress={handlePickAvatar}>

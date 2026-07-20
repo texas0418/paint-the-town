@@ -55,7 +55,7 @@ function directionsUrl(stop: PlanStop): string {
 }
 
 function formatPlanForShare(plan: DatePlan): string {
-  const lines: string[] = [`${plan.title} — planned with W4nder 🥂`, plan.city];
+  const lines: string[] = [`${plan.title} — planned with W4nder`, plan.city];
   if (plan.planDate) lines.push(plan.planDate);
   lines.push('');
   let lastDay: number | undefined;
@@ -234,7 +234,7 @@ export default function SavedPlanScreen() {
 
   return (
     <View style={styles.container}>
-      <LinearGradient colors={[colors.secondary, colors.secondaryLight]} style={styles.headerGradient}>
+      <LinearGradient colors={colors.gradient.primary} style={styles.headerGradient}>
         <SafeAreaView edges={['top']}>
           <View style={styles.headerRow}>
             <Pressable onPress={() => router.back()} style={styles.backBtn}>
@@ -288,7 +288,7 @@ export default function SavedPlanScreen() {
             {showDayHeader && <Text style={styles.dayHeader}>Day {stop.day}</Text>}
             <View style={styles.stopRow}>
               <View style={styles.stopTimeCol}>
-                <Text style={styles.stopTime}>{stop.time}</Text>
+                <Text style={styles.stopTime} maxFontSizeMultiplier={1}>{stop.time}</Text>
                 <View style={styles.stopMedallion}>
                   <CategoryIcon size={16} color={colors.primaryLight} />
                 </View>
@@ -503,13 +503,14 @@ const createStyles = (colors: ThemeColors) =>
   },
   stopTimeCol: {
     alignItems: 'center',
-    width: 48,
+    width: 56,
   },
   stopTime: {
     fontSize: 13,
-    fontWeight: '700',
+    fontWeight: '600',
     color: colors.primaryLight,
     marginBottom: 6,
+    fontVariant: ['tabular-nums'],
   },
   stopMedallion: {
     width: 32,
@@ -532,20 +533,20 @@ const createStyles = (colors: ThemeColors) =>
     flex: 1,
   },
   stopName: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '600',
     color: colors.text,
   },
   stopVenue: {
-    fontSize: 13,
-    color: colors.textSecondary,
+    fontSize: 12,
+    color: colors.textTertiary,
     marginTop: 2,
   },
   stopDesc: {
-    fontSize: 14,
-    color: colors.text,
+    fontSize: 13,
+    color: colors.textSecondary,
     marginTop: 6,
-    lineHeight: 19,
+    lineHeight: 18,
   },
   stopMeta: {
     flexDirection: 'row',
