@@ -281,7 +281,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     paddingHorizontal: 12,
     backgroundColor: colors.surface,
     borderRadius: 14,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.border,
   },
   chipSelected: {
@@ -314,7 +314,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     paddingVertical: 14,
     backgroundColor: colors.surface,
     borderRadius: 14,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.border,
   },
   venueCardSelected: {
@@ -339,7 +339,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     gap: 10,
     backgroundColor: colors.surface,
     borderRadius: 14,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.border,
     paddingHorizontal: 14,
   },

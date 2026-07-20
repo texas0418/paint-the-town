@@ -1,600 +1,336 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable, Switch, Alert } from 'react-native';
-import { Image } from 'expo-image';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
-  Settings,
-  ChevronRight,
-  MapPin,
-  Plane,
-  Globe,
-  Heart,
-  CreditCard,
-  Bell,
-  Shield,
-  HelpCircle,
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Image } from 'expo-image';
+import * as ImagePicker from 'expo-image-picker';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter, useFocusEffect } from 'expo-router';
+import {
+  SlidersHorizontal,
+  CalendarHeart,
   LogOut,
+  ChevronRight,
   Crown,
-  Gift,
-  AlertTriangle,
-  Leaf,
-  Users,
-  Accessibility,
-  WifiOff,
-  Target,
-  Award,
-  User,
+  Camera,
 } from 'lucide-react-native';
-import colors from '@/constants/colors';
+import { ThemeColors } from '@/constants/colors';
+import { useTheme } from '@/hooks/useTheme';
+import { fonts } from '@/constants/typography';
 import { useAuth } from '@/contexts/AuthContext';
-import { useApp } from '@/contexts/AppContext';
-import { travelStyles, budgetRanges } from '@/mocks/preferences';
 import { signOut } from '@/services';
-
-const menuItems = [
-  {
-    id: 'bucket-list',
-    icon: Target,
-    label: 'Bucket List',
-    color: '#EC4899',
-    route: '/bucket-list',
-  },
-  {
-    id: 'loyalty',
-    icon: Award,
-    label: 'Loyalty Programs',
-    color: '#0EA5E9',
-    route: '/loyalty-programs',
-  },
-  {
-    id: 'preferences',
-    icon: Heart,
-    label: 'Travel Preferences',
-    color: colors.secondary,
-    route: null,
-  },
-  {
-    id: 'rewards',
-    icon: Gift,
-    label: 'Rewards & Points',
-    color: colors.warning,
-    route: '/rewards',
-  },
-  {
-    id: 'subscription',
-    icon: Crown,
-    label: 'Subscription',
-    color: '#8B5CF6',
-    route: '/subscription',
-  },
-  { id: 'offline', icon: WifiOff, label: 'Offline Mode', color: '#06B6D4', route: '/offline-mode' },
-  {
-    id: 'emergency',
-    icon: AlertTriangle,
-    label: 'Emergency Support',
-    color: colors.error,
-    route: '/emergency',
-  },
-  {
-    id: 'payment',
-    icon: CreditCard,
-    label: 'Payment Methods',
-    color: colors.primaryLight,
-    route: null,
-  },
-  { id: 'notifications', icon: Bell, label: 'Notifications', color: colors.warning, route: null },
-  { id: 'privacy', icon: Shield, label: 'Privacy & Security', color: colors.success, route: null },
-  { id: 'help', icon: HelpCircle, label: 'Help & Support', color: colors.accentDark, route: null },
-];
+import { supabase } from '@/lib/supabase';
+import { listPlans } from '@/services/datePlanService';
+import { DatePlan } from '@/types/planner';
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const { user: authUser } = useAuth();
-  const { user: appUser, resetOnboarding, toggleCarbonOffset, bucketListCount } = useApp();
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+  const { user } = useAuth();
+  const [plans, setPlans] = useState<DatePlan[]>([]);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
-  // Use auth user data when available, fall back to app user
-  const displayName = authUser?.fullName || appUser.name || 'Traveler';
-  const displayEmail = authUser?.email || appUser.email || '';
-  const avatarUrl = authUser?.avatarUrl || appUser.avatar;
+  useFocusEffect(
+    useCallback(() => {
+      listPlans()
+        .then(setPlans)
+        .catch((e) => console.error('Failed to load plans:', e));
+      supabase.auth.getUser().then(({ data: { user: authUser } }) => {
+        if (!authUser) return;
+        supabase
+          .from('profiles')
+          .select('avatar_url')
+          .eq('id', authUser.id)
+          .maybeSingle()
+          .then(({ data }) => {
+            if (data?.avatar_url) setAvatarUrl(data.avatar_url);
+          });
+      });
+    }, [])
+  );
 
-  const travelStyle = travelStyles.find((s) => s.id === appUser.travelStyle);
-  const budget = budgetRanges.find((b) => b.id === appUser.budgetRange);
+  const handlePickAvatar = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.7,
+      });
+      if (result.canceled || !result.assets?.[0]?.uri) return;
+      setUploadingAvatar(true);
 
-  const getTierBadge = () => {
-    switch (appUser.subscriptionTier) {
-      case 'premium':
-        return { label: 'Premium', color: '#8B5CF6' };
-      case 'standard':
-        return { label: 'Standard', color: colors.primary };
-      case 'family':
-        return { label: 'Family', color: colors.secondary };
-      default:
-        return null;
+      const {
+        data: { user: authUser },
+      } = await supabase.auth.getUser();
+      if (!authUser) return;
+
+      const response = await fetch(result.assets[0].uri);
+      const fileBody = await response.arrayBuffer();
+      const path = `${authUser.id}/avatar.jpg`;
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(path, fileBody, { upsert: true, contentType: 'image/jpeg' });
+      if (uploadError) throw uploadError;
+
+      const publicUrl = `${supabase.storage.from('avatars').getPublicUrl(path).data.publicUrl}?t=${Date.now()}`;
+      await supabase.from('profiles').update({ avatar_url: publicUrl }).eq('id', authUser.id);
+      setAvatarUrl(publicUrl);
+    } catch (e) {
+      Alert.alert('Photo upload failed', e instanceof Error ? e.message : 'Please try again.');
+    } finally {
+      setUploadingAvatar(false);
     }
   };
 
-  const tierBadge = getTierBadge();
+  const displayName = user?.fullName || 'Traveler';
+  const initials = displayName
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+  const completed = plans.filter((p) => p.status === 'completed').length;
 
-  const handleLogout = () => {
-    Alert.alert(
-      'Sign Out',
-      'Are you sure you want to sign out?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Sign Out',
-          style: 'destructive',
-          onPress: async () => {
-            await signOut();
-            // The auth state change will trigger navigation to login
-          },
+  const handleSignOut = () => {
+    Alert.alert('Sign out', 'Are you sure you want to sign out?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Sign out',
+        style: 'destructive',
+        onPress: async () => {
+          await signOut();
         },
-      ]
-    );
-  };
-
-  // Get initials for avatar fallback
-  const getInitials = () => {
-    if (!displayName) return 'U';
-    const names = displayName.split(' ');
-    if (names.length >= 2) {
-      return `${names[0][0]}${names[1][0]}`.toUpperCase();
-    }
-    return displayName[0].toUpperCase();
+      },
+    ]);
   };
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.header}>
-            <Pressable style={styles.settingsButton}>
-              <Settings size={22} color={colors.text} />
-            </Pressable>
-          </View>
-
-          <View style={styles.profileSection}>
-            <View style={styles.avatarContainer}>
-              {avatarUrl ? (
-                <Image source={{ uri: avatarUrl }} style={styles.avatar} contentFit="cover" />
-              ) : (
-                <View style={[styles.avatar, styles.avatarFallback]}>
-                  <Text style={styles.avatarInitials}>{getInitials()}</Text>
-                </View>
-              )}
-              <View style={styles.editBadge}>
-                <Text style={styles.editBadgeText}>Edit</Text>
-              </View>
-            </View>
-            <View style={styles.nameRow}>
-              <Text style={styles.userName}>{displayName}</Text>
-              {tierBadge && (
-                <View style={[styles.tierBadge, { backgroundColor: tierBadge.color }]}>
-                  <Crown size={12} color={colors.textLight} />
-                  <Text style={styles.tierText}>{tierBadge.label}</Text>
-                </View>
-              )}
-            </View>
-            <Text style={styles.userEmail}>{displayEmail}</Text>
-
-            <View style={styles.statsRow}>
-              <View style={styles.statItem}>
-                <View style={styles.statIconContainer}>
-                  <Plane size={18} color={colors.primary} />
-                </View>
-                <Text style={styles.statValue}>{appUser.tripsCompleted}</Text>
-                <Text style={styles.statLabel}>Trips</Text>
-              </View>
-              <View style={styles.statDivider} />
-              <View style={styles.statItem}>
-                <View style={styles.statIconContainer}>
-                  <Globe size={18} color={colors.primary} />
-                </View>
-                <Text style={styles.statValue}>{appUser.countriesVisited}</Text>
-                <Text style={styles.statLabel}>Countries</Text>
-              </View>
-              <View style={styles.statDivider} />
-              <View style={styles.statItem}>
-                <View style={styles.statIconContainer}>
-                  <Gift size={18} color={colors.warning} />
-                </View>
-                <Text style={styles.statValue}>{appUser.rewardPoints.toLocaleString()}</Text>
-                <Text style={styles.statLabel}>Points</Text>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.quickActions}>
-            <Pressable style={styles.quickAction} onPress={() => router.push('/group-trip')}>
-              <View style={[styles.quickActionIcon, { backgroundColor: `${colors.primary}15` }]}>
-                <Users size={20} color={colors.primary} />
-              </View>
-              <Text style={styles.quickActionText}>Group Trip</Text>
-            </Pressable>
-            <Pressable style={styles.quickAction} onPress={() => router.push('/date-plan')}>
-              <View style={[styles.quickActionIcon, { backgroundColor: `${colors.secondary}15` }]}>
-                <Heart size={20} color={colors.secondary} />
-              </View>
-              <Text style={styles.quickActionText}>Date Plan</Text>
-            </Pressable>
-            <Pressable style={styles.quickAction} onPress={() => router.push('/bucket-list')}>
-              <View style={[styles.quickActionIcon, { backgroundColor: '#EC489915' }]}>
-                <Target size={20} color="#EC4899" />
-              </View>
-              <Text style={styles.quickActionText}>Bucket List</Text>
-              {bucketListCount > 0 && (
-                <View style={styles.quickActionBadge}>
-                  <Text style={styles.quickActionBadgeText}>{bucketListCount}</Text>
-                </View>
-              )}
-            </Pressable>
-          </View>
-
-          <View style={styles.infoSection}>
-            <Text style={styles.sectionTitle}>Your Profile</Text>
-            <View style={styles.infoCard}>
-              {travelStyle && (
-                <View style={styles.infoRow}>
-                  <Text style={styles.infoLabel}>Travel Style</Text>
-                  <Text style={styles.infoValue}>{travelStyle.name}</Text>
-                </View>
-              )}
-              {budget && (
-                <View style={styles.infoRow}>
-                  <Text style={styles.infoLabel}>Budget Range</Text>
-                  <Text style={styles.infoValue}>{budget.label}</Text>
-                </View>
-              )}
-              <View style={[styles.infoRow, { borderBottomWidth: 0 }]}>
-                <Text style={styles.infoLabel}>Interests</Text>
-                <Text style={styles.infoValue}>
-                  {appUser.preferences.length > 0 ? `${appUser.preferences.length} selected` : 'None'}
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.sustainabilitySection}>
-            <View style={styles.sustainabilityCard}>
-              <View style={styles.sustainabilityHeader}>
-                <View style={[styles.quickActionIcon, { backgroundColor: `${colors.success}15` }]}>
-                  <Leaf size={20} color={colors.success} />
-                </View>
-                <View style={styles.sustainabilityInfo}>
-                  <Text style={styles.sustainabilityTitle}>Carbon Offset</Text>
-                  <Text style={styles.sustainabilityDesc}>
-                    Automatically offset your travel carbon footprint
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+        <LinearGradient colors={[colors.primary, colors.primaryLight]} style={styles.headerGradient}>
+          <SafeAreaView edges={['top']}>
+            <View style={styles.headerContent}>
+              <Pressable style={styles.avatar} onPress={handlePickAvatar}>
+                {avatarUrl ? (
+                  <Image source={{ uri: avatarUrl }} style={styles.avatarImage} contentFit="cover" />
+                ) : (
+                  <Text style={styles.avatarText} maxFontSizeMultiplier={1.1}>
+                    {initials}
                   </Text>
+                )}
+                <View style={styles.avatarBadge}>
+                  {uploadingAvatar ? (
+                    <ActivityIndicator size="small" color={colors.textLight} />
+                  ) : (
+                    <Camera size={13} color={colors.textLight} />
+                  )}
                 </View>
-              </View>
-              <Switch
-                value={appUser.carbonOffsetEnabled}
-                onValueChange={toggleCarbonOffset}
-                trackColor={{ false: colors.border, true: colors.success }}
-                thumbColor={colors.textLight}
-              />
+              </Pressable>
+              <Text style={styles.name}>{displayName}</Text>
+              {!!user?.email && <Text style={styles.email}>{user.email}</Text>}
+            </View>
+          </SafeAreaView>
+        </LinearGradient>
+
+        <View style={styles.body}>
+          <View style={styles.statsRow}>
+            <View style={styles.statCard}>
+              <Text style={styles.statNumber}>{plans.length}</Text>
+              <Text style={styles.statLabel}>Plans</Text>
+            </View>
+            <View style={styles.statCard}>
+              <Text style={styles.statNumber}>{completed}</Text>
+              <Text style={styles.statLabel}>Dates completed</Text>
             </View>
           </View>
 
-          <View style={styles.menuSection}>
-            <Text style={styles.sectionTitle}>Settings</Text>
-            <View style={styles.menuCard}>
-              {menuItems.map((item) => (
-                <Pressable
-                  key={item.id}
-                  style={styles.menuItem}
-                  onPress={() => item.route && router.push(item.route as any)}
-                >
-                  <View style={[styles.menuIcon, { backgroundColor: `${item.color}15` }]}>
-                    <item.icon size={20} color={item.color} />
-                  </View>
-                  <Text style={styles.menuLabel}>{item.label}</Text>
-                  <ChevronRight size={18} color={colors.textTertiary} />
-                </Pressable>
-              ))}
+          <Pressable style={styles.row} onPress={() => router.push('/taste-profile')}>
+            <View style={styles.rowIcon}>
+              <SlidersHorizontal size={20} color={colors.primaryLight} />
             </View>
-          </View>
-
-          <Pressable style={styles.logoutButton} onPress={handleLogout}>
-            <LogOut size={20} color={colors.error} />
-            <Text style={styles.logoutText}>Sign Out</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.rowTitle}>My taste profile</Text>
+              <Text style={styles.rowDesc}>Food, activities, music, drinks & budget</Text>
+            </View>
+            <ChevronRight size={18} color={colors.textTertiary} />
           </Pressable>
 
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>W4nder v1.0.0</Text>
+          <Pressable style={styles.row} onPress={() => router.push('/(tabs)/my-plans')}>
+            <View style={styles.rowIcon}>
+              <CalendarHeart size={20} color={colors.primaryLight} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.rowTitle}>My plans</Text>
+              <Text style={styles.rowDesc}>Saved dates and trips</Text>
+            </View>
+            <ChevronRight size={18} color={colors.textTertiary} />
+          </Pressable>
+
+          <View style={styles.row}>
+            <View style={styles.rowIcon}>
+              <Crown size={20} color={colors.secondary} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.rowTitle}>Membership</Text>
+              <Text style={styles.rowDesc}>Free plan · 3 AI plans per month</Text>
+            </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
+
+          <Pressable style={styles.signOutRow} onPress={handleSignOut}>
+            <LogOut size={18} color={colors.error} />
+            <Text style={styles.signOutText}>Sign out</Text>
+          </Pressable>
+
+          <Text style={styles.version}>W4nder 1.0.0</Text>
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  safeArea: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-  },
-  settingsButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: colors.surfaceSecondary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  profileSection: {
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingBottom: 24,
-  },
-  avatarContainer: {
-    position: 'relative',
-    marginBottom: 16,
-  },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 4,
-    borderColor: colors.surface,
-  },
-  avatarFallback: {
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  avatarInitials: {
-    fontSize: 36,
-    fontWeight: '700',
-    color: colors.textLight,
-  },
-  editBadge: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    backgroundColor: colors.primary,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  editBadgeText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: colors.textLight,
-  },
-  nameRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  userName: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: colors.text,
-  },
-  tierBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  tierText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: colors.textLight,
-  },
-  userEmail: {
-    fontSize: 15,
-    color: colors.textSecondary,
-    marginTop: 4,
-  },
-  statsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 24,
-    backgroundColor: colors.surface,
-    borderRadius: 20,
-    padding: 20,
-    width: '100%',
-  },
-  statItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  statIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
-    backgroundColor: colors.accent,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 8,
-  },
-  statValue: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: colors.text,
-  },
-  statLabel: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    marginTop: 2,
-  },
-  statDivider: {
-    width: 1,
-    height: 50,
-    backgroundColor: colors.border,
-  },
-  quickActions: {
-    flexDirection: 'row',
-    paddingHorizontal: 20,
-    gap: 12,
-    marginBottom: 24,
-  },
-  quickAction: {
-    flex: 1,
-    backgroundColor: colors.surface,
-    borderRadius: 16,
-    padding: 16,
-    alignItems: 'center',
-  },
-  quickActionIcon: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 8,
-  },
-  quickActionText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  quickActionBadge: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    backgroundColor: '#EC4899',
-    borderRadius: 10,
-    minWidth: 20,
-    height: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 6,
-  },
-  quickActionBadgeText: {
-    fontSize: 11,
-    fontWeight: '700',
-    color: colors.textLight,
-  },
-  infoSection: {
-    paddingHorizontal: 20,
-    marginTop: 8,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 12,
-  },
-  infoCard: {
-    backgroundColor: colors.surface,
-    borderRadius: 16,
-    overflow: 'hidden',
-  },
-  infoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
-  },
-  infoLabel: {
-    fontSize: 15,
-    color: colors.textSecondary,
-  },
-  infoValue: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: colors.text,
-  },
-  sustainabilitySection: {
-    paddingHorizontal: 20,
-    marginTop: 24,
-  },
-  sustainabilityCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.surface,
-    borderRadius: 16,
-    padding: 16,
-  },
-  sustainabilityHeader: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  sustainabilityInfo: {
-    flex: 1,
-  },
-  sustainabilityTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  sustainabilityDesc: {
-    fontSize: 13,
-    color: colors.textSecondary,
-    marginTop: 2,
-  },
-  menuSection: {
-    paddingHorizontal: 20,
-    marginTop: 24,
-  },
-  menuCard: {
-    backgroundColor: colors.surface,
-    borderRadius: 16,
-    overflow: 'hidden',
-  },
-  menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
-  },
-  menuIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  menuLabel: {
-    flex: 1,
-    fontSize: 15,
-    color: colors.text,
-    marginLeft: 14,
-  },
-  logoutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    marginHorizontal: 20,
-    marginTop: 24,
-    paddingVertical: 14,
-    backgroundColor: `${colors.error}10`,
-    borderRadius: 14,
-  },
-  logoutText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: colors.error,
-  },
-  footer: {
-    alignItems: 'center',
-    paddingVertical: 32,
-  },
-  footerText: {
-    fontSize: 13,
-    color: colors.textTertiary,
-  },
-});
+const createStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    scrollContent: {
+      paddingBottom: 32,
+    },
+    headerGradient: {
+      paddingBottom: 28,
+      borderBottomLeftRadius: 28,
+      borderBottomRightRadius: 28,
+    },
+    headerContent: {
+      alignItems: 'center',
+      paddingTop: 20,
+    },
+    avatar: {
+      width: 72,
+      height: 72,
+      borderRadius: 36,
+      backgroundColor: 'rgba(255,249,245,0.2)',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 12,
+    },
+    avatarImage: {
+      width: 72,
+      height: 72,
+      borderRadius: 36,
+    },
+    avatarBadge: {
+      position: 'absolute',
+      bottom: -2,
+      right: -2,
+      width: 26,
+      height: 26,
+      borderRadius: 13,
+      backgroundColor: colors.secondary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 2,
+      borderColor: colors.primary,
+    },
+    avatarText: {
+      fontSize: 26,
+      fontFamily: fonts.display,
+      color: colors.textLight,
+    },
+    name: {
+      fontSize: 22,
+      fontFamily: fonts.display,
+      color: colors.textLight,
+    },
+    email: {
+      fontSize: 13,
+      color: colors.accent,
+      marginTop: 4,
+    },
+    body: {
+      paddingHorizontal: 20,
+      paddingTop: 20,
+    },
+    statsRow: {
+      flexDirection: 'row',
+      gap: 12,
+      marginBottom: 20,
+    },
+    statCard: {
+      flex: 1,
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: colors.border,
+      alignItems: 'center',
+      paddingVertical: 16,
+    },
+    statNumber: {
+      fontSize: 24,
+      fontFamily: fonts.display,
+      color: colors.primaryLight,
+    },
+    statLabel: {
+      fontSize: 12,
+      color: colors.textSecondary,
+      marginTop: 4,
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: colors.border,
+      padding: 16,
+      marginBottom: 12,
+    },
+    rowIcon: {
+      width: 40,
+      height: 40,
+      borderRadius: 12,
+      backgroundColor: colors.accent,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    rowTitle: {
+      fontSize: 15,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    rowDesc: {
+      fontSize: 12,
+      color: colors.textSecondary,
+      marginTop: 2,
+    },
+    signOutRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+      paddingVertical: 16,
+      marginTop: 8,
+    },
+    signOutText: {
+      fontSize: 15,
+      fontWeight: '600',
+      color: colors.error,
+    },
+    version: {
+      textAlign: 'center',
+      fontSize: 12,
+      color: colors.textTertiary,
+    },
+  });

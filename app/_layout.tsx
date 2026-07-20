@@ -11,10 +11,17 @@ import {
 import { AppProvider, useApp } from '@/contexts/AppContext';
 import { DateNightProvider } from '@/contexts/DateNightContext';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Text, TextInput } from 'react-native';
 import { useTheme } from '@/hooks/useTheme';
 
 SplashScreen.preventAutoHideAsync();
+
+// Respect the system text-size setting, but cap it so accessibility sizes
+// don't balloon the layout (buttons overlapping cards, wrapped titles).
+// @ts-expect-error defaultProps is legacy but still honored by RN Text
+Text.defaultProps = { ...(Text.defaultProps ?? {}), maxFontSizeMultiplier: 1.1 };
+// @ts-expect-error same for TextInput
+TextInput.defaultProps = { ...(TextInput.defaultProps ?? {}), maxFontSizeMultiplier: 1.1 };
 
 const queryClient = new QueryClient();
 

@@ -201,6 +201,10 @@ export default function OnboardingScreen() {
     <View style={styles.stepContainer}>
       <Text style={styles.stepTitle}>Who do you usually plan for?</Text>
       <Text style={styles.stepSubtitle}>We'll tailor suggestions to your kind of outing</Text>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.preferencesContent}
+      >
       <View style={styles.optionsGrid}>
         {travelStyles.map((style) => {
           const IconComponent = iconMap[style.icon];
@@ -229,6 +233,7 @@ export default function OnboardingScreen() {
           );
         })}
       </View>
+      </ScrollView>
     </View>
   );
 
@@ -337,7 +342,12 @@ export default function OnboardingScreen() {
     >
       <Text style={styles.stepTitle}>Last step — the practical stuff</Text>
       <Text style={styles.stepSubtitle}>You can change all of this anytime</Text>
-      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        automaticallyAdjustKeyboardInsets
+        contentContainerStyle={{ paddingBottom: 140 }}
+      >
         <Text style={styles.sectionLabel}>Indoor or outdoor?</Text>
         <View style={styles.venueRow}>
           {venueStyles.map((v) => {
@@ -558,7 +568,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     paddingBottom: 20,
   },
   welcomeTitle: {
-    fontSize: 48,
+    fontSize: 38,
     fontFamily: fonts.displayBold,
     color: colors.textLight,
     marginBottom: 12,
@@ -594,13 +604,13 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     paddingTop: 20,
   },
   stepTitle: {
-    fontSize: 28,
+    fontSize: 24,
     fontFamily: fonts.display,
     color: colors.text,
     marginBottom: 8,
   },
   stepSubtitle: {
-    fontSize: 16,
+    fontSize: 15,
     color: colors.textSecondary,
     marginBottom: 24,
     lineHeight: 22,
@@ -619,9 +629,9 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   styleCard: {
     width: (width - 52) / 2,
     backgroundColor: colors.surface,
-    borderRadius: 20,
-    padding: 20,
-    borderWidth: 2,
+    borderRadius: 14,
+    padding: 14,
+    borderWidth: 1,
     borderColor: colors.border,
     position: 'relative',
   },
@@ -630,19 +640,19 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     backgroundColor: colors.accent,
   },
   styleIconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 12,
     backgroundColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: 10,
   },
   styleIconSelected: {
     backgroundColor: colors.primary,
   },
   styleName: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: colors.text,
     marginBottom: 4,
@@ -651,7 +661,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     color: colors.primaryDark,
   },
   styleDesc: {
-    fontSize: 13,
+    fontSize: 12,
     color: colors.textSecondary,
     lineHeight: 18,
   },
@@ -691,7 +701,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     paddingHorizontal: 14,
     backgroundColor: colors.surface,
     borderRadius: 16,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.border,
     position: 'relative',
   },
@@ -735,7 +745,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     paddingVertical: 16,
     backgroundColor: colors.surface,
     borderRadius: 16,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.border,
   },
   venueCardSelected: {
@@ -768,7 +778,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     gap: 10,
     backgroundColor: colors.surface,
     borderRadius: 16,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.border,
     paddingHorizontal: 16,
     marginBottom: 20,
