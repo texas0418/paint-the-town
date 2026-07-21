@@ -147,7 +147,7 @@ function chipToDate(chip: string): string | undefined {
 
 export default function PlanDateScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ mode?: string }>();
+  const params = useLocalSearchParams<{ mode?: string; vibe?: string }>();
   const { colors } = useTheme();
   const styles = useMemo(() => createStyles(colors), [colors]);
 
@@ -164,7 +164,10 @@ export default function PlanDateScreen() {
   const [budget, setBudget] = useState(150);
   const [tripBudget, setTripBudget] = useState(1000);
   const [notes, setNotes] = useState('');
-  const [vibes, setVibes] = useState<string[]>([]);
+  // Deep links (e.g. anniversary nudges) can preselect a vibe chip.
+  const [vibes, setVibes] = useState<string[]>(
+    params.vibe && vibeChips.includes(params.vibe) ? [params.vibe] : []
+  );
   const [mustInclude, setMustInclude] = useState<string[]>([]);
   const isVacation = planMode === 'vacation';
 
@@ -216,8 +219,10 @@ export default function PlanDateScreen() {
           return;
         }
         // Entering with an explicit different mode (e.g. tapping Vacation on
-        // home) means the user wants a fresh plan — don't hijack them with
-        // old results from another mode. The stored results stay for later.
+        // home) or a deep-linked vibe (anniversary nudge) means the user
+        // wants a fresh plan — don't hijack them with old results. The
+        // stored results stay for later.
+        if (params.vibe) return;
         if (params.mode && saved.planMode && saved.planMode !== params.mode) return;
         setPlans(saved.plans);
         if (saved.planMode) setPlanMode(saved.planMode);

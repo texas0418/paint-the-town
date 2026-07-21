@@ -1,9 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable, Switch, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  Switch,
+  Alert,
+  TextInput,
+  Platform,
+} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { ArrowLeft, BellRing } from 'lucide-react-native';
+import { ArrowLeft, BellRing, HeartHandshake, Plus, Trash2 } from 'lucide-react-native';
 import { ThemeColors } from '@/constants/colors';
 import { useTheme } from '@/hooks/useTheme';
 import {
@@ -13,6 +24,12 @@ import {
   getReminderSettings,
   saveReminderSettings,
 } from '@/services/dateNightReminderService';
+import {
+  Anniversary,
+  addAnniversary,
+  deleteAnniversary,
+  listAnniversaries,
+} from '@/services/anniversaryAutopilotService';
 
 const dayChips = [
   { weekday: 2, label: 'Mon' },
@@ -37,12 +54,62 @@ export default function DateNightReminderScreen() {
   const styles = useMemo(() => createStyles(colors), [colors]);
   const [settings, setSettings] = useState<ReminderSettings>(defaultReminderSettings);
   const [loaded, setLoaded] = useState(false);
+  const [anniversaries, setAnniversaries] = useState<Anniversary[]>([]);
+  const [newTitle, setNewTitle] = useState('');
+  const [newDate, setNewDate] = useState<Date>(new Date());
+  const [adding, setAdding] = useState(false);
 
   useEffect(() => {
     getReminderSettings()
       .then(setSettings)
       .finally(() => setLoaded(true));
+    listAnniversaries()
+      .then(setAnniversaries)
+      .catch(() => {});
   }, []);
+
+  const handleAddAnniversary = async () => {
+    setAdding(true);
+    try {
+      const iso = newDate.toISOString().slice(0, 10);
+      const saved = await addAnniversary(newTitle.trim() || 'Our anniversary', iso);
+      setAnniversaries((prev) =>
+        [...prev, saved].sort((a, b) => a.anniversaryDate.localeCompare(b.anniversaryDate))
+      );
+      setNewTitle('');
+    } catch (e) {
+      Alert.alert('Could not save', e instanceof Error ? e.message : 'Please try again.');
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  const handleDeleteAnniversary = (a: Anniversary) => {
+    Alert.alert('Remove anniversary', `Stop reminders for "${a.title}"?`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Remove',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await deleteAnniversary(a.id);
+            setAnniversaries((prev) => prev.filter((x) => x.id !== a.id));
+          } catch (e) {
+            Alert.alert('Could not delete', e instanceof Error ? e.message : 'Please try again.');
+          }
+        },
+      },
+    ]);
+  };
+
+  const formatAnnDate = (iso: string) => {
+    const [y, m, d] = iso.split('-').map(Number);
+    return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
 
   const apply = async (next: ReminderSettings) => {
     const prev = settings;
@@ -137,6 +204,60 @@ export default function DateNightReminderScreen() {
           Thursday works best for most couples — early enough to get a Saturday reservation.
           Reminders are scheduled on this device and tapping one opens the planner.
         </Text>
+
+        <View style={styles.sectionDivider} />
+
+        <View style={styles.card}>
+          <View style={styles.toggleRow}>
+            <View style={styles.toggleIcon}>
+              <HeartHandshake size={20} color={colors.primaryLight} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.toggleTitle}>Anniversary autopilot</Text>
+              <Text style={styles.toggleDesc}>
+                Two weeks before the day, W4nder reminds you and preps the planner — so the good
+                tables are still open.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {anniversaries.map((a) => (
+          <View key={a.id} style={styles.annRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.annTitle}>{a.title}</Text>
+              <Text style={styles.annDate}>{formatAnnDate(a.anniversaryDate)}</Text>
+            </View>
+            <Pressable style={styles.annDelete} onPress={() => handleDeleteAnniversary(a)}>
+              <Trash2 size={17} color={colors.error} />
+            </Pressable>
+          </View>
+        ))}
+
+        <Text style={styles.fieldLabel}>Add an anniversary</Text>
+        <TextInput
+          style={styles.annInput}
+          placeholder="What's the occasion? (e.g. First date)"
+          placeholderTextColor={colors.textTertiary}
+          value={newTitle}
+          onChangeText={setNewTitle}
+        />
+        <View style={styles.annPickerRow}>
+          <DateTimePicker
+            value={newDate}
+            mode="date"
+            display={Platform.OS === 'ios' ? 'compact' : 'default'}
+            onChange={(_, d) => d && setNewDate(d)}
+          />
+          <Pressable
+            style={[styles.annAddBtn, adding && { opacity: 0.6 }]}
+            onPress={handleAddAnniversary}
+            disabled={adding}
+          >
+            <Plus size={16} color={colors.textLight} />
+            <Text style={styles.annAddText}>Add</Text>
+          </Pressable>
+        </View>
       </ScrollView>
     </View>
   );
@@ -243,5 +364,70 @@ const createStyles = (colors: ThemeColors) =>
       fontSize: 13,
       color: colors.textTertiary,
       lineHeight: 19,
+    },
+    sectionDivider: {
+      height: 1,
+      backgroundColor: colors.border,
+      marginVertical: 24,
+    },
+    annRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      backgroundColor: colors.surface,
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: colors.border,
+      paddingVertical: 12,
+      paddingHorizontal: 14,
+      marginBottom: 10,
+    },
+    annTitle: {
+      fontSize: 14,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    annDate: {
+      fontSize: 12,
+      color: colors.textSecondary,
+      marginTop: 1,
+    },
+    annDelete: {
+      width: 34,
+      height: 34,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    annInput: {
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+      paddingHorizontal: 14,
+      paddingVertical: 11,
+      fontSize: 14,
+      color: colors.text,
+      marginBottom: 12,
+    },
+    annPickerRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 12,
+      marginBottom: 24,
+    },
+    annAddBtn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+      backgroundColor: colors.secondary,
+      borderRadius: 12,
+      paddingVertical: 10,
+      paddingHorizontal: 18,
+    },
+    annAddText: {
+      color: colors.textLight,
+      fontSize: 14,
+      fontWeight: '700',
     },
   });
