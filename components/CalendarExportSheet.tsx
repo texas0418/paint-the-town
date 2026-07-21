@@ -227,7 +227,7 @@ export const CalendarExportSheet: React.FC<CalendarExportSheetProps> = ({
       </View>
       <Text style={styles.centeredTitle}>Calendar Access Required</Text>
       <Text style={styles.centeredDescription}>
-        W4nder needs access to your calendar to export your itinerary events.
+        Paint the Town needs access to your calendar to export your itinerary events.
       </Text>
       <Pressable style={styles.primaryButton} onPress={handleRequestPermission}>
         <CalendarPlus size={20} color="#fff" />

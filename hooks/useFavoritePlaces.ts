@@ -1,4 +1,4 @@
-// W4nder Favorite Places - useFavoritePlaces Hook
+// Paint the Town Favorite Places - useFavoritePlaces Hook
 
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import * as Location from 'expo-location';

@@ -1,5 +1,5 @@
 // ============================================================================
-// QR Code Generation Utilities for W4nder
+// QR Code Generation Utilities for Paint the Town
 // ============================================================================
 
 import { Share, Alert, Platform } from 'react-native';
@@ -541,9 +541,9 @@ export async function shareViaEmail(
     const value = generateQRValue(content);
     const config = CONTENT_TYPE_CONFIG[content.type];
 
-    const subject = encodeURIComponent(`${content.title} - W4nder`);
+    const subject = encodeURIComponent(`${content.title} - Paint the Town`);
     const body = encodeURIComponent(
-      `${config.icon} ${content.title}\n\n${content.description || ''}\n\n${value}\n\nShared via W4nder`
+      `${config.icon} ${content.title}\n\n${content.description || ''}\n\n${value}\n\nShared via Paint the Town`
     );
 
     const emailUrl = emailAddress

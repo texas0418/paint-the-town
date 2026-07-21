@@ -1,5 +1,5 @@
 // ============================================================================
-// RSVP Types for W4nder Date Nights
+// RSVP Types for Paint the Town Date Nights
 // ============================================================================
 
 export type RSVPStatus = 'pending' | 'accepted' | 'declined' | 'tentative';

@@ -1,4 +1,4 @@
-// Anniversary Milestones Data for W4nder
+// Anniversary Milestones Data for Paint the Town
 import { Milestone, MilestoneLevel, SuggestionCategory, PriceRange } from '../types/anniversary';
 
 export interface SuggestionTemplate {

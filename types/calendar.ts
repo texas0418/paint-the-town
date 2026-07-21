@@ -1,5 +1,5 @@
 // ============================================================================
-// Calendar Export Types for W4nder
+// Calendar Export Types for Paint the Town
 // ============================================================================
 
 import { Activity, DayItinerary, Trip } from './index';

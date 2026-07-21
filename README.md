@@ -1,4 +1,4 @@
-# W4nder - Local Development Setup
+# Paint the Town - Local Development Setup
 
 This project has been converted from a Rork AI app to a standard Expo React Native project that you can edit locally and run in Xcode.
 
@@ -18,7 +18,7 @@ Before you begin, ensure you have the following installed:
 
 ```bash
 # Navigate to the project directory
-cd W4nder-Xcode
+cd Paint the Town-Xcode
 
 # Install Node.js dependencies
 npm install
@@ -45,7 +45,7 @@ cd ..
 
 ```bash
 # Option 1: Open from terminal
-open ios/W4nder.xcworkspace
+open ios/Paint the Town.xcworkspace
 
 # Option 2: Open Xcode, then File > Open > select ios/TravelGenie.xcworkspace
 ```
@@ -104,7 +104,7 @@ npx expo run:ios
 ## Project Structure
 
 ```
-W4nder-Xcode/
+Paint the Town-Xcode/
 ├── app/                    # App screens (file-based routing)
 │   ├── (tabs)/            # Tab navigation screens
 │   ├── _layout.tsx        # Root layout

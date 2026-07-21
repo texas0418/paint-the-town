@@ -1,4 +1,4 @@
-// W4nder Route Optimizer - Activity Card Component
+// Paint the Town Route Optimizer - Activity Card Component
 
 import React from 'react';
 import {

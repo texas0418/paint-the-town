@@ -1,4 +1,4 @@
-// Mock Weather Data for W4nder Weather-Aware Module
+// Mock Weather Data for Paint the Town Weather-Aware Module
 import {
   DailyForecast,
   WeatherCondition,

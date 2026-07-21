@@ -1,4 +1,4 @@
-// Confirmation Storage Hooks for W4nder
+// Confirmation Storage Hooks for Paint the Town
 
 import { useState, useEffect, useCallback } from 'react';
 import {

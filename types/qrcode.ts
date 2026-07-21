@@ -1,5 +1,5 @@
 // ============================================================================
-// QR Code Generation Types for W4nder
+// QR Code Generation Types for Paint the Town
 // Generate QR codes for sharing trips, itineraries, confirmations, and more
 // ============================================================================
 

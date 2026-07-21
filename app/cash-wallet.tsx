@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Cash Wallet Screen
+// Paint the Town Multi-Currency - Cash Wallet Screen
 
 import React, { useState, useCallback } from 'react';
 import {

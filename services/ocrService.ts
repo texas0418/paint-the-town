@@ -1,4 +1,4 @@
-// W4nder Receipt Scanner - OCR Service
+// Paint the Town Receipt Scanner - OCR Service
 
 import {
   OCRResult,

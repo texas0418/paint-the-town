@@ -1,4 +1,4 @@
-// W4nder Time-Optimized Routes - Route Settings Screen
+// Paint the Town Time-Optimized Routes - Route Settings Screen
 
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from 'react-native';

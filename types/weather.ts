@@ -1,4 +1,4 @@
-// Weather-Aware Activity Types for W4nder
+// Weather-Aware Activity Types for Paint the Town
 // Defines weather conditions, activity requirements, and smart adjustments
 
 // ============================================================================

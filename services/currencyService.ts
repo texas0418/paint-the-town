@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Currency Service
+// Paint the Town Multi-Currency - Currency Service
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {

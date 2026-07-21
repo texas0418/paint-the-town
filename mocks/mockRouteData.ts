@@ -1,4 +1,4 @@
-// W4nder Time-Optimized Routes - Mock Data
+// Paint the Town Time-Optimized Routes - Mock Data
 
 import { Activity, Location, OptimizationStrategy, TransportMode } from '../types/routes';
 

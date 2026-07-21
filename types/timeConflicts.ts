@@ -1,4 +1,4 @@
-// Time Conflict Detection Types and Utilities for W4nder
+// Time Conflict Detection Types and Utilities for Paint the Town
 
 import { ActivityWithTransport } from './transportation';
 

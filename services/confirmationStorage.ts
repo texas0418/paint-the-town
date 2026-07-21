@@ -1,4 +1,4 @@
-// Confirmation Storage Service for W4nder
+// Confirmation Storage Service for Paint the Town
 // Persists confirmations, tickets, and QR codes using AsyncStorage
 
 import AsyncStorage from '@react-native-async-storage/async-storage';

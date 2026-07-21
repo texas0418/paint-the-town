@@ -220,7 +220,7 @@ export default function DateNightReminderScreen() {
             <View style={{ flex: 1 }}>
               <Text style={styles.toggleTitle}>Anniversary autopilot</Text>
               <Text style={styles.toggleDesc}>
-                Two weeks before the day, W4nder reminds you and preps the planner — so the good
+                Two weeks before the day, Paint the Town reminds you and preps the planner — so the good
                 tables are still open.
               </Text>
             </View>

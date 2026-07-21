@@ -1,4 +1,4 @@
-// W4nder Favorite Places - Type Definitions
+// Paint the Town Favorite Places - Type Definitions
 
 // ============================================================================
 // PLACE TYPES

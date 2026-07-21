@@ -256,7 +256,7 @@ export default function ProfileScreen() {
             <Text style={styles.signOutText}>Sign out</Text>
           </Pressable>
 
-          <Text style={styles.version}>W4nder 1.0.0</Text>
+          <Text style={styles.version}>Paint the Town 1.0.0</Text>
         </View>
       </ScrollView>
     </View>

@@ -1,4 +1,4 @@
-// Milestone Detail Screen for W4nder
+// Milestone Detail Screen for Paint the Town
 // Showcases special suggestions and celebration ideas for milestone anniversaries
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {

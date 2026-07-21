@@ -1,4 +1,4 @@
-// Availability Sync Utilities for W4nder
+// Availability Sync Utilities for Paint the Town
 
 import * as Calendar from 'expo-calendar';
 import { Platform, Alert } from 'react-native';
@@ -28,7 +28,7 @@ export async function requestCalendarPermissions(): Promise<boolean> {
   if (status !== 'granted') {
     Alert.alert(
       'Calendar Access Required',
-      'W4nder needs calendar access to find available times for your dates. Please enable it in Settings.',
+      'Paint the Town needs calendar access to find available times for your dates. Please enable it in Settings.',
       [{ text: 'OK' }]
     );
     return false;

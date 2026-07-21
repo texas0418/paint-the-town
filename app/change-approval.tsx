@@ -1,4 +1,4 @@
-// W4nder Route Optimizer - Change Approval Screen
+// Paint the Town Route Optimizer - Change Approval Screen
 
 import React, { useState, useCallback, useMemo } from 'react';
 import {

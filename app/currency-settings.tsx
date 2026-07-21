@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Currency Settings Screen
+// Paint the Town Multi-Currency - Currency Settings Screen
 
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Alert } from 'react-native';

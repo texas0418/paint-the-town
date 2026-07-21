@@ -1,5 +1,5 @@
 // ============================================================================
-// WebSocket Types for W4nder Real-time Updates
+// WebSocket Types for Paint the Town Real-time Updates
 // ============================================================================
 
 // ============================================================================
@@ -48,7 +48,7 @@ export interface WebSocketConfig {
 }
 
 export const DEFAULT_WS_CONFIG: WebSocketConfig = {
-  url: 'wss://api.w4nder.app/ws',
+  url: 'wss://api.paintthetown.app/ws',
   autoReconnect: true,
   reconnectInterval: 1000,
   maxReconnectAttempts: 10,

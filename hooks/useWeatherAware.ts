@@ -1,4 +1,4 @@
-// useWeatherAware Hook for W4nder
+// useWeatherAware Hook for Paint the Town
 // Provides weather data and activity recommendations in React components
 
 import { useState, useEffect, useCallback, useMemo } from 'react';

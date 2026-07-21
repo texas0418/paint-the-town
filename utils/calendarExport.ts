@@ -1,5 +1,5 @@
 // ============================================================================
-// Calendar Export Utility for W4nder
+// Calendar Export Utility for Paint the Town
 // Supports iOS Calendar, Google Calendar (via device sync), and other calendars
 // ============================================================================
 
@@ -41,7 +41,7 @@ export async function requestCalendarPermissions(): Promise<boolean> {
     if (status !== 'granted') {
       Alert.alert(
         'Calendar Access Required',
-        'W4nder needs access to your calendar to export your itinerary. Please enable calendar access in Settings.',
+        'Paint the Town needs access to your calendar to export your itinerary. Please enable calendar access in Settings.',
         [
           { text: 'Cancel', style: 'cancel' },
           {
@@ -170,9 +170,9 @@ export async function getCalendarsByAccount(): Promise<Map<string, DeviceCalenda
 }
 
 /**
- * Create a new calendar for W4nder trips
+ * Create a new calendar for Paint the Town trips
  */
-export async function createW4nderCalendar(): Promise<string | null> {
+export async function createPaintTheTownCalendar(): Promise<string | null> {
   const hasPermission = await requestCalendarPermissions();
   if (!hasPermission) return null;
 
@@ -187,18 +187,18 @@ export async function createW4nderCalendar(): Promise<string | null> {
     }
 
     const calendarId = await Calendar.createCalendarAsync({
-      title: 'W4nder Trips',
+      title: 'Paint the Town Trips',
       color: '#FF6B6B',
       entityType: Calendar.EntityTypes.EVENT,
       source: defaultSource,
-      name: 'W4nder Trips',
+      name: 'Paint the Town Trips',
       ownerAccount: defaultSource.name,
       accessLevel: Calendar.CalendarAccessLevel.OWNER,
     });
 
     return calendarId;
   } catch (error) {
-    console.error('Error creating W4nder calendar:', error);
+    console.error('Error creating Paint the Town calendar:', error);
     return null;
   }
 }
@@ -406,7 +406,7 @@ function buildEventNotes(activity: Activity, options: CalendarExportOptions): st
 
   lines.push('');
   lines.push('─────────────');
-  lines.push('Exported from W4nder');
+  lines.push('Exported from Paint the Town');
 
   return lines.join('\n');
 }
@@ -470,7 +470,7 @@ export function createDayOverviewEvent(
     startDate,
     endDate,
     allDay: true,
-    notes: `${tripName}\n\n📋 Today's Activities:\n${activityList}\n\n─────────────\nExported from W4nder`,
+    notes: `${tripName}\n\n📋 Today's Activities:\n${activityList}\n\n─────────────\nExported from Paint the Town`,
     availability: 'free',
     alarms: options.addReminders ? [{ relativeOffset: -1440 }] : [], // 24 hours before
   };
@@ -756,7 +756,7 @@ export function generateICSContent(events: CalendarEventToCreate[], tripName: st
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//W4nder//Trip Export//EN',
+    'PRODID:-//Paint the Town//Trip Export//EN',
     `X-WR-CALNAME:${escapeText(tripName)}`,
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',

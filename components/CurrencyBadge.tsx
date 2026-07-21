@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Currency Badge Component
+// Paint the Town Multi-Currency - Currency Badge Component
 
 import React from 'react';
 import {

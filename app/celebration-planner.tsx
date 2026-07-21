@@ -1,4 +1,4 @@
-// Celebration Planner Screen for W4nder
+// Celebration Planner Screen for Paint the Town
 // Interactive wizard to create personalized celebration plans
 import React, { useState, useCallback, useMemo } from 'react';
 import {
@@ -305,7 +305,7 @@ export const CelebrationPlannerScreen: React.FC<CelebrationPlannerScreenProps> =
       text += `📝 Notes: ${plan.notes}\n`;
     }
 
-    text += '\n— Created with W4nder 💕';
+    text += '\n— Created with Paint the Town 💕';
 
     return text;
   };

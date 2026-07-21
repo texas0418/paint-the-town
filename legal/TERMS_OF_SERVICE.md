@@ -1,14 +1,14 @@
-# W4nder Terms of Service
+# Paint the Town Terms of Service
 
 **Last Updated: February 5, 2026**
 
 ## 1. Acceptance of Terms
 
-By downloading, installing, or using the W4nder mobile application ("App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the App.
+By downloading, installing, or using the Paint the Town mobile application ("App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the App.
 
 ## 2. Description of Service
 
-W4nder is an AI-powered travel planning and booking platform that provides personalized itineraries, booking services, real-time travel assistance, and group travel coordination. Our services include but are not limited to:
+Paint the Town is an AI-powered travel planning and booking platform that provides personalized itineraries, booking services, real-time travel assistance, and group travel coordination. Our services include but are not limited to:
 
 - AI-generated travel recommendations and itineraries
 - Flight, accommodation, restaurant, and activity booking through third-party providers
@@ -48,16 +48,16 @@ Additional features or services may be available for one-time purchase within th
 
 ### Third-Party Providers
 
-W4nder facilitates bookings with third-party travel providers (airlines, hotels, restaurants, tour operators, etc.). When you make a booking:
+Paint the Town facilitates bookings with third-party travel providers (airlines, hotels, restaurants, tour operators, etc.). When you make a booking:
 
 - You enter into a direct agreement with the third-party provider
 - The provider's own terms, conditions, and cancellation policies apply
-- W4nder is not the provider of the travel services themselves
+- Paint the Town is not the provider of the travel services themselves
 
 ### Pricing and Availability
 
 - All prices are displayed in real time from our partners and are subject to change
-- W4nder does not guarantee the accuracy of pricing until a booking is confirmed
+- Paint the Town does not guarantee the accuracy of pricing until a booking is confirmed
 - Availability is subject to change without notice
 
 ### C

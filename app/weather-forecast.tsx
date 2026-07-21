@@ -1,4 +1,4 @@
-// Weather Forecast Screen for W4nder
+// Weather Forecast Screen for Paint the Town
 // Comprehensive weather overview for trip planning with alerts and daily details
 
 import React, { useState, useMemo, useCallback } from 'react';
@@ -136,7 +136,7 @@ export const WeatherForecastScreen: React.FC<WeatherForecastScreenProps> = ({
       `☀️ Sunny Days: ${weatherSummary.sunnyDays}/${weatherSummary.totalDays}\n` +
       `🌧️ Rainy Days: ${weatherSummary.rainyDays}/${weatherSummary.totalDays}\n` +
       `✨ Good Activity Days: ${weatherSummary.goodDays}/${weatherSummary.totalDays}\n\n` +
-      `Plan your trip with W4nder! 🧳`;
+      `Plan your trip with Paint the Town! 🧳`;
 
     try {
       await Share.share({ message: shareText });

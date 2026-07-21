@@ -186,7 +186,7 @@ export default function AddPartnerScreen() {
         <View style={styles.methodContent}>
           <Text style={styles.methodName}>Link Account</Text>
           <Text style={styles.methodDescription}>
-            Invite them to link their W4nder account for synced preferences
+            Invite them to link their Paint the Town account for synced preferences
           </Text>
         </View>
         <ChevronRight size={20} color={colors.textTertiary} />

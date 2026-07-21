@@ -1,4 +1,4 @@
-// Anniversary Tracker Types for W4nder
+// Anniversary Tracker Types for Paint the Town
 
 export type AnniversaryType =
   | 'relationship'

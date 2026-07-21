@@ -1,4 +1,4 @@
-// Notification System Types for W4nder
+// Notification System Types for Paint the Town
 
 // ============================================================================
 // Notification Categories & Types

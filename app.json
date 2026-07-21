@@ -1,11 +1,14 @@
 {
   "expo": {
-    "name": "W4nder",
-    "slug": "w4nder",
+    "name": "Paint the Town",
+    "slug": "paint-the-town",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "w4nder",
+    "scheme": [
+      "painthetown",
+      "w4nder"
+    ],
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -15,11 +18,11 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.w4nderapp.w4nder",
+      "bundleIdentifier": "app.paintthetown",
       "infoPlist": {
-        "NSCalendarsUsageDescription": "W4nder needs calendar access to find free times for date nights and sync availability with your partner.",
-        "NSLocationWhenInUseUsageDescription": "W4nder uses your location to provide directions, travel time estimates, and nearby recommendations.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "W4nder uses your location to send travel alerts and notify your partner when you've arrived.",
+        "NSCalendarsUsageDescription": "Paint the Town needs calendar access to find free times for date nights and sync availability with your partner.",
+        "NSLocationWhenInUseUsageDescription": "Paint the Town uses your location to provide directions, travel time estimates, and nearby recommendations.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Paint the Town uses your location to send travel alerts and notify your partner when you've arrived.",
         "UIBackgroundModes": [
           "location",
           "fetch",
@@ -32,7 +35,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#16344F"
       },
-      "package": "com.w4nderapp.w4nder",
+      "package": "app.paintthetown",
       "permissions": [
         "android.permission.READ_CALENDAR",
         "android.permission.WRITE_CALENDAR",
@@ -55,7 +58,7 @@
       [
         "expo-calendar",
         {
-          "calendarPermission": "W4nder needs calendar access to find free times for date nights and sync availability with your partner."
+          "calendarPermission": "Paint the Town needs calendar access to find free times for date nights and sync availability with your partner."
         }
       ],
       [
@@ -67,9 +70,9 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "W4nder uses your location to send travel alerts and notify your partner when you've arrived.",
-          "locationAlwaysPermission": "W4nder uses your location in the background to provide timely travel alerts.",
-          "locationWhenInUsePermission": "W4nder uses your location to provide directions and travel time estimates."
+          "locationAlwaysAndWhenInUsePermission": "Paint the Town uses your location to send travel alerts and notify your partner when you've arrived.",
+          "locationAlwaysPermission": "Paint the Town uses your location in the background to provide timely travel alerts.",
+          "locationWhenInUsePermission": "Paint the Town uses your location to provide directions and travel time estimates."
         }
       ],
       "@react-native-community/datetimepicker"

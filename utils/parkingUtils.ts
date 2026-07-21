@@ -1,5 +1,5 @@
 // ============================================================================
-// Parking Finder Utilities for W4nder
+// Parking Finder Utilities for Paint the Town
 // ============================================================================
 
 import { Linking, Platform, Alert } from 'react-native';

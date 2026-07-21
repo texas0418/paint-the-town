@@ -1,4 +1,4 @@
-// W4nder Favorite Places - Place Card Component
+// Paint the Town Favorite Places - Place Card Component
 
 import React from 'react';
 import {

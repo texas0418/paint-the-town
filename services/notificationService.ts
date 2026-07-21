@@ -1,4 +1,4 @@
-// Notification Service for W4nder
+// Notification Service for Paint the Town
 
 import { Platform, Alert } from 'react-native';
 import * as Notifications from 'expo-notifications';

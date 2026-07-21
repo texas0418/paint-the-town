@@ -1,4 +1,4 @@
-// W4nder Receipt Scanner - Receipt Card Component
+// Paint the Town Receipt Scanner - Receipt Card Component
 
 import React from 'react';
 import {

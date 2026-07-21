@@ -174,7 +174,7 @@ export default function OnboardingScreen() {
         style={styles.welcomeGradient}
       />
       <View style={styles.welcomeContent}>
-        <Text style={styles.welcomeTitle}>W4nder</Text>
+        <Text style={styles.welcomeTitle}>Paint the Town</Text>
         <Text style={styles.welcomeSubtitle}>
           Great dates and trips, planned for you. Tell us what you love — we handle the rest.
         </Text>

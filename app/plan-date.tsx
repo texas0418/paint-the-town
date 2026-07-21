@@ -496,7 +496,7 @@ export default function PlanDateScreen() {
         <Pressable style={styles.suggestButton} onPress={handleSuggestDestinations}>
           <Dices size={16} color={colors.primaryLight} />
           <Text style={styles.suggestButtonText}>
-            Don't know where? Let W4nder pick 3 for you
+            Don't know where? Let Paint the Town pick 3 for you
           </Text>
         </Pressable>
       )}

@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - useMultiCurrency Hook
+// Paint the Town Multi-Currency - useMultiCurrency Hook
 
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import {

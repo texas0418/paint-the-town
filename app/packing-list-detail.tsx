@@ -1,4 +1,4 @@
-// Weather-Based Packing List Screen for W4nder
+// Weather-Based Packing List Screen for Paint the Town
 // Generates smart packing suggestions based on trip weather forecast
 
 import React, { useState, useMemo, useCallback } from 'react';
@@ -173,7 +173,7 @@ export const PackingListScreen: React.FC<PackingListScreenProps> = ({ navigation
     });
 
     shareText += `\n✨ Progress: ${progress}% packed\n`;
-    shareText += `\nCreated with W4nder 🧳`;
+    shareText += `\nCreated with Paint the Town 🧳`;
 
     try {
       await Share.share({ message: shareText });

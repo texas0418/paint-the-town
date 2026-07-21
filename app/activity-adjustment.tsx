@@ -1,4 +1,4 @@
-// Activity Adjustment Screen for W4nder
+// Activity Adjustment Screen for Paint the Town
 // Shows detailed weather impacts on a specific activity with smart adjustments and alternatives
 
 import React, { useState, useMemo, useCallback } from 'react';
@@ -141,7 +141,7 @@ export const ActivityAdjustmentScreen: React.FC<ActivityAdjustmentScreenProps> =
       (suitability.adjustments.length > 0
         ? `🎯 Tips:\n${suitability.adjustments.map((a) => `• ${a.description}`).join('\n')}\n\n`
         : '') +
-      `Plan your activities with W4nder! 🧳`;
+      `Plan your activities with Paint the Town! 🧳`;
 
     try {
       await Share.share({ message: shareText });

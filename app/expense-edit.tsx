@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Expense Edit Screen
+// Paint the Town Multi-Currency - Expense Edit Screen
 
 import React, { useState, useCallback, useEffect } from 'react';
 import {

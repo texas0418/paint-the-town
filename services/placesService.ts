@@ -1,4 +1,4 @@
-// W4nder Favorite Places - Places Service
+// Paint the Town Favorite Places - Places Service
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {

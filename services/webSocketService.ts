@@ -1,5 +1,5 @@
 // ============================================================================
-// WebSocket Service for W4nder Real-time Updates
+// WebSocket Service for Paint the Town Real-time Updates
 // Core service with connection management, reconnection, and message handling
 // ============================================================================
 

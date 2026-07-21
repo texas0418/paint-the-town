@@ -1,4 +1,4 @@
-// W4nder Route Optimizer - Route Comparison Component
+// Paint the Town Route Optimizer - Route Comparison Component
 
 import React from 'react';
 import {

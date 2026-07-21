@@ -1,5 +1,5 @@
 // ============================================================================
-// Sharing Types for W4nder Date Nights
+// Sharing Types for Paint the Town Date Nights
 // ============================================================================
 
 export interface SharedItinerary {
@@ -169,7 +169,7 @@ export function generateShareCode(): string {
 
 export function generateShareUrl(shareCode: string): string {
   // In production, this would be your actual domain
-  return `https://w4nder.app/shared/${shareCode}`;
+  return `https://paintthetown.app/shared/${shareCode}`;
 }
 
 export function isShareExpired(share: SharedItinerary): boolean {

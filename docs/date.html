@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>You have a date — W4nder</title>
-<meta name="description" content="Someone planned you a date with W4nder. Open your spoiler-free date card.">
+<title>You have a date — Paint the Town</title>
+<meta name="description" content="Someone planned you a date with Paint the Town. Open your spoiler-free date card.">
 <meta name="robots" content="noindex">
 <meta property="og:title" content="You have a date 🎁">
 <meta property="og:description" content="Everything is planned. Open the card to see when to be ready.">
@@ -47,7 +47,7 @@ footer a{color:var(--tx2)}
 </head>
 <body>
 <div class="top">
-  <a class="logo" href="./">W<em>4</em>nder</a>
+  <a class="logo" href="./">Paint <em>the</em> Town</a>
 </div>
 <main>
   <div class="card">
@@ -58,19 +58,19 @@ footer a{color:var(--tx2)}
       <h1 class="day" id="day">Soon</h1>
       <div class="meta"><span id="ready"></span><span id="stops"></span></div>
       <p class="teaser">Everything is researched, scheduled, and booked. Where you're going stays a surprise — all you have to do is show up.</p>
-      <a class="btn btn-p" href="./">Get W4nder</a>
+      <a class="btn btn-p" href="./">Get Paint the Town</a>
       <a class="btn btn-s" id="open-app" href="#">I already have the app</a>
-      <p class="fine">W4nder plans real-venue dates matched to both of your tastes.</p>
+      <p class="fine">Paint the Town plans real-venue dates matched to both of your tastes.</p>
     </div>
     <div id="invalid" class="hidden">
       <div class="gift">🫥</div>
       <h1 class="day">This link has expired</h1>
       <p class="teaser">Ask them to share the date with you again — or plan one of your own.</p>
-      <a class="btn btn-p" href="./">Meet W4nder</a>
+      <a class="btn btn-p" href="./">Meet Paint the Town</a>
     </div>
   </div>
 </main>
-<footer><a href="./">w4nder</a> · <a href="privacy.html">privacy</a></footer>
+<footer><a href="./">paint the town</a> · <a href="privacy.html">privacy</a></footer>
 <script>
 (async function () {
   var SUPABASE_URL = 'https://psfzkrkwncjekjrpdium.supabase.co';
@@ -99,7 +99,7 @@ footer a{color:var(--tx2)}
       'Be ready at ' + (card.startTime ? card.startTime.slice(0, 5) : 'evening');
     document.getElementById('stops').textContent =
       card.stopCount + (card.stopCount === 1 ? ' stop' : ' stops');
-    document.getElementById('open-app').href = 'w4nder://receive-date?t=' + encodeURIComponent(token);
+    document.getElementById('open-app').href = 'painthetown://receive-date?t=' + encodeURIComponent(token);
     show('date-card');
   } catch (e) {
     show('invalid');

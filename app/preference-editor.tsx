@@ -1,4 +1,4 @@
-// W4nder Preference Sync - Preference Editor Screen
+// Paint the Town Preference Sync - Preference Editor Screen
 
 import React, { useState, useCallback, useMemo } from 'react';
 import {

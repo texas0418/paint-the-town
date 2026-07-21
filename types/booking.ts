@@ -1,4 +1,4 @@
-// Auto-Booking System Types for W4nder
+// Auto-Booking System Types for Paint the Town
 
 // ============================================================================
 // Booking Categories & Providers

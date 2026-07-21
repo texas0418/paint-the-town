@@ -1,4 +1,4 @@
-// Activity Booking Service for W4nder
+// Activity Booking Service for Paint the Town
 // Integrates with Viator, GetYourGuide, and Airbnb Experiences
 
 import { Alert, Linking, Platform } from 'react-native';

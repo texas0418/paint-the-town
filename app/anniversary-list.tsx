@@ -1,4 +1,4 @@
-// Anniversary List Screen for W4nder
+// Anniversary List Screen for Paint the Town
 import React, { useState, useCallback } from 'react';
 import {
   View,

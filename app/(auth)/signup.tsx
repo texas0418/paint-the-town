@@ -117,7 +117,7 @@ export default function SignupScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.logo}>W4nder</Text>
+          <Text style={styles.logo}>Paint the Town</Text>
           <Text style={styles.tagline}>Start your adventure today</Text>
         </View>
 

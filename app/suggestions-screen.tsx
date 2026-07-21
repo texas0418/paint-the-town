@@ -1,4 +1,4 @@
-// Suggestions Screen for W4nder
+// Suggestions Screen for Paint the Town
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,

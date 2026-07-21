@@ -202,7 +202,7 @@ export const signOut = async (): Promise<{ success: boolean; error?: string }> =
 export const resetPassword = async (email: string): Promise<{ success: boolean; error?: string }> => {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'w4nder://reset-password', // Deep link to your app
+      redirectTo: 'painthetown://reset-password', // Deep link to your app
     });
 
     if (error) {

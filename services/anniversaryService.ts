@@ -1,4 +1,4 @@
-// Anniversary Service for W4nder
+// Anniversary Service for Paint the Town
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Anniversary,

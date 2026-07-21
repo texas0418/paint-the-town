@@ -1,4 +1,4 @@
-// W4nder Time-Optimized Routes - Type Definitions
+// Paint the Town Time-Optimized Routes - Type Definitions
 
 // ============================================================================
 // LOCATION & COORDINATES

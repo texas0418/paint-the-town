@@ -1,4 +1,4 @@
-// W4nder Preference Sync - Preference Service
+// Paint the Town Preference Sync - Preference Service
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {

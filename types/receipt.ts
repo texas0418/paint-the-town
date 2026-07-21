@@ -1,4 +1,4 @@
-// W4nder Receipt Scanner - Type Definitions
+// Paint the Town Receipt Scanner - Type Definitions
 
 // ============================================================================
 // OCR & EXTRACTION

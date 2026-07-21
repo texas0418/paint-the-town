@@ -1,4 +1,4 @@
-// Availability Sync Types for W4nder
+// Availability Sync Types for Paint the Town
 
 export type CalendarSource = 'apple' | 'google' | 'outlook' | 'manual';
 

@@ -1,4 +1,4 @@
-// Confirmation Storage Types for W4nder
+// Confirmation Storage Types for Paint the Town
 // Store and manage booking confirmations, tickets, and QR codes
 
 // ============================================================================

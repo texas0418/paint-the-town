@@ -76,7 +76,7 @@ export default function DestinationDetailScreen() {
     
     try {
       await Share.share({
-        message: `Check out ${destination.name}, ${destination.country} on W4nder! ${destination.description}`,
+        message: `Check out ${destination.name}, ${destination.country} on Paint the Town! ${destination.description}`,
         title: destination.name,
       });
     } catch (error) {

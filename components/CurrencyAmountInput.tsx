@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Currency Amount Input Component
+// Paint the Town Multi-Currency - Currency Amount Input Component
 
 import React, { useState, useCallback, useMemo } from 'react';
 import {

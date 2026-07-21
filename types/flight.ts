@@ -1,5 +1,5 @@
 // ============================================================================
-// Flight Search & Booking Types for W4nder
+// Flight Search & Booking Types for Paint the Town
 // ============================================================================
 
 export type CabinClass = 'economy' | 'premium_economy' | 'business' | 'first';

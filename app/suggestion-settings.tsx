@@ -1,4 +1,4 @@
-// W4nder Preference Sync - Suggestion Settings Screen
+// Paint the Town Preference Sync - Suggestion Settings Screen
 
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Alert } from 'react-native';

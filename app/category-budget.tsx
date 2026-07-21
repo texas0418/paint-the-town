@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Category Budget Screen
+// Paint the Town Multi-Currency - Category Budget Screen
 
 import React, { useState, useCallback, useMemo } from 'react';
 import {

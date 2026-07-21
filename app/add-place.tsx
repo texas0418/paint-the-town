@@ -1,4 +1,4 @@
-// W4nder Favorite Places - Add Place Screen
+// Paint the Town Favorite Places - Add Place Screen
 
 import React, { useState, useCallback } from 'react';
 import {

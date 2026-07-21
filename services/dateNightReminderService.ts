@@ -84,7 +84,7 @@ export async function saveReminderSettings(
       const disabled = { ...settings, enabled: false, notificationId: undefined };
       await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(disabled));
       throw new Error(
-        'Notifications are turned off for W4nder. Enable them in Settings → Notifications to get date night reminders.'
+        'Notifications are turned off for Paint the Town. Enable them in Settings → Notifications to get date night reminders.'
       );
     }
 
@@ -97,7 +97,7 @@ export async function saveReminderSettings(
     notificationId = await Notifications.scheduleNotificationAsync({
       content: {
         title: 'Date night, handled',
-        body: `Still nothing planned for ${target}? One tap and W4nder will put a whole evening together.`,
+        body: `Still nothing planned for ${target}? One tap and Paint the Town will put a whole evening together.`,
         data: { url: '/plan-date' },
         sound: 'default',
       },

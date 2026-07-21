@@ -1,4 +1,4 @@
-// W4nder Receipt Scanner - Receipt List Screen
+// Paint the Town Receipt Scanner - Receipt List Screen
 
 import React, { useCallback, useMemo, useState } from 'react';
 import {

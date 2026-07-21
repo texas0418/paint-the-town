@@ -1,4 +1,4 @@
-// W4nder Time-Optimized Routes - useRouteOptimizer Hook
+// Paint the Town Time-Optimized Routes - useRouteOptimizer Hook
 
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import {

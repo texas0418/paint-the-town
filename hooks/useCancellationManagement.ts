@@ -392,7 +392,7 @@ export function useCancellationManagement({
 
   // Contact support
   const contactSupport = useCallback(async () => {
-    const supportEmail = `support@w4nder.com?subject=Booking ${booking.confirmationCode || booking.id}&body=I need assistance with my booking.\n\nBooking: ${booking.name}\nConfirmation: ${booking.confirmationCode || 'N/A'}\nDate: ${booking.startDate}`;
+    const supportEmail = `support@paintthetown.app?subject=Booking ${booking.confirmationCode || booking.id}&body=I need assistance with my booking.\n\nBooking: ${booking.name}\nConfirmation: ${booking.confirmationCode || 'N/A'}\nDate: ${booking.startDate}`;
     
     const emailUrl = `mailto:${supportEmail}`;
     const canOpen = await Linking.canOpenURL(emailUrl);
@@ -400,7 +400,7 @@ export function useCancellationManagement({
     if (canOpen) {
       await Linking.openURL(emailUrl);
     } else {
-      Alert.alert('Support', 'Contact us at support@w4nder.com');
+      Alert.alert('Support', 'Contact us at support@paintthetown.app');
     }
   }, [booking]);
 

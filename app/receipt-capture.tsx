@@ -1,4 +1,4 @@
-// W4nder Receipt Scanner - Receipt Capture Screen
+// Paint the Town Receipt Scanner - Receipt Capture Screen
 
 import React, { useCallback, useState } from 'react';
 import {

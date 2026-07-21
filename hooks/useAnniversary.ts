@@ -1,4 +1,4 @@
-// Anniversary Hook for W4nder
+// Anniversary Hook for Paint the Town
 import { useState, useEffect, useCallback } from 'react';
 import anniversaryService from '../services/anniversaryService';
 import {

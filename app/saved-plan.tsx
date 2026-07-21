@@ -60,7 +60,7 @@ function directionsUrl(stop: PlanStop): string {
 }
 
 function formatPlanForShare(plan: DatePlan): string {
-  const lines: string[] = [`${plan.title} — planned with W4nder`, plan.city];
+  const lines: string[] = [`${plan.title} — planned with Paint the Town`, plan.city];
   if (plan.planDate) lines.push(plan.planDate);
   lines.push('');
   let lastDay: number | undefined;
@@ -176,7 +176,7 @@ export default function SavedPlanScreen() {
     if (!plan) return;
     Alert.alert(
       `Swap ${stop.venueName}?`,
-      'W4nder will find a different real venue for this slot that still fits your taste.',
+      'Paint the Town will find a different real venue for this slot that still fits your taste.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -245,7 +245,7 @@ export default function SavedPlanScreen() {
           startDate: start,
           endDate: end,
           location: `${stop.venueName}, ${stop.address}`,
-          notes: `${stop.description}\n\nPlanned with W4nder — ${plan.title}`,
+          notes: `${stop.description}\n\nPlanned with Paint the Town — ${plan.title}`,
         });
       }
       Alert.alert('Added to calendar', `${plan.stops.length} events created.`);

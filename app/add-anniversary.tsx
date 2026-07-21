@@ -1,4 +1,4 @@
-// Add/Edit Anniversary Screen for W4nder
+// Add/Edit Anniversary Screen for Paint the Town
 import React, { useState, useEffect } from 'react';
 import {
   View,

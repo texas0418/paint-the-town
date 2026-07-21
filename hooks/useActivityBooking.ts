@@ -1,4 +1,4 @@
-// Activity Booking Hooks for W4nder
+// Activity Booking Hooks for Paint the Town
 
 import { useState, useEffect, useCallback } from 'react';
 import {

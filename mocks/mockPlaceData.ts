@@ -1,4 +1,4 @@
-// W4nder Favorite Places - Mock Data
+// Paint the Town Favorite Places - Mock Data
 
 import { FavoritePlace, PlaceCollection } from '../types/places';
 

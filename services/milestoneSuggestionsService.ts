@@ -1,4 +1,4 @@
-// Milestone Suggestions Service for W4nder
+// Milestone Suggestions Service for Paint the Town
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   CelebrationPackage,

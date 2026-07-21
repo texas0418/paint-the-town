@@ -1,4 +1,4 @@
-// Activity Booking Types for W4nder
+// Activity Booking Types for Paint the Town
 // Integration with Viator, GetYourGuide, and Airbnb Experiences
 
 // ============================================================================

@@ -1,4 +1,4 @@
-// W4nder Preference Sync - usePreferenceSync Hook
+// Paint the Town Preference Sync - usePreferenceSync Hook
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import {

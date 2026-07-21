@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Budget Progress Card Component
+// Paint the Town Multi-Currency - Budget Progress Card Component
 
 import React from 'react';
 import {

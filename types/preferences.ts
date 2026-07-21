@@ -1,4 +1,4 @@
-// W4nder Preference Sync - Type Definitions
+// Paint the Town Preference Sync - Type Definitions
 
 // ============================================================================
 // CORE PREFERENCE TYPES

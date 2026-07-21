@@ -1,4 +1,4 @@
-// W4nder Receipt Scanner - useReceiptScanner Hook
+// Paint the Town Receipt Scanner - useReceiptScanner Hook
 
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import * as ImagePicker from 'expo-image-picker';

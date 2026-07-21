@@ -1,4 +1,4 @@
-// Notification Hooks for W4nder
+// Notification Hooks for Paint the Town
 
 import { useEffect, useCallback, useState, useRef } from 'react';
 import { AppState, AppStateStatus } from 'react-native';

@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Expense Tracker Screen
+// Paint the Town Multi-Currency - Expense Tracker Screen
 
 import React, { useState, useCallback, useMemo } from 'react';
 import {

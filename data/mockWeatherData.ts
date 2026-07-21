@@ -1,4 +1,4 @@
-// Mock Weather Data for W4nder
+// Mock Weather Data for Paint the Town
 import { WeatherAwareActivity } from '../types/weather';
 
 export const MOCK_ACTIVITIES: WeatherAwareActivity[] = [

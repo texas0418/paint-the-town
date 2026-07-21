@@ -1,4 +1,4 @@
-// Restaurant Booking Hooks for W4nder
+// Restaurant Booking Hooks for Paint the Town
 
 import { useState, useEffect, useCallback } from 'react';
 import {

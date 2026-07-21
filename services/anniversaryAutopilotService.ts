@@ -91,7 +91,7 @@ export async function scheduleAnniversaryNudges(anniversary: Anniversary): Promi
   }
   if (status !== 'granted') {
     throw new Error(
-      'Notifications are turned off for W4nder. Enable them in Settings → Notifications to get anniversary nudges.'
+      'Notifications are turned off for Paint the Town. Enable them in Settings → Notifications to get anniversary nudges.'
     );
   }
 

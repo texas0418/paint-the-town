@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Type Definitions
+// Paint the Town Multi-Currency - Type Definitions
 
 // ============================================================================
 // CURRENCY CORE TYPES

@@ -1,4 +1,4 @@
-// Anniversary Card Component for W4nder
+// Anniversary Card Component for Paint the Town
 import React from 'react';
 import {
   View,

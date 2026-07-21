@@ -1,4 +1,4 @@
-// Restaurant Booking Types for W4nder
+// Restaurant Booking Types for Paint the Town
 
 // ============================================================================
 // Booking Providers

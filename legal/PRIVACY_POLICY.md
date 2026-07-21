@@ -1,12 +1,12 @@
-# W4nder Privacy Policy
+# Paint the Town Privacy Policy
 
 **Last Updated: February 5, 2026**
 
 ## 1. Introduction
 
-W4nder ("we," "our," or "us") operates the W4nder mobile application (the "App"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our App.
+Paint the Town ("we," "our," or "us") operates the Paint the Town mobile application (the "App"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our App.
 
-By using W4nder, you agree to the collection and use of information in accordance with this policy.
+By using Paint the Town, you agree to the collection and use of information in accordance with this policy.
 
 ## 2. Information We Collect
 
@@ -53,7 +53,7 @@ We share your information only in these circumstances:
 - **Group Travel Members:** Shared itinerary details with group members you approve
 - **Service Providers:** With vendors who assist in operating our App (hosting, analytics, customer support)
 - **Legal Requirements:** When required by law, regulation, or legal process
-- **Safety:** To protect the rights, safety, and property of W4nder and our users
+- **Safety:** To protect the rights, safety, and property of Paint the Town and our users
 
 We do **not** sell your personal information to third parties.
 
@@ -97,14 +97,14 @@ Our legal bases for processing include consent, contract performance, and legiti
 
 To exercise your rights or ask questions about this policy:
 
-**Email:** privacy@w4nder.app
-**Mail:** W4nder, [Your Business Address]
+**Email:** simonshih@hotmail.com
+**Mail:** Paint the Town, [Your Business Address]
 
 We will respond to requests within 30 days.
 
 ## 9. Children's Privacy
 
-W4nder is not intended for children under 13. We do not knowingly collect personal information from children under 13. If we learn we have collected such information, we will delete it promptly.
+Paint the Town is not intended for children under 13. We do not knowingly collect personal information from children under 13. If we learn we have collected such information, we will delete it promptly.
 
 ## 10. Changes to This Policy
 

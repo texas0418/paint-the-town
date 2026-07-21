@@ -72,8 +72,8 @@ export default function PartnerSyncSheet({
     if (shareCode) {
       try {
         await Share.share({
-          message: `Join my W4nder date planning! Enter this code: ${shareCode}`,
-          title: 'W4nder Invitation',
+          message: `Join my Paint the Town date planning! Enter this code: ${shareCode}`,
+          title: 'Paint the Town Invitation',
         });
       } catch (error) {
         console.error('Share failed:', error);

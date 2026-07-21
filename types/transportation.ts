@@ -1,4 +1,4 @@
-// Transportation Mode Types for W4nder
+// Transportation Mode Types for Paint the Town
 
 export type TransportationMode = 'car' | 'transit' | 'walking' | 'rideshare' | 'bike';
 

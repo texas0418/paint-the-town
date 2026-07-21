@@ -80,7 +80,7 @@ export default function LoginScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.logo}>W4nder</Text>
+          <Text style={styles.logo}>Paint the Town</Text>
           <Text style={styles.tagline}>Your journey begins here</Text>
         </View>
 

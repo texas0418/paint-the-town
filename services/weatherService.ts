@@ -1,4 +1,4 @@
-// Weather-Aware Service for W4nder
+// Weather-Aware Service for Paint the Town
 // Provides weather forecasts, activity assessments, and smart recommendations
 
 import AsyncStorage from '@react-native-async-storage/async-storage';

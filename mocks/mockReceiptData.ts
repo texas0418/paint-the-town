@@ -1,4 +1,4 @@
-// W4nder Receipt Scanner - Mock Data
+// Paint the Town Receipt Scanner - Mock Data
 
 import { Receipt, ReceiptScannerSettings } from '../types/receipt';
 

@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Mock Data
+// Paint the Town Multi-Currency - Mock Data
 
 import {
   Currency,

@@ -1,4 +1,4 @@
-// W4nder Multi-Currency - Currency Converter Screen
+// Paint the Town Multi-Currency - Currency Converter Screen
 
 import React, { useState, useCallback, useMemo } from 'react';
 import {

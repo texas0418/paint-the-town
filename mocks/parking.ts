@@ -1,5 +1,5 @@
 // ============================================================================
-// Mock Parking Data for W4nder Development
+// Mock Parking Data for Paint the Town Development
 // ============================================================================
 
 import { ParkingLocation, ParkingType, AvailabilityStatus } from '../types/parking';

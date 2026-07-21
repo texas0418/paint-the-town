@@ -1,4 +1,4 @@
-// W4nder Preference Sync - Companion Merge Screen
+// Paint the Town Preference Sync - Companion Merge Screen
 
 import React, { useState, useCallback, useMemo } from 'react';
 import {

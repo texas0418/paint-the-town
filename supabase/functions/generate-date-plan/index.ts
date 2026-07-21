@@ -163,7 +163,7 @@ function buildPrompt(
 ): { system: string; user: string } {
   const profile = (body.profile ?? {}) as Record<string, unknown>;
 
-  const system = `You are W4nder's date planner: an expert local concierge who plans great dates for people who are bad at planning them.
+  const system = `You are Paint the Town's date planner: an expert local concierge who plans great dates for people who are bad at planning them.
 
 Rules:
 - Every venue must be a REAL, currently-operating business or attraction in the requested city. Use web search to find and verify venues (current hours, that they are open, rough prices). Never invent a venue.
@@ -275,7 +275,7 @@ Find ${perCategory * 3} DISTINCT real, currently-operating venues: exactly ${per
     model: 'claude-opus-4-8',
     max_tokens: 8000,
     system:
-      "You are W4nder's venue scout. Only real venues. Do not write prose; the submit_venues tool call is the only output that matters.",
+      "You are Paint the Town's venue scout. Only real venues. Do not write prose; the submit_venues tool call is the only output that matters.",
     thinking: { type: 'adaptive' },
     output_config: { effort: 'low' },
     tools: [
@@ -469,7 +469,7 @@ The replacement must be a REAL, currently-operating venue. Verify with 1-2 quick
     model: 'claude-sonnet-5',
     max_tokens: 6000,
     system:
-      "You are W4nder's date planner swapping one stop. Real venues only. The submit_stop tool call is the only output that matters.",
+      "You are Paint the Town's date planner swapping one stop. Real venues only. The submit_stop tool call is the only output that matters.",
     thinking: { type: 'adaptive' },
     output_config: { effort: 'low' },
     tools: [
@@ -570,7 +570,7 @@ Suggest exactly 3 REAL destinations with genuinely different characters. Unless 
     model: 'claude-opus-4-8',
     max_tokens: 8000,
     system:
-      "You are W4nder's travel matchmaker. Real destinations only, budget-honest estimates. The submit_destinations tool call is the only output that matters.",
+      "You are Paint the Town's travel matchmaker. Real destinations only, budget-honest estimates. The submit_destinations tool call is the only output that matters.",
     thinking: { type: 'adaptive' },
     output_config: { effort: 'low' },
     tools: [
@@ -940,7 +940,7 @@ async function runPlanUnit(
     await sendPush(
       (body.pushToken as string | null) ?? null,
       'Your plans are ready! 🎉',
-      `W4nder finished planning in ${body.city}. Take a look.`
+      `Paint the Town finished planning in ${body.city}. Take a look.`
     );
   }
 }
@@ -1010,7 +1010,7 @@ async function runVacationDay(
     await sendPush(
       (body.pushToken as string | null) ?? null,
       'Your trip is ready! ✈️',
-      `W4nder finished planning your ${totalDays} days in ${city}.`
+      `Paint the Town finished planning your ${totalDays} days in ${city}.`
     );
   }
 }
@@ -1290,7 +1290,7 @@ Deno.serve(async (req: Request) => {
               await sendPush(
                 pushToken,
                 'Your plans are ready! 🎉',
-                `W4nder finished planning in ${body.city}. Take a look.`
+                `Paint the Town finished planning in ${body.city}. Take a look.`
               );
             }
           })

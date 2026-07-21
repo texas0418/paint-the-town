@@ -1,4 +1,4 @@
-// Suggestion Card Component for W4nder
+// Suggestion Card Component for Paint the Town
 import React from 'react';
 import {
   View,

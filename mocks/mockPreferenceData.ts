@@ -1,4 +1,4 @@
-// W4nder Preference Sync - Mock Data
+// Paint the Town Preference Sync - Mock Data
 
 import {
   UserPreferences,

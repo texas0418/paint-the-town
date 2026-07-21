@@ -1,4 +1,4 @@
-// W4nder Preference Sync - Main Dashboard Screen
+// Paint the Town Preference Sync - Main Dashboard Screen
 
 import React, { useState, useCallback, useMemo } from 'react';
 import {
@@ -91,7 +91,7 @@ const PreferenceSyncScreen: React.FC<PreferenceSyncScreenProps> = ({
       try {
         await Share.share({
           message: json,
-          title: 'W4nder Preferences Export',
+          title: 'Paint the Town Preferences Export',
         });
       } catch (error) {
         Alert.alert('Export Failed', 'Unable to share preferences.');

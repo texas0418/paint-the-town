@@ -109,7 +109,7 @@ export default function PartnerScreen() {
               disabled={busy}
               onPress={() =>
                 Share.share({
-                  message: `Link with me on W4nder so our date plans match both of us — my code is ${state.code}. Don't have W4nder yet? https://texas0418.github.io/W4nderApp/`,
+                  message: `Link with me on Paint the Town so our date plans match both of us — my code is ${state.code}. Don't have Paint the Town yet? https://texas0418.github.io/W4nderApp/`,
                 }).catch(() => {})
               }
             >
@@ -117,7 +117,7 @@ export default function PartnerScreen() {
               <Text style={styles.primaryBtnText}>Share code</Text>
             </Pressable>
             <Text style={styles.hint}>
-              Your partner enters this code on their own W4nder account. The code works once.
+              Your partner enters this code on their own Paint the Town account. The code works once.
             </Text>
           </>
         ) : (

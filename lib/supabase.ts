@@ -1,5 +1,5 @@
 /**
- * Supabase Client Configuration for W4nder App
+ * Supabase Client Configuration for Paint the Town App
  * 
  * Setup Instructions:
  * 1. Install: npm install @supabase/supabase-js @react-native-async-storage/async-storage
@@ -69,7 +69,7 @@ export const auth = {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: 'w4nder://auth/callback',
+        redirectTo: 'painthetown://auth/callback',
         skipBrowserRedirect: true,
       },
     });
@@ -105,7 +105,7 @@ export const auth = {
    */
   resetPassword: async (email: string) => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'w4nder://auth/reset-password',
+      redirectTo: 'painthetown://auth/reset-password',
     });
     return { data, error };
   },

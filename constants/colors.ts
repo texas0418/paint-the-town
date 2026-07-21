@@ -1,4 +1,4 @@
-// W4nder theme — midnight blue + warm amber.
+// Paint the Town theme — midnight blue + warm amber.
 // Light and dark palettes share token names so components written against one
 // work in both. Use hooks/useTheme to get the active palette; the default
 // export is the light palette for legacy screens.

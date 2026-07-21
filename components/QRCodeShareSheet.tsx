@@ -1,5 +1,5 @@
 // ============================================================================
-// QRCodeShareSheet Component for W4nder
+// QRCodeShareSheet Component for Paint the Town
 // Full-featured modal for generating and sharing QR codes
 // ============================================================================
 

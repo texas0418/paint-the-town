@@ -749,7 +749,7 @@ export function useExpenseTracker({
     
     // Build deep link
     let url = '';
-    const encodedNote = encodeURIComponent(note || `W4nder: ${itineraryName}`);
+    const encodedNote = encodeURIComponent(note || `Paint the Town: ${itineraryName}`);
     
     switch (method) {
       case 'venmo':

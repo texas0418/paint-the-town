@@ -1,4 +1,4 @@
-// W4nder Receipt Scanner - Receipt Service
+// Paint the Town Receipt Scanner - Receipt Service
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {

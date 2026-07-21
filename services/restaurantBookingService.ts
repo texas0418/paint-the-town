@@ -1,4 +1,4 @@
-// Restaurant Booking Service for W4nder
+// Restaurant Booking Service for Paint the Town
 // Integrates with OpenTable, Resy, and direct booking
 
 import { Alert, Linking, Platform } from 'react-native';

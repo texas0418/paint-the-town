@@ -1,5 +1,5 @@
 // ============================================================================
-// ParkingFinder Screen for W4nder
+// ParkingFinder Screen for Paint the Town
 // Full-featured parking search with map, list, and filters
 // ============================================================================
 

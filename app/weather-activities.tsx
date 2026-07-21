@@ -1,4 +1,4 @@
-// Weather-Aware Activities Screen for W4nder
+// Weather-Aware Activities Screen for Paint the Town
 // Shows activities adjusted based on weather forecast
 
 import React, { useState, useCallback, useMemo } from 'react';
