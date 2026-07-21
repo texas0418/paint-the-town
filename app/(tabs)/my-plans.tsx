@@ -171,7 +171,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: 14,
-    color: colors.accent,
+    color: colors.textOnPrimary,
     marginTop: 4,
   },
   center: {

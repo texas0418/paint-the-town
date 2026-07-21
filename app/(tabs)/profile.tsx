@@ -308,7 +308,7 @@ const createStyles = (colors: ThemeColors) =>
     },
     email: {
       fontSize: 13,
-      color: colors.accent,
+      color: colors.textOnPrimary,
       marginTop: 4,
     },
     body: {

@@ -201,21 +201,19 @@ export default function PlanDateScreen() {
   const [partnerLinked, setPartnerLinked] = useState(false);
 
   useEffect(() => {
-    getTasteProfile()
-      .then((p) => {
-        setProfile(p);
-        if (p.homeCity) setCity(p.homeCity);
-        if (p.dateBudget) setBudget(p.dateBudget);
+    // Load both before merging — resolving the partner first must not be
+    // clobbered by the own-profile load landing second.
+    Promise.all([
+      getTasteProfile(),
+      getPartnerTasteProfile().catch(() => null),
+    ])
+      .then(([mine, partner]) => {
+        setProfile(partner ? mergeTasteProfiles(mine, partner) : mine);
+        setPartnerLinked(!!partner);
+        if (mine.homeCity) setCity(mine.homeCity);
+        if (mine.dateBudget) setBudget(mine.dateBudget);
       })
       .catch((e) => console.error('Failed to load taste profile:', e));
-    // Partner mode: merge the linked partner's tastes so plans suit both.
-    getPartnerTasteProfile()
-      .then((partner) => {
-        if (!partner) return;
-        setPartnerLinked(true);
-        setProfile((mine) => mergeTasteProfiles(mine, partner));
-      })
-      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -1028,7 +1026,7 @@ const createStyles = (colors: ThemeColors) =>
     color: colors.textSecondary,
   },
   modeDescSelected: {
-    color: colors.accent,
+    color: colors.textOnPrimary,
   },
   fieldLabel: {
     fontSize: 15,

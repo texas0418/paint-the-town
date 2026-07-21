@@ -187,7 +187,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   tagline: {
     fontSize: 15,
-    color: colors.accent,
+    color: colors.textOnPrimary,
     marginTop: 4,
     marginBottom: 20,
   },

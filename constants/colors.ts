@@ -12,6 +12,7 @@ export interface ThemeColors {
   secondaryDark: string;
   accent: string;
   accentDark: string;
+  textOnPrimary: string; // secondary text on primary/gradient surfaces — light in BOTH modes
   success: string;
   successLight: string;
   warning: string;
@@ -47,6 +48,7 @@ export const lightColors: ThemeColors = {
 
   accent: '#E3EEF6', // ice blue — icon/selection tint
   accentDark: '#7FA5C0', // dusty steel — "why it matches" notes
+  textOnPrimary: '#D6E4F0',
 
   success: '#3E7C57',
   successLight: '#66A07E',
@@ -90,6 +92,7 @@ export const darkColors: ThemeColors = {
 
   accent: '#1E3242', // deep blue tint — icon/selection bg
   accentDark: '#8FB8D9',
+  textOnPrimary: '#BCD4E8',
 
   success: '#6FA886',
   successLight: '#93C0A4',
