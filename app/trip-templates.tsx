@@ -60,6 +60,7 @@ const getCategoryIcon = (iconName: string, size: number, color: string) => {
   return icons[iconName] || <Sparkles size={size} color={color} />;
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function TripTemplatesScreen() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');

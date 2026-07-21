@@ -21,6 +21,7 @@ interface FavoritePlacesScreenProps {
   route?: { params?: { collectionId?: string } };
 }
 
+// eslint-disable-next-line complexity -- tracked in #1
 const FavoritePlacesScreen: React.FC<FavoritePlacesScreenProps> = ({ navigation, route }) => {
   const collectionId = route?.params?.collectionId;
 

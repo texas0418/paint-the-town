@@ -156,7 +156,7 @@ export function PlansContent({ showBack }: { showBack?: boolean }) {
               <CalendarHeart size={48} color={colors.textTertiary} />
               <Text style={styles.emptyTitle}>No plans yet</Text>
               <Text style={styles.emptyText}>
-                Tell us what you love and we'll plan your next great date.
+                Tell us what you love and we&apos;ll plan your next great date.
               </Text>
               <Pressable style={styles.emptyButton} onPress={() => router.push('/plan-date')}>
                 <Sparkles size={18} color={colors.textLight} />

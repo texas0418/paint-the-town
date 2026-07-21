@@ -241,7 +241,7 @@ export const AddAnniversaryScreen: React.FC<AddAnniversaryScreenProps> = ({
 
           {/* Partner Name (Optional) */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Partner's Name</Text>
+            <Text style={styles.sectionTitle}>Partner&apos;s Name</Text>
             <Text style={styles.sectionSubtitle}>Optional</Text>
             <TextInput
               style={styles.input}

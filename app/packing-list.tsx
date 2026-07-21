@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useCallback, useMemo } from 'react';
 import {
   View,
@@ -134,6 +135,7 @@ const BASE_ELECTRONICS: PackingItem[] = [
   { id: 'el3', name: 'Headphones/Earbuds', quantity: 1, isPacked: false },
 ];
 
+// eslint-disable-next-line complexity -- tracked in #1
 function generatePackingList(
   destination: string,
   startDate: string,
@@ -425,6 +427,7 @@ function getWeatherIcon(weather: WeatherType, size: number = 20) {
   }
 }
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function PackingListScreen() {
   const router = useRouter();
   const [showGenerator, setShowGenerator] = useState(true);

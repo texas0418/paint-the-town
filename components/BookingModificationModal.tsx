@@ -62,6 +62,7 @@ const TIME_SLOTS = [
 // Component
 // ============================================================================
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function BookingModificationModal({
   visible,
   onClose,

@@ -91,6 +91,7 @@ export default function AvailabilityGrid({
     return weeks;
   }, [mutualAvailability, startDate, weeksToShow]);
 
+  // eslint-disable-next-line complexity -- tracked in #1
   const renderDayCell = (day: DayCell) => {
     const hasAvailability = day.availability && day.availability.slots.length > 0;
     const isSelected = selectedSlot?.date === day.date;

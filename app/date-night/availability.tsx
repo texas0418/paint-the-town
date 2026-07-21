@@ -75,6 +75,7 @@ const MOCK_PARTNER: UserAvailability = {
 
 type ViewMode = 'grid' | 'suggestions';
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function AvailabilitySyncScreen() {
   const router = useRouter();
 
@@ -129,7 +130,7 @@ export default function AvailabilitySyncScreen() {
         lastUpdated: new Date().toISOString(),
       }));
 
-      // In a real app, you'd also fetch partner's availability from server
+      // TODO: also fetch partner's availability from the server
       // For now, generate mock partner windows
       const partnerWindows = calculateAvailability(
         [], // Partner has no events for demo
@@ -379,7 +380,7 @@ export default function AvailabilitySyncScreen() {
             </View>
             <Text style={styles.notLinkedTitle}>Connect with Your Partner</Text>
             <Text style={styles.notLinkedText}>
-              Link calendars with your partner to automatically find times when you're both free for
+              Link calendars with your partner to automatically find times when you&apos;re both free for
               date night
             </Text>
             <TouchableOpacity

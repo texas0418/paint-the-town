@@ -93,7 +93,7 @@ export default function CalendarConnectSheet({
   };
 
   const getSourceIcon = (source: string) => {
-    // In a real app, you'd use actual brand icons
+    // TODO: swap generic icons for actual brand icons
     return <Calendar size={20} color={CALENDAR_SOURCE_COLORS[source as keyof typeof CALENDAR_SOURCE_COLORS] || colors.textSecondary} />;
   };
 

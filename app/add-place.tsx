@@ -23,6 +23,7 @@ interface AddPlaceScreenProps {
   route?: { params?: { collectionId?: string; tripId?: string } };
 }
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 const AddPlaceScreen: React.FC<AddPlaceScreenProps> = ({ navigation, route }) => {
   const defaultCollectionId = route?.params?.collectionId;
   const tripId = route?.params?.tripId;

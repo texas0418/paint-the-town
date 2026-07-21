@@ -28,6 +28,7 @@ interface UseMultiCurrencyOptions {
   refreshInterval?: number; // minutes
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export function useMultiCurrency(options: UseMultiCurrencyOptions = {}) {
   const { tripId, autoRefreshRates = false, refreshInterval = 60 } = options;
 

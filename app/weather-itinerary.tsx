@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useCallback, useMemo } from 'react';
 import {
   View,
@@ -419,6 +420,7 @@ const getAlertColor = (severity: WeatherAlertItem['severity']) => {
   }
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function WeatherItineraryScreen() {
   const router = useRouter();
   const { trips } = useApp();

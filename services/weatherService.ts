@@ -235,6 +235,7 @@ class WeatherService {
   // Activity Weather Assessment
   // ============================================================================
 
+  // eslint-disable-next-line complexity -- tracked in #1
   assessActivityWeather(
     activity: WeatherAwareActivity,
     forecast: DailyForecast,

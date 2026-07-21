@@ -106,6 +106,7 @@ const allergyOptions = [
 
 const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function AccessibilityScreen() {
   const router = useRouter();
   const { user, updateUser } = useApp();

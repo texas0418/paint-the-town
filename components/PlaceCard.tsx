@@ -32,6 +32,7 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
   showVisitCount = true,
   showRating = true,
   showCategory = true,
+// eslint-disable-next-line complexity -- tracked in #1
 }) => {
   const getCategoryInfo = (categoryId: string) => {
     return PLACE_CATEGORIES.find(c => c.id === categoryId) || 

@@ -91,7 +91,7 @@ export default function DatePlanScreen() {
           </View>
 
           <View style={styles.categoriesSection}>
-            <Text style={styles.sectionTitle}>What's the vibe?</Text>
+            <Text style={styles.sectionTitle}>What&apos;s the vibe?</Text>
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}

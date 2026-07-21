@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState } from 'react';
 import {
   View,
@@ -156,6 +157,7 @@ const generateItinerary = (
   return days;
 };
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function PlanTripScreen() {
   const router = useRouter();
   const { addTrip } = useApp();

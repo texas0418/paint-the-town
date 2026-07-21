@@ -29,6 +29,7 @@ interface CategoryBudgetScreenProps {
   tripId?: string;
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 const CategoryBudgetScreen: React.FC<CategoryBudgetScreenProps> = ({ navigation, tripId }) => {
   const {
     budget,
@@ -402,7 +403,7 @@ const CategoryBudgetScreen: React.FC<CategoryBudgetScreenProps> = ({ navigation,
                 <View style={styles.emptyState}>
                   <Text style={styles.emptyIcon}>📊</Text>
                   <Text style={styles.emptyTitle}>No budgets set</Text>
-                  <Text style={styles.emptyText}>Tap "Edit" to set budgets for each category</Text>
+                  <Text style={styles.emptyText}>Tap &quot;Edit&quot; to set budgets for each category</Text>
                 </View>
               )}
             </>

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 // ============================================================================
 // ParkingFinder Screen for Paint the Town
 // Full-featured parking search with map, list, and filters
@@ -427,6 +428,7 @@ const FilterSheet: React.FC<FilterSheetProps> = ({
 // Main Component
 // ============================================================================
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function ParkingFinderScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{

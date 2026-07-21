@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 // Weather-Aware Activities Screen for Paint the Town
 // Shows activities adjusted based on weather forecast
 
@@ -68,6 +69,7 @@ const SEVERITY_COLORS = {
   dangerous: '#7F1D1D',
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export const WeatherAwareActivitiesScreen: React.FC<WeatherAwareActivitiesScreenProps> = ({
   navigation,
   route,
@@ -273,6 +275,7 @@ export const WeatherAwareActivitiesScreen: React.FC<WeatherAwareActivitiesScreen
     </View>
   );
 
+  // eslint-disable-next-line complexity -- tracked in #1
   const renderActivityCard = (activity: WeatherAwareActivity) => {
     const suitability = assessActivity(activity, selectedDate);
     const severityColor = suitability ? SEVERITY_COLORS[suitability.severity] : '#6B7280';

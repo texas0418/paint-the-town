@@ -93,6 +93,7 @@ const MOCK_ITINERARY = {
   ],
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function EditItineraryScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
@@ -195,7 +196,7 @@ export default function EditItineraryScreen() {
   );
 
   const handleActivityPress = useCallback((activity: ActivityWithTransport) => {
-    // In a real app, navigate to activity edit screen
+    // TODO: navigate to activity edit screen
     Alert.alert(
       activity.name,
       `Edit "${activity.name}"\n\nStart: ${activity.startTime}\nEnd: ${activity.endTime}\nLocation: ${activity.location.name}`,
@@ -207,7 +208,7 @@ export default function EditItineraryScreen() {
   }, []);
 
   const handleEditTimes = useCallback((activity: ActivityWithTransport) => {
-    // In a real app, show time picker
+    // TODO: show time picker
     Alert.alert(
       'Edit Times',
       'Time picker would appear here to adjust start/end times and resolve conflicts.',

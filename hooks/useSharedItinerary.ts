@@ -36,6 +36,7 @@ interface UseSharedItineraryOptions {
 // Main Hook - For Itinerary Creator
 // ============================================================================
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export function useSharedItinerary({
   itineraryId,
   itinerary,
@@ -103,6 +104,7 @@ export function useSharedItinerary({
       canAddToCalendar?: boolean;
       canSuggestChanges?: boolean;
     };
+  // eslint-disable-next-line complexity -- tracked in #1
   }): Promise<ShareInvite> => {
     const shareCode = generateShareCode();
     const shareUrl = generateShareUrl(shareCode);
@@ -378,6 +380,7 @@ export function useSharedItinerary({
   // Generate Partner View
   // ============================================================================
 
+  // eslint-disable-next-line complexity -- tracked in #1
   const getPartnerView = useMemo((): SharedItineraryView | null => {
     if (!itinerary) return null;
 

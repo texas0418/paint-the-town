@@ -46,6 +46,7 @@ const tripScopeOptions: { value: TripScope; label: string; icon: any; descriptio
   { value: 'international', label: 'International', icon: Plane, description: 'Abroad' },
 ];
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function GeneratePlanScreen() {
   const router = useRouter();
   const {

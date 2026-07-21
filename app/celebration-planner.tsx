@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 // Celebration Planner Screen for Paint the Town
 // Interactive wizard to create personalized celebration plans
 import React, { useState, useCallback, useMemo } from 'react';
@@ -89,6 +90,7 @@ const STORAGE_KEY = '@w4nder/celebration_plans';
 
 type WizardStep = 'budget' | 'preferences' | 'package' | 'ideas' | 'gift' | 'review';
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export const CelebrationPlannerScreen: React.FC<CelebrationPlannerScreenProps> = ({
   navigation,
   route,
@@ -323,7 +325,7 @@ export const CelebrationPlannerScreen: React.FC<CelebrationPlannerScreenProps> =
 
   const renderBudgetStep = () => (
     <View style={styles.stepContent}>
-      <Text style={styles.stepTitle}>What's Your Budget? 💰</Text>
+      <Text style={styles.stepTitle}>What&apos;s Your Budget? 💰</Text>
       <Text style={styles.stepSubtitle}>
         This helps us show you the best options within your comfort zone
       </Text>
@@ -359,7 +361,7 @@ export const CelebrationPlannerScreen: React.FC<CelebrationPlannerScreenProps> =
     <View style={styles.stepContent}>
       <Text style={styles.stepTitle}>What Vibe Are You Going For? ✨</Text>
       <Text style={styles.stepSubtitle}>
-        Select all that apply (or skip if you're open to anything!)
+        Select all that apply (or skip if you&apos;re open to anything!)
       </Text>
 
       <View style={styles.preferencesGrid}>
@@ -567,7 +569,7 @@ export const CelebrationPlannerScreen: React.FC<CelebrationPlannerScreenProps> =
   const renderReviewStep = () => (
     <ScrollView style={styles.stepContent} showsVerticalScrollIndicator={false}>
       <Text style={styles.stepTitle}>Review Your Plan 📋</Text>
-      <Text style={styles.stepSubtitle}>Here's everything you've put together</Text>
+      <Text style={styles.stepSubtitle}>Here&apos;s everything you&apos;ve put together</Text>
 
       <View style={styles.planNameInput}>
         <Text style={styles.inputLabel}>Plan Name</Text>

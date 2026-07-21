@@ -189,7 +189,7 @@ export default function PartnerSyncSheet({
         </View>
 
         <Text style={styles.descriptionText}>
-          Connect with your partner to automatically find times when you're both free
+          Connect with your partner to automatically find times when you&apos;re both free
         </Text>
 
         <TouchableOpacity
@@ -217,7 +217,7 @@ export default function PartnerSyncSheet({
             <UserPlus size={22} color={colors.secondary} />
           </View>
           <View style={styles.optionContent}>
-            <Text style={styles.optionTitle}>Enter Partner's Code</Text>
+            <Text style={styles.optionTitle}>Enter Partner&apos;s Code</Text>
             <Text style={styles.optionDescription}>
               Have a code? Enter it to connect
             </Text>
@@ -295,7 +295,7 @@ export default function PartnerSyncSheet({
         <UserPlus size={48} color={colors.secondary} />
       </View>
 
-      <Text style={styles.enterTitle}>Enter Partner's Code</Text>
+      <Text style={styles.enterTitle}>Enter Partner&apos;s Code</Text>
       <Text style={styles.enterDescription}>
         Enter the 6-character code your partner shared with you
       </Text>

@@ -57,6 +57,7 @@ import {
 
 const { width } = Dimensions.get('window');
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function AnniversaryTrackerScreen() {
   const router = useRouter();
 
@@ -281,7 +282,7 @@ export default function AnniversaryTrackerScreen() {
 
           {/* Partner Name */}
           <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Partner's Name (optional)</Text>
+            <Text style={styles.inputLabel}>Partner&apos;s Name (optional)</Text>
             <TextInput
               style={styles.textInput}
               placeholder="Their name"

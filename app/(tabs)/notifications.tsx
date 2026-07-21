@@ -51,6 +51,7 @@ interface DepartureAlert {
 
 const DEFAULT_LEAD_TIME = 60;
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function NotificationsScreen() {
   const {
     notifications,
@@ -493,7 +494,7 @@ export default function NotificationsScreen() {
                 </View>
                 <Text style={styles.emptyTitle}>No Upcoming Departures</Text>
                 <Text style={styles.emptyMessage}>
-                  When you have bookings or activities scheduled, we'll show you exactly when to
+                  When you have bookings or activities scheduled, we&apos;ll show you exactly when to
                   leave
                 </Text>
               </View>
@@ -510,7 +511,7 @@ export default function NotificationsScreen() {
                 </View>
                 <Text style={styles.emptyTitle}>No Notifications</Text>
                 <Text style={styles.emptyMessage}>
-                  You're all caught up! We'll notify you about important updates
+                  You&apos;re all caught up! We&apos;ll notify you about important updates
                 </Text>
               </View>
             )}

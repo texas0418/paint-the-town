@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState, useMemo, useCallback } from 'react';
 import {
   View,
@@ -702,6 +703,7 @@ const riskLevelConfig = {
   high: { label: 'High Risk', color: colors.error, bgColor: '#FFEBEE' },
 };
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function HealthRequirementsScreen() {
   const router = useRouter();
   const [selectedDestination, setSelectedDestination] = useState<Country | null>(null);

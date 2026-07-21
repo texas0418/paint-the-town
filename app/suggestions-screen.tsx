@@ -97,7 +97,7 @@ export const SuggestionsScreen: React.FC<SuggestionsScreenProps> = ({ navigation
   };
 
   const handleBook = (suggestion: MilestoneSuggestion) => {
-    // In a real app, this would integrate with the booking system
+    // TODO: integrate with the booking system
     // For now, we'll navigate or show booking options
     if (suggestion.bookingUrl) {
       Linking.openURL(suggestion.bookingUrl);
@@ -294,7 +294,7 @@ export const SuggestionsScreen: React.FC<SuggestionsScreenProps> = ({ navigation
               </View>
 
               <View style={styles.modalSection}>
-                <Text style={styles.modalSectionTitle}>Why It's Perfect</Text>
+                <Text style={styles.modalSectionTitle}>Why It&apos;s Perfect</Text>
                 <View style={styles.modalReasons}>
                   {milestone?.traditionalGift && (
                     <View style={styles.reasonItem}>

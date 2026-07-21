@@ -35,6 +35,7 @@ import {
   formatReminderTiming,
 } from '@/types/notifications';
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function NotificationSettingsScreen() {
   const router = useRouter();
   const [preferences, setPreferences] = useState<NotificationPreferences>(
@@ -160,7 +161,7 @@ export default function NotificationSettingsScreen() {
                 <Bell size={18} color={colors.primary} />
                 <Text style={styles.sectionTitle}>Activity Reminders</Text>
               </View>
-              <Text style={styles.sectionDescription}>"Dinner at La Bella in 30 minutes"</Text>
+              <Text style={styles.sectionDescription}>&quot;Dinner at La Bella in 30 minutes&quot;</Text>
 
               <View style={styles.card}>
                 <View style={styles.settingRow}>
@@ -237,7 +238,7 @@ export default function NotificationSettingsScreen() {
                 <Text style={styles.sectionTitle}>Travel Alerts</Text>
               </View>
               <Text style={styles.sectionDescription}>
-                "Leave now to arrive on time" based on traffic
+                &quot;Leave now to arrive on time&quot; based on traffic
               </Text>
 
               <View style={styles.card}>

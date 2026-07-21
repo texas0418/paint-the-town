@@ -29,6 +29,7 @@ export function usePushRegistration() {
     if (!user) return;
     let cancelled = false;
 
+    // eslint-disable-next-line complexity -- tracked in #1
     (async () => {
       try {
         const { status } = await Notifications.requestPermissionsAsync();

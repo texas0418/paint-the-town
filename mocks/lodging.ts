@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { Lodging, LodgingReview, LodgingProvider } from '@/types';
 
 export const lodgingProviders: LodgingProvider[] = [

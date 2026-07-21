@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState, useCallback, useMemo } from 'react';
 import {
   View,
@@ -59,6 +60,7 @@ const getCategoryIcon = (iconName: string, size: number, color: string) => {
   return icons[iconName] || <Sparkles size={size} color={color} />;
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function LocalExperiencesScreen() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');

@@ -58,6 +58,7 @@ const activityIcons: Record<string, typeof Utensils> = {
   activity: Sparkles,
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function TripDetailScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();

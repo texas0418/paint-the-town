@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState } from 'react';
 import {
   View,
@@ -190,6 +191,7 @@ const creditCardPrograms: ProgramTemplate[] = [
 
 type TabType = 'all' | 'airline' | 'hotel' | 'creditCard';
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function LoyaltyProgramsScreen() {
   const router = useRouter();
   const { user, addLoyaltyProgram, updateLoyaltyProgram, removeLoyaltyProgram } = useApp();

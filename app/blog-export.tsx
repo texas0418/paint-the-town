@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useMemo } from 'react';
 import {
   View,
@@ -176,6 +177,7 @@ const SAMPLE_ENTRIES: PhotoJournalEntry[] = [
 
 type Step = 'select' | 'customize' | 'preview';
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function BlogExportScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();

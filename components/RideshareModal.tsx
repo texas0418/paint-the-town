@@ -190,7 +190,7 @@ export default function RideshareModal({
           </View>
 
           <Text style={styles.disclaimer}>
-            You'll be redirected to the app to complete your booking
+            You&apos;ll be redirected to the app to complete your booking
           </Text>
         </View>
       </View>

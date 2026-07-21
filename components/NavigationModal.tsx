@@ -47,6 +47,7 @@ interface RouteInfo {
   coordinates: { latitude: number; longitude: number }[];
 }
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function NavigationModal({
   visible,
   onClose,

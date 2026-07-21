@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 // Milestone Detail Screen for Paint the Town
 // Showcases special suggestions and celebration ideas for milestone anniversaries
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
@@ -61,6 +62,7 @@ const PRICE_EMOJI: Record<PriceRange, string> = {
   $$$$$: '💎',
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export const MilestoneDetailScreen: React.FC<MilestoneDetailScreenProps> = ({
   navigation,
   route,
@@ -532,7 +534,7 @@ export const MilestoneDetailScreen: React.FC<MilestoneDetailScreenProps> = ({
             </View>
 
             <View style={styles.modalSection}>
-              <Text style={styles.modalSectionTitle}>What's Included</Text>
+              <Text style={styles.modalSectionTitle}>What&apos;s Included</Text>
               {selectedPackage.includes.map((item, index) => (
                 <View key={index} style={styles.inclusionItem}>
                   <View style={styles.inclusionIcon}>

@@ -33,6 +33,7 @@ const ReceiptCard: React.FC<ReceiptCardProps> = ({
   onPress,
   onLongPress,
   compact = false,
+// eslint-disable-next-line complexity -- tracked in #1
 }) => {
   const statusConfig = STATUS_CONFIG[receipt.status];
   const categoryInfo = EXPENSE_CATEGORIES.find(

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState, useCallback, useRef } from 'react';
 import {
   View,
@@ -42,6 +43,7 @@ import { Destination, BucketListItem } from '@/types';
 type FilterType = 'all' | 'wishlist' | 'visited';
 type PriorityType = 'high' | 'medium' | 'low';
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function BucketListScreen() {
   const router = useRouter();
   const {
@@ -413,7 +415,7 @@ export default function BucketListScreen() {
                 <Check size={48} color={colors.success} />
                 <Text style={styles.emptyModalTitle}>All Added!</Text>
                 <Text style={styles.emptyModalSubtitle}>
-                  You've added all available destinations to your bucket list
+                  You&apos;ve added all available destinations to your bucket list
                 </Text>
               </View>
             )}

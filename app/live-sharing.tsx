@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import {
   View,
@@ -144,6 +145,7 @@ const MOCK_LOCATION_HISTORY: LocationUpdate[] = [
   },
 ];
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function LiveSharingScreen() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>('sharing');
@@ -372,6 +374,7 @@ export default function LiveSharingScreen() {
     return formatDate(timestamp);
   };
 
+  // eslint-disable-next-line complexity -- tracked in #1
   const renderSharingTab = () => (
     <View style={styles.tabContent}>
       <View style={styles.statusCard}>

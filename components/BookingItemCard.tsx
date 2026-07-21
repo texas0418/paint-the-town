@@ -74,6 +74,7 @@ const CATEGORY_ICONS: Record<BookingCategory, React.ComponentType<any>> = {
   other: Calendar,
 };
 
+// eslint-disable-next-line complexity -- tracked in #1
 export default function BookingItemCard({
   request,
   result,

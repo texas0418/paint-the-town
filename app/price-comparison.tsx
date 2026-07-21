@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useCallback, useRef, useEffect } from 'react';
 import {
   View,
@@ -354,6 +355,7 @@ const mockHotelResults: HotelResult[] = [
 type SearchType = 'flights' | 'hotels';
 type SortOption = 'price_low' | 'price_high' | 'rating' | 'duration' | 'departure';
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function PriceComparisonScreen() {
   const router = useRouter();
   const [searchType, setSearchType] = useState<SearchType>('flights');

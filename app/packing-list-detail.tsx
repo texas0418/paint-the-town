@@ -79,6 +79,7 @@ const CATEGORY_ITEMS: Record<string, { icon: string; items: string[] }> = {
   },
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export const PackingListScreen: React.FC<PackingListScreenProps> = ({ navigation, route }) => {
   const location = route?.params?.location || { city: 'Barcelona', country: 'Spain' };
   const tripDates = route?.params?.tripDates;

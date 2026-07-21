@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState } from 'react';
 import {
   View,
@@ -94,6 +95,7 @@ const emptyActivity: ActivityFormData = {
   notes: '',
 };
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function BuildItineraryScreen() {
   const router = useRouter();
   const { partners, createItinerary, setCurrentItinerary } = useDateNight();

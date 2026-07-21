@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   View,
@@ -95,6 +96,7 @@ const statusLabels: Record<DatePlan['status'], string> = {
   cancelled: 'Cancelled',
 };
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function SavedPlanScreen() {
   const router = useRouter();
   const { colors } = useTheme();
@@ -459,6 +461,7 @@ export default function SavedPlanScreen() {
             </View>
           </View>
 
+          {/* eslint-disable-next-line complexity -- tracked in #1 */}
           {(editing ? draft : plan.stops).map((stop, si) => {
             const stopsList = editing ? draft : plan.stops;
             const CategoryIcon = categoryIcons[stop.category] ?? MapPinIcon;
@@ -705,7 +708,7 @@ export default function SavedPlanScreen() {
               <Pressable style={styles.journalAction} onPress={startEditing}>
                 <Pencil size={16} color={colors.primaryLight} />
                 <Text style={styles.journalActionText}>
-                  Edit times & order — or just tap any stop's time
+                  Edit times & order — or just tap any stop&apos;s time
                 </Text>
               </Pressable>
             )}
@@ -761,6 +764,7 @@ export default function SavedPlanScreen() {
   );
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
   container: {

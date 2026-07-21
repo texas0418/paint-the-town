@@ -567,7 +567,7 @@ export default function SurpriseTripScreen() {
           <View style={styles.introSection}>
             <Text style={styles.introTitle}>Where do you want to explore?</Text>
             <Text style={styles.introText}>
-              Choose your travel scope and we'll create personalized trip options based on your
+              Choose your travel scope and we&apos;ll create personalized trip options based on your
               preferences and budget.
             </Text>
           </View>
@@ -619,7 +619,7 @@ export default function SurpriseTripScreen() {
           <View style={styles.noteSection}>
             <Sparkles size={18} color={colors.secondaryDark} />
             <Text style={styles.noteText}>
-              We'll generate 5 unique trip options tailored to your budget and travel style. Pick
+              We&apos;ll generate 5 unique trip options tailored to your budget and travel style. Pick
               your favorite and start planning!
             </Text>
           </View>

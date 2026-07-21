@@ -5,6 +5,7 @@
 
 import { AppState, AppStateStatus, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// eslint-disable-next-line import/no-unresolved -- tracked in #3
 import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
 import {
   ConnectionStatus,

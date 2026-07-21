@@ -50,6 +50,7 @@ interface DownloadProgress {
 
 const OFFLINE_STORAGE_KEY = 'w4nder_offline_trips';
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function OfflineModeScreen() {
   const router = useRouter();
   const { trips } = useApp();
@@ -219,6 +220,7 @@ export default function OfflineModeScreen() {
     })
     .filter((item) => item.trip);
 
+  // eslint-disable-next-line complexity -- tracked in #1
   const renderTripCard = (trip: Trip, isDownloaded: boolean, offlineData?: OfflineTrip) => {
     const isDownloading =
       downloadProgress?.tripId === trip.id && downloadProgress.status === 'downloading';
@@ -418,7 +420,7 @@ export default function OfflineModeScreen() {
           )}
 
           <View style={styles.infoSection}>
-            <Text style={styles.infoTitle}>What's included in offline mode?</Text>
+            <Text style={styles.infoTitle}>What&apos;s included in offline mode?</Text>
             <View style={styles.infoItem}>
               <View style={styles.infoIcon}>
                 <FileText size={18} color={colors.primary} />

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 // Activity Adjustment Screen for Paint the Town
 // Shows detailed weather impacts on a specific activity with smart adjustments and alternatives
 
@@ -80,9 +81,11 @@ const PRIORITY_COLORS = {
   optional: '#3B82F6',
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export const ActivityAdjustmentScreen: React.FC<ActivityAdjustmentScreenProps> = ({
   navigation,
   route,
+// eslint-disable-next-line complexity -- tracked in #1
 }) => {
   const activityId = route?.params?.activityId;
   const selectedDate = route?.params?.date || new Date().toISOString().split('T')[0];
@@ -382,7 +385,7 @@ export const ActivityAdjustmentScreen: React.FC<ActivityAdjustmentScreenProps> =
         </View>
 
         <Text style={styles.sectionSubtitle}>
-          If weather doesn't cooperate, try these similar experiences
+          If weather doesn&apos;t cooperate, try these similar experiences
         </Text>
 
         {alternatives.slice(0, 2).map((alt, index) => (

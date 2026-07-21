@@ -333,7 +333,7 @@ class NotificationService {
   }
 
   private async checkTrafficAndNotify(alert: TravelAlert) {
-    // In a real app, this would call a traffic API (Google Maps, TomTom, etc.)
+    // TODO: call a traffic API (Google Maps, TomTom, etc.)
     // For now, simulate traffic conditions
     const trafficData = await this.fetchTrafficData(alert);
 
@@ -483,7 +483,7 @@ class NotificationService {
       sentAt: new Date(),
     };
 
-    // In a real app, this would send to your backend which would then
+    // TODO: send to the backend, which would then
     // send a push notification to the partner's device
     await this.sendToPartnerDevice(partnerNotification);
 

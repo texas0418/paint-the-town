@@ -133,6 +133,7 @@ export function detectTimeConflicts(
   });
 
   // Check each activity
+  // eslint-disable-next-line complexity -- tracked in #1
   sortedActivities.forEach((activity, index) => {
     const startMinutes = parseTimeToMinutes(activity.startTime);
     const endMinutes = parseTimeToMinutes(activity.endTime);

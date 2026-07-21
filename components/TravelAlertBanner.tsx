@@ -45,6 +45,7 @@ const TRAFFIC_COLORS = {
   severe: colors.error,
 };
 
+// eslint-disable-next-line complexity -- tracked in #1
 export default function TravelAlertBanner({
   alert,
   onDismiss,

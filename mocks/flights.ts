@@ -65,6 +65,7 @@ const SEA = makeAirport('SEA', 'Seattle-Tacoma International', 'Seattle', 'US');
 const AUS = makeAirport('AUS', 'Austin-Bergstrom International', 'Austin', 'US');
 
 // Helper to generate mock flight results for any city pair
+// eslint-disable-next-line complexity -- tracked in #1
 export function generateMockFlights(
   origin: Airport,
   destination: Airport,

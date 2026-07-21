@@ -40,6 +40,7 @@ interface TicketViewerProps {
   initialTicketIndex?: number;
 }
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function TicketViewer({
   visible,
   onClose,

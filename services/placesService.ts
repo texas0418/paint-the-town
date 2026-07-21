@@ -446,6 +446,7 @@ class PlacesService {
   // FILTERING & SORTING
   // ============================================================================
 
+  // eslint-disable-next-line complexity -- tracked in #1
   async filterPlaces(filters: PlaceFilters): Promise<FavoritePlace[]> {
     let places = await this.getPlaces();
 

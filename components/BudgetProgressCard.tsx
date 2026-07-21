@@ -51,6 +51,7 @@ const BudgetProgressCard: React.FC<BudgetProgressCardProps> = ({
   compact = false,
   formatAmount,
   onPress,
+// eslint-disable-next-line complexity -- tracked in #1
 }) => {
   // Get category info if category is provided
   const catInfo = category

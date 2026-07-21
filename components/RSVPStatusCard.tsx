@@ -52,6 +52,7 @@ interface RSVPStatusCardProps {
   compact?: boolean;
 }
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function RSVPStatusCard({
   itineraryId,
   itinerary,
@@ -236,7 +237,7 @@ export default function RSVPStatusCard({
 
               {/* What's Included */}
               <View style={styles.includedSection}>
-                <Text style={styles.inputLabel}>What's included in the invite</Text>
+                <Text style={styles.inputLabel}>What&apos;s included in the invite</Text>
                 <View style={styles.includedList}>
                   <View style={styles.includedItem}>
                     <Check size={16} color={colors.success} />
@@ -385,7 +386,7 @@ export default function RSVPStatusCard({
                     <Text style={styles.detailLabel}>Their message</Text>
                     <View style={styles.noteCard}>
                       <MessageSquare size={16} color={colors.primary} />
-                      <Text style={styles.noteText}>"{rsvp.personalNote}"</Text>
+                      <Text style={styles.noteText}>&quot;{rsvp.personalNote}&quot;</Text>
                     </View>
                   </View>
                 )}

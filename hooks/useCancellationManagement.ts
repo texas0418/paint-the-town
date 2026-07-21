@@ -319,6 +319,7 @@ export function useCancellationManagement({
   // Modify booking
   const modifyBooking = useCallback(async (
     request: Omit<ModificationRequest, 'bookingId'>
+  // eslint-disable-next-line complexity -- tracked in #1
   ): Promise<ModificationResult> => {
     setIsProcessing(true);
     setError(null);

@@ -29,6 +29,7 @@ export const occasions = [
 ];
 
 // Transform database row to app's Restaurant type
+// eslint-disable-next-line complexity -- tracked in #1
 const transformRestaurant = (row: any): Restaurant => ({
   id: row.id,
   name: row.name,

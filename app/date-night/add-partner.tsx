@@ -98,6 +98,7 @@ const budgetOptions: { value: BudgetTier; label: string }[] = [
   { value: '$$$$', label: '$$$$' },
 ];
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function AddPartnerScreen() {
   const router = useRouter();
   const { addPartner, setSelectedPartner } = useDateNight();
@@ -129,7 +130,7 @@ export default function AddPartnerScreen() {
       Alert.alert('Enter Email', "Please enter your partner's email address.");
       return;
     }
-    // In a real app, this would send an invite
+    // TODO: send an invite
     Alert.alert(
       'Invite Sent!',
       `An invitation has been sent to ${linkEmail}. They'll need to accept it to link accounts.`,
@@ -202,13 +203,13 @@ export default function AddPartnerScreen() {
         </View>
         <Text style={styles.linkTitle}>Link Partner Account</Text>
         <Text style={styles.linkDescription}>
-          Enter your partner's email to send them an invite. Once they accept, their preferences
+          Enter your partner&apos;s email to send them an invite. Once they accept, their preferences
           will sync automatically.
         </Text>
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Partner's Email</Text>
+        <Text style={styles.inputLabel}>Partner&apos;s Email</Text>
         <TextInput
           style={styles.input}
           value={linkEmail}
@@ -229,7 +230,7 @@ export default function AddPartnerScreen() {
   const renderManualFormStep1 = () => (
     <View style={styles.formContainer}>
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Partner's Name</Text>
+        <Text style={styles.inputLabel}>Partner&apos;s Name</Text>
         <TextInput
           style={styles.input}
           value={partnerName}

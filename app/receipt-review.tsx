@@ -22,10 +22,12 @@ interface ReceiptReviewScreenProps {
   onImport?: (expenseData: any) => Promise<string>;
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 const ReceiptReviewScreen: React.FC<ReceiptReviewScreenProps> = ({
   navigation,
   route,
   onImport,
+// eslint-disable-next-line complexity -- tracked in #1
 }) => {
   const receiptId = route?.params?.receiptId;
 

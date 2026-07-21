@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 // app/(tabs)/trips.tsx
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import {
@@ -116,6 +117,7 @@ const bookingTypeColors: Record<string, string> = {
   other: colors.textSecondary,
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function TripsScreen() {
   const router = useRouter();
   const { itineraries: dateNightItineraries } = useDateNight();

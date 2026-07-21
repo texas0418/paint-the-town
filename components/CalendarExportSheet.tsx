@@ -127,6 +127,7 @@ const OptionToggle: React.FC<OptionToggleProps> = ({
 
 type ExportStep = 'calendar' | 'options' | 'exporting' | 'complete' | 'error';
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export const CalendarExportSheet: React.FC<CalendarExportSheetProps> = ({
   visible,
   onClose,

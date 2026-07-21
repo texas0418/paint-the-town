@@ -147,6 +147,7 @@ export const QRCodeShareSheet: React.FC<QRCodeShareSheetProps> = ({
   url,
   onShare,
   displayOptions,
+// eslint-disable-next-line complexity -- tracked in #1
 }) => {
   const {
     qrCode,
@@ -407,7 +408,7 @@ export const QRCodeShareSheet: React.FC<QRCodeShareSheetProps> = ({
             {/* Footer */}
             <View style={styles.footer}>
               <Text style={styles.footerText}>
-                Share this QR code with anyone. They can scan it with their phone's camera to open the link.
+                Share this QR code with anyone. They can scan it with their phone&apos;s camera to open the link.
               </Text>
             </View>
           </ScrollView>

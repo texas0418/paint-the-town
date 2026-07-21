@@ -44,6 +44,7 @@ import { SharedViewActivity, TeaseLevel } from '@/types/sharing';
 
 const { width } = Dimensions.get('window');
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function SharedViewScreen() {
   const router = useRouter();
   const { code } = useLocalSearchParams<{ code?: string }>();
@@ -196,6 +197,7 @@ export default function SharedViewScreen() {
   // Render Activity Card
   // ============================================================================
 
+  // eslint-disable-next-line complexity -- tracked in #1
   const renderActivityCard = (activity: SharedViewActivity, index: number) => {
     const isSurprise = activity.isSurprise;
 

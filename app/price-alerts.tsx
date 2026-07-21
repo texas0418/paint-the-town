@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useCallback, useRef, useEffect } from 'react';
 import {
   View,
@@ -222,6 +223,7 @@ const mockNotifications: PriceNotification[] = [
 type FilterType = 'all' | 'flights' | 'hotels' | 'dropped';
 type TabType = 'alerts' | 'notifications';
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function PriceAlertsScreen() {
   const router = useRouter();
   const [alerts, setAlerts] = useState<PriceAlert[]>(mockAlerts);
