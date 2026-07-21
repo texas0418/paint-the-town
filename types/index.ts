@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 export interface TravelPreference {
   id: string;
   name: string;

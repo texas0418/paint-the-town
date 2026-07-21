@@ -276,7 +276,7 @@ export default function EmergencyScreen() {
               <View style={styles.tipItem}>
                 <View style={styles.tipBullet} />
                 <Text style={styles.tipText}>
-                  Register with your country's travel advisory service
+                  Register with your country&apos;s travel advisory service
                 </Text>
               </View>
             </View>

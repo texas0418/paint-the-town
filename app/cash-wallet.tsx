@@ -18,6 +18,7 @@ interface CashWalletScreenProps {
   navigation?: any;
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 const CashWalletScreen: React.FC<CashWalletScreenProps> = ({ navigation }) => {
   const {
     cashWallet,
@@ -163,6 +164,7 @@ const CashWalletScreen: React.FC<CashWalletScreenProps> = ({ navigation }) => {
     );
   };
 
+  // eslint-disable-next-line complexity -- tracked in #1
   const renderModal = () => (
     <View style={styles.modalOverlay}>
       <View style={styles.modalContainer}>

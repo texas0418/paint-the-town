@@ -256,7 +256,7 @@ export default function BudgetTrackerScreen() {
             <Text style={styles.sectionTitle}>Budget Tips</Text>
             <View style={styles.tipCard}>
               <Text style={styles.tipText}>
-                💡 You're spending most on{' '}
+                💡 You&apos;re spending most on{' '}
                 <Text style={styles.tipHighlight}>
                   {Object.entries(expensesByCategory).sort((a, b) => b[1] - a[1])[0]?.[0] || 'food'}
                 </Text>

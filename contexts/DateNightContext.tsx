@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import {
   DatePreferences,

@@ -49,6 +49,7 @@ import {
 
 const { width } = Dimensions.get('window');
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function RSVPResponseScreen() {
   const router = useRouter();
   const { code } = useLocalSearchParams<{ code?: string }>();
@@ -231,13 +232,13 @@ export default function RSVPResponseScreen() {
                 <Heart size={36} color="#fff" fill="#fff" />
               </View>
 
-              <Text style={styles.heroLabel}>You're Invited!</Text>
+              <Text style={styles.heroLabel}>You&apos;re Invited!</Text>
               <Text style={styles.heroTitle}>{invite.itineraryName}</Text>
 
               {invite.personalMessage && (
                 <View style={styles.messageCard}>
                   <MessageSquare size={16} color="rgba(255,255,255,0.8)" />
-                  <Text style={styles.messageText}>"{invite.personalMessage}"</Text>
+                  <Text style={styles.messageText}>&quot;{invite.personalMessage}&quot;</Text>
                 </View>
               )}
             </View>
@@ -285,7 +286,7 @@ export default function RSVPResponseScreen() {
               <Sparkles size={20} color={colors.primary} />
             </View>
             <View style={styles.detailInfo}>
-              <Text style={styles.detailLabel}>What's Planned</Text>
+              <Text style={styles.detailLabel}>What&apos;s Planned</Text>
               <Text style={styles.detailValue}>
                 {invite.activityCount} activities
                 {invite.surpriseCount > 0 &&
@@ -509,7 +510,7 @@ export default function RSVPResponseScreen() {
             {/* Maybe Form */}
             {responseType === 'tentative' && (
               <View style={styles.formSection}>
-                <Text style={styles.formLabel}>What's uncertain?</Text>
+                <Text style={styles.formLabel}>What&apos;s uncertain?</Text>
                 <TextInput
                   style={styles.textInput}
                   placeholder="e.g., Waiting to confirm work schedule..."

@@ -55,6 +55,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   onPress,
   onLongPress,
   showTravelToNext = true,
+// eslint-disable-next-line complexity -- tracked in #1
 }) => {
   const formatTime = (isoString: string): string => {
     const date = new Date(isoString);

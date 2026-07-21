@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useCallback, useMemo } from 'react';
 import {
   View,
@@ -256,6 +257,7 @@ const emergencyNumbers = [
   { name: 'Tourist Help', number: '03-3501-0110', icon: Globe, color: colors.success },
 ];
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function NearbyServicesScreen() {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>('all');

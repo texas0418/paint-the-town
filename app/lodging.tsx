@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useCallback, useMemo } from 'react';
 import {
   View,
@@ -74,6 +75,7 @@ const AMENITY_ICONS: Record<string, typeof Wifi> = {
 
 const PROVIDERS = ['All', ...lodgingProviders.map((p) => p.name)];
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function LodgingScreen() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');

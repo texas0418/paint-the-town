@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState, useMemo, useCallback } from 'react';
 import {
   View,
@@ -81,6 +82,7 @@ const countries: Country[] = [
   { code: 'PT', name: 'Portugal', flag: '🇵🇹' },
 ];
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 const getVisaRequirements = (passportCode: string): VisaRequirement[] => {
   const baseRequirements: VisaRequirement[] = [
     {
@@ -478,6 +480,7 @@ const visaTypeConfig = {
   },
 };
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function VisaRequirementsScreen() {
   const router = useRouter();
   const [selectedPassport, setSelectedPassport] = useState<Country | null>(null);

@@ -75,6 +75,7 @@ const GOAL_TEMPLATES = [
 // Main Component
 // ============================================================================
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function SavingsGoalsScreen() {
   const router = useRouter();
 
@@ -414,7 +415,7 @@ export default function SavingsGoalsScreen() {
       <View style={styles.contributeOverlay}>
         <View style={styles.contributeSheet}>
           <View style={styles.contributeHeader}>
-            <Text style={styles.contributeTitle}>Add to "{selectedGoal?.name}"</Text>
+            <Text style={styles.contributeTitle}>Add to &quot;{selectedGoal?.name}&quot;</Text>
             <Pressable onPress={() => setShowContributeModal(false)}>
               <X size={24} color={colors.text} />
             </Pressable>

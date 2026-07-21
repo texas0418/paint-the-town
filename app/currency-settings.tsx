@@ -53,7 +53,7 @@ const CurrencySettingsScreen: React.FC<CurrencySettingsScreenProps> = ({ navigat
           text: 'Clear',
           style: 'destructive',
           onPress: async () => {
-            // In a real app, this would clear AsyncStorage
+            // TODO: clear AsyncStorage here
             Alert.alert('Data Cleared', 'All currency data has been removed.');
           },
         },

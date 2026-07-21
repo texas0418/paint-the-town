@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   View,
@@ -59,6 +60,7 @@ const LANDMARK_TYPE_ICONS: Record<LandmarkType, string> = {
   gate: '🚪',
 };
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function ARCityGuideScreen() {
   const router = useRouter();
   const [permission, requestPermission] = useCameraPermissions();
@@ -171,6 +173,7 @@ export default function ARCityGuideScreen() {
     return `${distance.toFixed(1)}km`;
   };
 
+  // eslint-disable-next-line complexity -- tracked in #1
   const getDirectionText = (bearing?: number) => {
     if (bearing === undefined) return '';
     if (bearing >= 337.5 || bearing < 22.5) return 'N';

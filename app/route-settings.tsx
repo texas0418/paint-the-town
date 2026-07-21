@@ -26,6 +26,7 @@ const DEFAULT_CONSTRAINTS: OptimizationConstraints = {
   dinnerWindow: { start: '18:00', end: '20:00' },
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 const RouteSettingsScreen: React.FC<RouteSettingsScreenProps> = ({
   navigation,
   transportPreferences = DEFAULT_PREFS,

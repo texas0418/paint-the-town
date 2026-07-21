@@ -22,6 +22,7 @@ interface UseFavoritePlacesOptions {
   autoLoadLocation?: boolean;
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export function useFavoritePlaces(options: UseFavoritePlacesOptions = {}) {
   const { collectionId, autoLoadLocation = false } = options;
 

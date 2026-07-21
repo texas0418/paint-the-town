@@ -89,6 +89,7 @@ export const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({
   onCopy,
   onSave,
   loading: externalLoading,
+// eslint-disable-next-line complexity -- tracked in #1
 }) => {
   const {
     qrCode,

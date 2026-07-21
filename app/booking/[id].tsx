@@ -66,6 +66,7 @@ const bookingTypeLabels: Record<string, string> = {
 // Main Component
 // ============================================================================
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function BookingDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
@@ -534,7 +535,7 @@ export default function BookingDetailsScreen() {
               <XCircle size={32} color={colors.error} />
               <Text style={styles.cancelledTitle}>Booking Cancelled</Text>
               <Text style={styles.cancelledDescription}>
-                This booking has been cancelled. If you're expecting a refund, it will be processed
+                This booking has been cancelled. If you&apos;re expecting a refund, it will be processed
                 within 5-7 business days.
               </Text>
               <Pressable style={styles.rebookButton} onPress={() => router.push('/plan-trip')}>

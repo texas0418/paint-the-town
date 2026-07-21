@@ -67,6 +67,7 @@ export default function ConflictIndicator({
   const primaryColor = getSeverityColor(primarySeverity);
 
   // Pulse animation for errors
+  // eslint-disable-next-line react-hooks/rules-of-hooks -- tracked in #2
   useEffect(() => {
     if (hasError) {
       Animated.loop(

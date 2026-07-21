@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useMemo } from 'react';
 import {
   View,
@@ -143,6 +144,7 @@ const SAMPLE_ENTRIES: PhotoJournalEntry[] = [
 
 type ViewMode = 'timeline' | 'grid' | 'map';
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function PhotoJournalScreen() {
   const router = useRouter();
   const { trips } = useApp();

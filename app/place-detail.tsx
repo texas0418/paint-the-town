@@ -22,6 +22,7 @@ interface PlaceDetailScreenProps {
   route?: { params?: { placeId?: string } };
 }
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 const PlaceDetailScreen: React.FC<PlaceDetailScreenProps> = ({ navigation, route }) => {
   const placeId = route?.params?.placeId;
 

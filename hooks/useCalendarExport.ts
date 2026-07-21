@@ -5,6 +5,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { Alert, Platform, Share } from 'react-native';
+// eslint-disable-next-line import/no-unresolved -- tracked in #3
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import {
@@ -83,6 +84,7 @@ interface UseCalendarExportReturn extends UseCalendarExportState {
 // Hook Implementation
 // ============================================================================
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export function useCalendarExport(): UseCalendarExportReturn {
   // ─────────────────────────────────────────────────────────────────────────
   // State

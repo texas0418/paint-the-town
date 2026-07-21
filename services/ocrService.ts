@@ -540,6 +540,7 @@ class OCRService {
     return items;
   }
 
+  // eslint-disable-next-line complexity -- tracked in #1
   private detectPaymentMethod(text: string): ReceiptExtractionResult['paymentMethod'] {
     const lowerText = text.toLowerCase();
 

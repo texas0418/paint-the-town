@@ -50,6 +50,7 @@ interface CancellationConfirmationSheetProps {
 // Component
 // ============================================================================
 
+// eslint-disable-next-line complexity -- tracked in #1
 export default function CancellationConfirmationSheet({
   visible,
   onClose,

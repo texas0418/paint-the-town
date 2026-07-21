@@ -112,6 +112,7 @@ const STRENGTH_OPTIONS: PreferenceStrength[] = [
   'neutral',
 ];
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 const PreferenceEditorScreen: React.FC<PreferenceEditorScreenProps> = ({
   navigation,
   route,

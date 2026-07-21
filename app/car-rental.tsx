@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useCallback, useMemo } from 'react';
 import {
   View,
@@ -63,6 +64,7 @@ const CAR_CATEGORIES: { id: CarCategory; label: string; icon: typeof Car }[] = [
 
 const PROVIDERS = ['All', ...carRentalProviders.map((p) => p.name)];
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function CarRentalScreen() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
@@ -693,7 +695,7 @@ export default function CarRentalScreen() {
                 <Text style={styles.insuranceName}>No Protection</Text>
                 <Text style={styles.insurancePrice}>$0/day</Text>
               </View>
-              <Text style={styles.insuranceDescription}>I'll take the risk - not recommended</Text>
+              <Text style={styles.insuranceDescription}>I&apos;ll take the risk - not recommended</Text>
               <View style={[styles.radioButton, !selectedInsurance && styles.radioButtonSelected]}>
                 {!selectedInsurance && <Check size={14} color={colors.textLight} />}
               </View>

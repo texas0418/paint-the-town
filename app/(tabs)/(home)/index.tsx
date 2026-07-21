@@ -56,7 +56,7 @@ export default function HomeScreen() {
               <Text style={styles.greeting}>
                 {greeting()}, {firstName}
               </Text>
-              <Text style={styles.tagline}>Bad at planning dates? That's our job.</Text>
+              <Text style={styles.tagline}>Bad at planning dates? That&apos;s our job.</Text>
 
               <Pressable
                 style={styles.heroCard}
@@ -130,7 +130,7 @@ export default function HomeScreen() {
             <View style={styles.emptyCard}>
               <Heart size={28} color={colors.textTertiary} />
               <Text style={styles.emptyText}>
-                No plans yet. Tap "Plan it for me" and pick from 3 ready-made dates.
+                No plans yet. Tap &quot;Plan it for me&quot; and pick from 3 ready-made dates.
               </Text>
             </View>
           ) : (

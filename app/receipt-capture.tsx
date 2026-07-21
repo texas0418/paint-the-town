@@ -159,7 +159,7 @@ const ReceiptCaptureScreen: React.FC<ReceiptCaptureScreenProps> = ({
           <Text style={styles.instructionsIcon}>📸</Text>
           <Text style={styles.instructionsTitle}>Capture your receipt</Text>
           <Text style={styles.instructionsText}>
-            Take a clear photo of your receipt and we'll automatically extract the merchant, date,
+            Take a clear photo of your receipt and we&apos;ll automatically extract the merchant, date,
             amount, and more.
           </Text>
         </View>

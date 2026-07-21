@@ -3,7 +3,9 @@
 // ============================================================================
 
 import { Share, Alert, Platform } from 'react-native';
+// eslint-disable-next-line import/no-unresolved -- tracked in #3
 import * as FileSystem from 'expo-file-system';
+// eslint-disable-next-line import/no-unresolved -- tracked in #3
 import * as MediaLibrary from 'expo-media-library';
 import * as Sharing from 'expo-sharing';
 import * as Clipboard from 'expo-clipboard';
@@ -180,6 +182,7 @@ function generateCustomQRValue(payload: CustomSharePayload): string {
 /**
  * Generate a vCard string from contact data
  */
+// eslint-disable-next-line complexity -- tracked in #1
 export function generateVCard(data: VCardData): string {
   const lines: string[] = [
     'BEGIN:VCARD',

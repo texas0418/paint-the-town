@@ -58,6 +58,7 @@ const TEASE_LEVELS: { id: TeaseLevel; label: string; description: string }[] = [
   { id: 'neighborhood', label: 'Neighborhood', description: 'Shows general area' },
 ];
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function ShareSettings({
   visible,
   onClose,

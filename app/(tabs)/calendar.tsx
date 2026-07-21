@@ -58,6 +58,7 @@ interface CalendarDay {
   itineraries: GenericItinerary[];
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function CalendarScreen() {
   const router = useRouter();
 

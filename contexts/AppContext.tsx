@@ -46,6 +46,7 @@ const defaultUser: UserProfile = {
   carbonOffsetEnabled: false,
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export const [AppProvider, useApp] = createContextHook(() => {
   const queryClient = useQueryClient();
   const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);

@@ -88,6 +88,7 @@ async function waitForJob(
  * its venues, a bad one warns against them — but explicit per-stop thumbs
  * always win over the evening-level inference.
  */
+// eslint-disable-next-line complexity -- tracked in #1
 async function getVenueHistory(): Promise<{
   avoidVenues: string[];
   lovedVenues: string[];

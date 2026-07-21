@@ -59,6 +59,7 @@ type FilterType = 'all' | 'upcoming' | 'completed' | 'cancelled';
 // Main Component
 // ============================================================================
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function BookingsScreen() {
   const router = useRouter();
   const { bookings, cancelBooking } = useApp();

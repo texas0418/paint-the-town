@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState, useCallback, useRef } from 'react';
 import {
   View,
@@ -137,6 +138,7 @@ const mockTranslations: Record<string, Record<string, string>> = {
 
 type TranslationMode = 'text' | 'camera' | 'conversation';
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function TranslationScreen() {
   const router = useRouter();
   const [permission, requestPermission] = useCameraPermissions();

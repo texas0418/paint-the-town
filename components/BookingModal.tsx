@@ -47,6 +47,7 @@ interface BookingModalProps {
   onBookingComplete: (confirmationNumber: string) => void;
 }
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function BookingModal({
   visible,
   onClose,

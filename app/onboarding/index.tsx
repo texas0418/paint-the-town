@@ -59,6 +59,7 @@ const venueStyles: { id: VenueStyle; name: string; icon: ComponentType<LucidePro
 
 const TOTAL_STEPS = 7; // steps 1..7 after welcome
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function OnboardingScreen() {
   const router = useRouter();
   const { colors } = useTheme();
@@ -189,7 +190,7 @@ export default function OnboardingScreen() {
           </View>
           <View style={styles.featureItem}>
             <View style={styles.featureDot} />
-            <Text style={styles.featureText}>"Plan it for me" — pick from 3 ready-made dates</Text>
+            <Text style={styles.featureText}>&quot;Plan it for me&quot; — pick from 3 ready-made dates</Text>
           </View>
         </View>
       </View>
@@ -199,7 +200,7 @@ export default function OnboardingScreen() {
   const renderPlanFor = () => (
     <View style={styles.stepContainer}>
       <Text style={styles.stepTitle}>Who do you usually plan for?</Text>
-      <Text style={styles.stepSubtitle}>We'll tailor suggestions to your kind of outing</Text>
+      <Text style={styles.stepSubtitle}>We&apos;ll tailor suggestions to your kind of outing</Text>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.preferencesContent}
@@ -284,7 +285,7 @@ export default function OnboardingScreen() {
   const renderDislikes = () => (
     <View style={styles.stepContainer}>
       <Text style={styles.stepTitle}>Anything we should avoid?</Text>
-      <Text style={styles.stepSubtitle}>Optional — we'll never suggest these</Text>
+      <Text style={styles.stepSubtitle}>Optional — we&apos;ll never suggest these</Text>
       <ScrollView
         style={styles.preferencesScroll}
         showsVerticalScrollIndicator={false}
@@ -487,6 +488,7 @@ export default function OnboardingScreen() {
   );
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 const createStyles = (colors: ThemeColors) => StyleSheet.create({
   container: {
     flex: 1,

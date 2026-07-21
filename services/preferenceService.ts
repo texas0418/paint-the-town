@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 // Paint the Town Preference Sync - Preference Service
 
 import AsyncStorage from '@react-native-async-storage/async-storage';

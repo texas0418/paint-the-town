@@ -129,6 +129,7 @@ const parseEstimatedCost = (cost: string | number): number => {
 // Main Hook
 // ============================================================================
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export function useExpenseTracker({
   itineraryId,
   itineraryName,
@@ -271,6 +272,7 @@ export function useExpenseTracker({
       currency: string;
       paidById: string;
     }>
+  // eslint-disable-next-line complexity -- tracked in #1
   ): Expense | null => {
     const amount = overrides?.amount || receiptData.total;
     if (!amount || amount <= 0) {
@@ -457,6 +459,7 @@ export function useExpenseTracker({
       notes?: string;
       paymentMethod?: PaymentMethod;
     }
+  // eslint-disable-next-line complexity -- tracked in #1
   ): Expense | null => {
     const existingExpense = expenses.find(e => e.id === id);
     if (!existingExpense) return null;

@@ -25,6 +25,7 @@ interface PreferenceSyncScreenProps {
   onViewSuggestionSettings?: () => void;
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 const PreferenceSyncScreen: React.FC<PreferenceSyncScreenProps> = ({
   navigation,
   onEditCategory,

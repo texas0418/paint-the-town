@@ -39,10 +39,12 @@ const RESOLUTION_OPTIONS: Array<{
   { value: 'either', label: 'Either Works', description: 'Accept both options' },
 ];
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 const CompanionMergeScreen: React.FC<CompanionMergeScreenProps> = ({
   navigation,
   tripId,
   onMergeComplete,
+// eslint-disable-next-line complexity -- tracked in #1
 }) => {
   const {
     preferences,
@@ -184,7 +186,7 @@ const CompanionMergeScreen: React.FC<CompanionMergeScreenProps> = ({
 
     return (
       <View style={styles.weightContainer}>
-        <Text style={styles.weightLabel}>{companion.name}'s weight:</Text>
+        <Text style={styles.weightLabel}>{companion.name}&apos;s weight:</Text>
         <View style={styles.weightSlider}>
           <TouchableOpacity
             style={styles.weightBtn}
@@ -365,7 +367,7 @@ const CompanionMergeScreen: React.FC<CompanionMergeScreenProps> = ({
                   <View>
                     <Text style={styles.weightToggleLabel}>Equal Weight</Text>
                     <Text style={styles.weightToggleDesc}>
-                      Give everyone's preferences equal importance
+                      Give everyone&apos;s preferences equal importance
                     </Text>
                   </View>
                   <Switch

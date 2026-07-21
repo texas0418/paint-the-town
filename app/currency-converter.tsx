@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   View,
@@ -132,6 +133,7 @@ const STORAGE_KEYS = {
   SPENDING: 'spending_items',
 };
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function CurrencyConverterScreen() {
   const router = useRouter();
   const [fromCurrency, setFromCurrency] = useState<Currency>(CURRENCIES[0]);

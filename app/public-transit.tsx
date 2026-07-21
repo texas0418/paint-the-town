@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useMemo, useCallback } from 'react';
 import {
   View,
@@ -74,6 +75,7 @@ const transitTypeIcons: Record<TransitType, typeof Train> = {
   light_rail: Dam,
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function PublicTransitScreen() {
   const router = useRouter();
   const [selectedCity, setSelectedCity] = useState<TransitCity>(transitCities[0]);

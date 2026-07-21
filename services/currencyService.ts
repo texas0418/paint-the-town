@@ -326,6 +326,7 @@ class CurrencyService {
   // FORMATTING
   // ============================================================================
 
+  // eslint-disable-next-line complexity -- tracked in #1
   format(amount: number, currencyCode: CurrencyCode, options: FormatOptions = {}): string {
     const currency = this.getCurrency(currencyCode);
     if (!currency) return `${amount} ${currencyCode}`;

@@ -90,6 +90,7 @@ const budgetOptions: { value: BudgetTier; label: string; description: string }[]
   { value: '$$$$', label: '$$$$', description: 'Luxury' },
 ];
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function MyPreferencesScreen() {
   const router = useRouter();
   const { userProfile, setUserPreferences } = useDateNight();

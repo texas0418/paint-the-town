@@ -18,6 +18,7 @@ interface UseReceiptScannerOptions {
   onImportSuccess?: (expenseId: string) => void;
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export function useReceiptScanner(options: UseReceiptScannerOptions = {}) {
   const { tripId, onImportSuccess } = options;
 

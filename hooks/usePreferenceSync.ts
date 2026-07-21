@@ -93,6 +93,7 @@ interface UsePreferenceSyncReturn {
   refresh: () => Promise<void>;
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export function usePreferenceSync(
   options: UsePreferenceSyncOptions = {}
 ): UsePreferenceSyncReturn {

@@ -55,6 +55,7 @@ export const AnniversaryCard: React.FC<AnniversaryCardProps> = ({
   onPress,
   onViewSuggestions,
   compact = false,
+// eslint-disable-next-line complexity -- tracked in #1
 }) => {
   const isUpcoming = 'daysUntil' in item;
   const anniversary = isUpcoming ? (item as UpcomingAnniversary).anniversary : (item as Anniversary);

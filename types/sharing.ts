@@ -185,6 +185,7 @@ export function canViewShare(share: SharedItinerary, password?: string): boolean
   return true;
 }
 
+// eslint-disable-next-line complexity -- tracked in #1
 export function getActivityDisplayInfo(
   activity: any,
   surpriseActivity?: SurpriseActivity,

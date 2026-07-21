@@ -2,6 +2,7 @@
 // Persists confirmations, tickets, and QR codes using AsyncStorage
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// eslint-disable-next-line import/no-unresolved -- tracked in #3
 import * as FileSystem from 'expo-file-system';
 import { Share, Platform } from 'react-native';
 import {

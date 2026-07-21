@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useCallback, useMemo } from 'react';
 import {
   View,
@@ -194,6 +195,7 @@ const mockDocuments: TravelDocument[] = [
   },
 ];
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function DocumentWalletScreen() {
   const router = useRouter();
   const [documents, setDocuments] = useState<TravelDocument[]>(mockDocuments);

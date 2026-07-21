@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState } from 'react';
 import {
   View,
@@ -408,6 +409,7 @@ const mockVoteItems: VoteItem[] = [
 
 type TabType = 'members' | 'activity' | 'tasks' | 'voting' | 'comments' | 'expenses';
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function GroupTripScreen() {
   const router = useRouter();
   const [members, setMembers] = useState<CollabMember[]>(mockMembers);
@@ -870,6 +872,7 @@ export default function GroupTripScreen() {
     }
   };
 
+  // eslint-disable-next-line max-lines-per-function -- tracked in #1
   const renderTabContent = () => {
     switch (activeTab) {
       case 'members':
@@ -1025,6 +1028,7 @@ export default function GroupTripScreen() {
             </View>
 
             <View style={styles.votesList}>
+              {/* eslint-disable-next-line complexity -- tracked in #1 */}
               {voteItems.map((item) => {
                 const counts = getVoteCounts(item.votes);
                 const userVote = getUserVote(item.votes);

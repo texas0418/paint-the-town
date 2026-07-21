@@ -45,6 +45,7 @@ export const experienceCategories = [
 ];
 
 // Transform database row to Activity type
+// eslint-disable-next-line complexity -- tracked in #1
 const transformActivity = (row: any): Activity => ({
   id: row.id,
   name: row.name,

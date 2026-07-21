@@ -121,7 +121,7 @@ export const generateRouteSteps = (
   destination: NavigationLocation,
   distance: number
 ): RouteStep[] => {
-  // This is a simplified mock - in production you'd use Google Directions API
+  // Mock route steps; TODO: use Google Directions API in production
   const steps: RouteStep[] = [
     {
       instruction: `Head toward ${destination.name}`,

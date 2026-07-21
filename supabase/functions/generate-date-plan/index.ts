@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 // generate-date-plan — Supabase Edge Function
 //
 // Takes the user's taste profile + date parameters, uses Claude with web search
@@ -158,6 +159,7 @@ function historyAndWeatherNotes(body: Record<string, unknown>): string {
   return lines.join('\n');
 }
 
+// eslint-disable-next-line complexity -- tracked in #1
 function buildPrompt(
   body: Record<string, unknown>,
   angle?: string
@@ -252,6 +254,7 @@ const SUBMIT_VENUES_TOOL = {
  * Each plan-builder is then assigned one venue per category, so plans
  * never share a venue.
  */
+// eslint-disable-next-line complexity -- tracked in #1
 async function shortlistVenues(
   client: Anthropic,
   body: Record<string, unknown>,
@@ -442,6 +445,7 @@ const SUBMIT_STOP_TOOL = {
 } as const;
 
 /** replace_stop mode: swap one stop of an existing plan for a fresh venue. */
+// eslint-disable-next-line complexity -- tracked in #1
 async function generateReplacementStop(
   client: Anthropic,
   body: Record<string, unknown>
@@ -544,6 +548,7 @@ const SUBMIT_DESTINATIONS_TOOL = {
 } as const;
 
 /** suggest_destinations mode: pick 3 destinations for someone who doesn't know where to go. */
+// eslint-disable-next-line complexity -- tracked in #1
 async function suggestDestinations(
   client: Anthropic,
   body: Record<string, unknown>
@@ -1016,6 +1021,7 @@ async function runVacationDay(
   }
 }
 
+// eslint-disable-next-line complexity -- tracked in #1
 async function generatePlans(
   apiKey: string,
   body: Record<string, unknown>,
@@ -1103,6 +1109,7 @@ async function generatePlans(
   return plans;
 }
 
+// eslint-disable-next-line complexity -- tracked in #1
 Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });

@@ -44,6 +44,7 @@ const TYPE_ICONS: Record<string, string> = {
 export const AnniversaryDetailScreen: React.FC<AnniversaryDetailScreenProps> = ({
   navigation,
   route,
+// eslint-disable-next-line complexity -- tracked in #1
 }) => {
   const { anniversaryId } = route.params;
   const { deleteAnniversary, getMilestoneProgress, toggleSuggestionBookmark, refresh } =

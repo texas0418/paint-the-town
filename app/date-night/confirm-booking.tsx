@@ -71,6 +71,7 @@ const MOCK_PAYMENT_METHODS: PaymentMethodInfo[] = [
 
 type ScreenPhase = 'review' | 'processing' | 'complete';
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function BookingConfirmationScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
@@ -342,7 +343,7 @@ export default function BookingConfirmationScreen() {
               <X size={32} color={colors.error} />
             </View>
             <Text style={styles.completeTitle}>Bookings Failed</Text>
-            <Text style={styles.completeSubtitle}>We couldn't complete your bookings</Text>
+            <Text style={styles.completeSubtitle}>We couldn&apos;t complete your bookings</Text>
           </>
         )}
       </View>

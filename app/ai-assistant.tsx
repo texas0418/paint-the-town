@@ -265,7 +265,7 @@ export default function AIAssistantScreen() {
               </View>
               <Text style={styles.welcomeTitle}>Hi {user.name}! 👋</Text>
               <Text style={styles.welcomeSubtitle}>
-                I'm your AI travel assistant. Ask me anything about destinations, translations,
+                I&apos;m your AI travel assistant. Ask me anything about destinations, translations,
                 local tips, or help planning your next adventure!
               </Text>
 

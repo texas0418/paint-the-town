@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import {
   View,
@@ -265,6 +266,7 @@ type FilterType =
   | 'crime';
 type SeverityFilter = 'all' | 'low' | 'moderate' | 'high' | 'critical';
 
+// eslint-disable-next-line complexity, max-lines-per-function -- tracked in #1
 export default function SafetyAlertsScreen() {
   const router = useRouter();
   const [alerts, setAlerts] = useState<SafetyAlert[]>(MOCK_ALERTS);

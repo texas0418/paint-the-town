@@ -19,6 +19,7 @@ interface ChangeApprovalScreenProps {
   onApplyChanges?: () => void;
 }
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 const ChangeApprovalScreen: React.FC<ChangeApprovalScreenProps> = ({
   navigation,
   onApplyChanges,

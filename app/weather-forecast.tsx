@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 // Weather Forecast Screen for Paint the Town
 // Comprehensive weather overview for trip planning with alerts and daily details
 
@@ -64,6 +65,7 @@ const ALERT_COLORS = {
   emergency: '#7F1D1D',
 };
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export const WeatherForecastScreen: React.FC<WeatherForecastScreenProps> = ({
   navigation,
   route,

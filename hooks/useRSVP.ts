@@ -74,6 +74,7 @@ export function useRSVPCreator({
     allowAlternativeDates?: boolean;
     allowDietaryInfo?: boolean;
     allowAccessibilityInfo?: boolean;
+  // eslint-disable-next-line complexity -- tracked in #1
   }): Promise<RSVPInvite> => {
     const shareCode = generateShareCode();
     const shareUrl = generateShareUrl(shareCode);

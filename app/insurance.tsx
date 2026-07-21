@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import { useState, useCallback, useRef } from 'react';
 import {
   View,
@@ -280,6 +281,7 @@ const featureFilters = [
   { id: 'covidCoverage', label: 'COVID Coverage' },
 ];
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function InsuranceMarketplaceScreen() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
@@ -682,7 +684,7 @@ export default function InsuranceMarketplaceScreen() {
             </View>
 
             <View style={styles.featuresSection}>
-              <Text style={styles.sectionTitle}>What's Covered</Text>
+              <Text style={styles.sectionTitle}>What&apos;s Covered</Text>
               {selectedPlan.features.map((feature, index) => (
                 <View key={index} style={styles.featureRow}>
                   <Check size={18} color={colors.success} />

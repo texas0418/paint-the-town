@@ -1,3 +1,4 @@
+/* eslint-disable max-lines -- tracked in #1 */
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -365,6 +366,7 @@ const mockAchievements: Achievement[] = [
   },
 ];
 
+// eslint-disable-next-line max-lines-per-function -- tracked in #1
 export default function AchievementsScreen() {
   const [stats] = useState<TravelStats>(mockStats);
   const [achievements] = useState<Achievement[]>(mockAchievements);
