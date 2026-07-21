@@ -32,6 +32,7 @@ import {
   ThumbsUp,
   ThumbsDown,
   Share2,
+  Gift,
   CalendarPlus,
 } from 'lucide-react-native';
 import { ThemeColors } from '@/constants/colors';
@@ -112,6 +113,31 @@ export default function SavedPlanScreen() {
     if (!plan) return;
     try {
       await Share.share({ message: formatPlanForShare(plan) });
+    } catch {
+      // user dismissed the sheet — nothing to do
+    }
+  };
+
+  // Surprise mode: the partner learns when to be ready and nothing else.
+  const handleSurpriseShare = async () => {
+    if (!plan) return;
+    const when = plan.planDate
+      ? new Date(`${plan.planDate}T12:00:00`).toLocaleDateString(undefined, {
+          weekday: 'long',
+          month: 'long',
+          day: 'numeric',
+        })
+      : 'Soon';
+    const time = plan.startTime ? plan.startTime.slice(0, 5) : 'evening';
+    const stops = plan.stops.length;
+    try {
+      await Share.share({
+        message: [
+          `${when}. Be ready at ${time}.`,
+          `${stops} stops. All planned. That's all you get to know.`,
+          '— planned with W4nder',
+        ].join('\n'),
+      });
     } catch {
       // user dismissed the sheet — nothing to do
     }
@@ -411,6 +437,12 @@ export default function SavedPlanScreen() {
                 <Text style={styles.secondaryActionText}>Share plan</Text>
               </Pressable>
             </View>
+            <Pressable style={styles.surpriseAction} onPress={handleSurpriseShare}>
+              <Gift size={16} color={colors.secondary} />
+              <Text style={styles.surpriseActionText}>
+                Share as a surprise — no spoilers, just when to be ready
+              </Text>
+            </Pressable>
           </View>
         </ScrollView>
       )}
@@ -596,6 +628,19 @@ const createStyles = (colors: ThemeColors) =>
   secondaryRow: {
     flexDirection: 'row',
     gap: 12,
+  },
+  surpriseAction: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 7,
+    paddingVertical: 13,
+    marginTop: 2,
+  },
+  surpriseActionText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.secondary,
   },
   secondaryAction: {
     flex: 1,
