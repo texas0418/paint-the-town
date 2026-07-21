@@ -9,12 +9,12 @@
 
 import { PlanStop } from '@/types/planner';
 
-const RESERVABLE_CATEGORIES = new Set(['food']);
+const RESERVABLE_CATEGORIES = new Set(['food', 'drinks']);
 
 export function isReservable(stop: PlanStop): boolean {
-  // A researched booking link wins regardless of category (some bars and
-  // experiences take reservations too); otherwise only restaurants get the
-  // OpenTable-search fallback.
+  // A researched booking link wins regardless of category; otherwise
+  // restaurants and bars get a search fallback (plenty of cocktail bars and
+  // oyster bars take reservations too).
   return !!stop.reservationUrl || RESERVABLE_CATEGORIES.has(stop.category);
 }
 
@@ -33,6 +33,14 @@ export function buildReservationUrl(
 ): string {
   if (stop.reservationUrl && /^https?:\/\//.test(stop.reservationUrl)) {
     return stop.reservationUrl;
+  }
+  // Bars are often Resy-only or book direct, so an OpenTable search would
+  // dead-end — a reservations web search lands on whichever platform the
+  // venue actually uses.
+  if (stop.category !== 'food') {
+    return `https://www.google.com/search?q=${encodeURIComponent(
+      `${stop.venueName} ${city} reservations`
+    )}`;
   }
   const params = new URLSearchParams({
     term: `${stop.venueName} ${city}`,
