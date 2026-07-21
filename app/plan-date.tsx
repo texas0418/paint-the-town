@@ -213,6 +213,10 @@ export default function PlanDateScreen() {
           AsyncStorage.removeItem(RESULTS_STORAGE_KEY).catch(() => {});
           return;
         }
+        // Entering with an explicit different mode (e.g. tapping Vacation on
+        // home) means the user wants a fresh plan — don't hijack them with
+        // old results from another mode. The stored results stay for later.
+        if (params.mode && saved.planMode && saved.planMode !== params.mode) return;
         setPlans(saved.plans);
         if (saved.planMode) setPlanMode(saved.planMode);
         setExpandedPlan(saved.plans.length === 1 ? 0 : null);
@@ -220,6 +224,7 @@ export default function PlanDateScreen() {
         setPhase((p) => (p === 'form' ? 'results' : p));
       })
       .catch((e) => console.error('Failed to restore plan results:', e));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -785,8 +790,9 @@ export default function PlanDateScreen() {
           );
         })}
 
-        <Pressable style={styles.regenerateButton} onPress={() => setPhase('form')}>
-          <Text style={styles.regenerateText}>Change details & regenerate</Text>
+        <Pressable style={styles.regenerateButtonSolid} onPress={() => setPhase('form')}>
+          <Shuffle size={18} color={colors.textLight} />
+          <Text style={styles.regenerateTextSolid}>Change details & regenerate</Text>
         </Pressable>
       </ScrollView>
 
@@ -1303,6 +1309,23 @@ const createStyles = (colors: ThemeColors) =>
     color: colors.primary,
     fontSize: 15,
     fontWeight: '600',
+  },
+  // The warm-amber CTA on the results screen — regenerating is the main
+  // action when none of the plans landed, so it should read as a button.
+  regenerateButtonSolid: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 9,
+    backgroundColor: colors.secondary,
+    borderRadius: 14,
+    paddingVertical: 16,
+    marginTop: 4,
+  },
+  regenerateTextSolid: {
+    color: colors.textLight,
+    fontSize: 15,
+    fontWeight: '700',
   },
   remixBar: {
     position: 'absolute',
