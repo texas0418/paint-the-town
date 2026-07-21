@@ -251,6 +251,13 @@ export async function getPlan(id: string): Promise<DatePlan | null> {
   return data ? rowToPlan(data as DatePlanRow) : null;
 }
 
+export async function updatePlanTitle(id: string, title: string): Promise<void> {
+  const trimmed = title.trim();
+  if (!trimmed) throw new Error('Give your date a name first.');
+  const { error } = await supabase.from('date_plans').update({ title: trimmed }).eq('id', id);
+  if (error) throw new Error(`Failed to rename plan: ${error.message}`);
+}
+
 export async function updatePlanStatus(id: string, status: DatePlan['status']): Promise<void> {
   const { error } = await supabase.from('date_plans').update({ status }).eq('id', id);
   if (error) throw new Error(`Failed to update plan: ${error.message}`);
@@ -324,7 +331,11 @@ export async function deletePlan(id: string): Promise<void> {
   if (error) throw new Error(`Failed to delete plan: ${error.message}`);
 }
 
+export type SubscriptionTier = 'trial' | 'basic' | 'premium';
+
 export interface PlanQuota {
+  tier: SubscriptionTier;
+  /** Convenience: any paying tier. */
   isPaid: boolean;
   monthlyUsed: number;
   monthlyLimit: number;
@@ -333,9 +344,11 @@ export interface PlanQuota {
 }
 
 /**
- * Mirrors the server-side caps in the generate-date-plan edge function
- * (keep the two in sync). Counts full plan generations only — quick
- * searches and swaps have their own server-side bucket.
+ * Mirrors the server-side caps in the generate-date-plan edge function's
+ * quota.ts (keep the two in sync). Pricing model: 1 lifetime trial date →
+ * Basic $9.99 (3/mo) → Premium $19.99 (15/mo, 5/day, vacations). Counts
+ * full plan generations only — quick searches and swaps have their own
+ * server-side bucket.
  */
 export async function getPlanQuota(): Promise<PlanQuota> {
   const {
@@ -348,8 +361,10 @@ export async function getPlanQuota(): Promise<PlanQuota> {
     .select('subscription_tier')
     .eq('id', user.id)
     .maybeSingle();
-  const isPaid = !!profileRow && profileRow.subscription_tier !== 'free';
-  const limits = isPaid ? { monthly: 15, daily: 5 } : { monthly: 3, daily: 3 };
+  const rawTier = profileRow?.subscription_tier;
+  const tier: SubscriptionTier =
+    rawTier === 'premium' ? 'premium' : rawTier === 'basic' ? 'basic' : 'trial';
+  const limits = tier === 'premium' ? { monthly: 15, daily: 5 } : { monthly: 3, daily: 3 };
 
   const now = new Date();
   const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString();
@@ -368,13 +383,27 @@ export async function getPlanQuota(): Promise<PlanQuota> {
     return count ?? 0;
   };
 
+  // Trial: the "month" is a lifetime of exactly one date.
+  if (tier === 'trial') {
+    const lifetimeUsed = await countSince('1970-01-01T00:00:00.000Z');
+    return {
+      tier,
+      isPaid: false,
+      monthlyUsed: Math.min(lifetimeUsed, 1),
+      monthlyLimit: 1,
+      dailyUsed: Math.min(lifetimeUsed, 1),
+      dailyLimit: 1,
+    };
+  }
+
   const [monthlyUsed, dailyUsed] = await Promise.all([
     countSince(monthStart),
     countSince(dayStart),
   ]);
 
   return {
-    isPaid,
+    tier,
+    isPaid: true,
     monthlyUsed,
     monthlyLimit: limits.monthly,
     dailyUsed,

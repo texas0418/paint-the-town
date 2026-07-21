@@ -10,24 +10,33 @@ import { PlanQuota, getPlanQuota } from '@/services/datePlanService';
 
 const tiers = [
   {
-    name: 'Free',
-    price: '$0',
-    period: '',
-    features: ['3 date plans per month', 'Taste profile & taste memory', 'Remix, swap & sharing'],
-  },
-  {
-    name: 'Premium',
+    name: 'Basic',
     price: '$9.99',
     period: '/ month · or $59.99/year',
     features: [
-      '15 date plans per month',
+      '3 date plans per month',
+      'Taste profile & taste memory',
+      'Remix, swap & sharing',
+      'Anniversary reminders & partner mode',
+    ],
+  },
+  {
+    name: 'Premium',
+    price: '$19.99',
+    period: '/ month · or $119.99/year',
+    features: [
+      '15 date plans per month (up to 5 a day)',
       'Multi-day vacation planning',
-      'Anniversary autopilot',
-      'Partner mode',
-      'Everything in Free',
+      'Everything in Basic',
     ],
   },
 ];
+
+const tierLabels: Record<string, string> = {
+  trial: 'Free trial',
+  basic: 'Basic',
+  premium: 'Premium',
+};
 
 export default function MembershipScreen() {
   const router = useRouter();
@@ -39,7 +48,7 @@ export default function MembershipScreen() {
     getPlanQuota().then(setQuota).catch(() => {});
   }, []);
 
-  const tierName = quota?.isPaid ? 'Premium' : 'Free';
+  const tierName = quota ? tierLabels[quota.tier] : '';
 
   return (
     <View style={styles.container}>
@@ -62,8 +71,11 @@ export default function MembershipScreen() {
             <Text style={styles.currentTier}>{quota ? `${tierName} plan` : 'Loading…'}</Text>
             {quota && (
               <Text style={styles.currentUsage}>
-                {Math.max(0, quota.monthlyLimit - quota.monthlyUsed)} of {quota.monthlyLimit} plans
-                left this month
+                {quota.tier === 'trial'
+                  ? quota.monthlyUsed >= 1
+                    ? 'Your free trial date is used — pick a plan below'
+                    : 'Your first date plan is on us'
+                  : `${Math.max(0, quota.monthlyLimit - quota.monthlyUsed)} of ${quota.monthlyLimit} plans left this month`}
               </Text>
             )}
           </View>
@@ -92,8 +104,8 @@ export default function MembershipScreen() {
         })}
 
         <Text style={styles.note}>
-          Subscriptions arrive with the App Store launch. During the beta, premium access is
-          managed for you — ask and it shall be granted.
+          Your first date plan is free — no subscription needed. Subscriptions arrive with the
+          App Store launch; during the beta, access is managed for you.
         </Text>
       </ScrollView>
     </View>

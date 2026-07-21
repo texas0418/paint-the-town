@@ -12,6 +12,7 @@ import {
   Platform,
 } from 'react-native';
 import * as Calendar from 'expo-calendar';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
@@ -36,6 +37,13 @@ import {
   CalendarPlus,
   BookHeart,
   HeartHandshake,
+  Pencil,
+  Check,
+  X,
+  ChevronUp,
+  ChevronDown,
+  Minus,
+  Plus,
 } from 'lucide-react-native';
 import { ThemeColors } from '@/constants/colors';
 import { useTheme } from '@/hooks/useTheme';
@@ -43,6 +51,7 @@ import { DatePlan, PlanStop } from '@/types/planner';
 import {
   getPlan,
   updatePlanStatus,
+  updatePlanTitle,
   deletePlan,
   updatePlanStops,
   updatePlanSharing,
@@ -97,6 +106,11 @@ export default function SavedPlanScreen() {
   const [loading, setLoading] = useState(true);
   const [swappingOrder, setSwappingOrder] = useState<number | null>(null);
   const [sharingBusy, setSharingBusy] = useState(false);
+  // Edit mode: reorder stops and adjust times/durations, saved as one batch.
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState<PlanStop[]>([]);
+  const [timePickerFor, setTimePickerFor] = useState<number | null>(null);
+  const [savingEdits, setSavingEdits] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -152,6 +166,94 @@ export default function SavedPlanScreen() {
     } catch {
       // user dismissed the sheet — nothing to do
     }
+  };
+
+  const startEditing = () => {
+    if (!plan) return;
+    setDraft(plan.stops.map((s) => ({ ...s })));
+    setEditing(true);
+  };
+
+  const cancelEditing = () => {
+    setEditing(false);
+    setTimePickerFor(null);
+  };
+
+  const saveEditing = async () => {
+    if (!plan) return;
+    setSavingEdits(true);
+    try {
+      const renumbered = draft.map((s, i) => ({ ...s, order: i + 1 }));
+      await updatePlanStops(plan.id, renumbered);
+      setPlan({
+        ...plan,
+        stops: renumbered,
+        estimatedCost: renumbered.reduce((sum, s) => sum + (s.estimatedCost || 0), 0),
+      });
+      setEditing(false);
+      setTimePickerFor(null);
+    } catch (e) {
+      Alert.alert('Could not save changes', e instanceof Error ? e.message : 'Please try again.');
+    } finally {
+      setSavingEdits(false);
+    }
+  };
+
+  const moveStop = (index: number, direction: -1 | 1) => {
+    const target = index + direction;
+    if (target < 0 || target >= draft.length) return;
+    const next = draft.slice();
+    [next[index], next[target]] = [next[target], next[index]];
+    setDraft(next);
+  };
+
+  const timeToDate = (time: string): Date => {
+    const [h, m] = time.split(':').map(Number);
+    const d = new Date();
+    d.setHours(h || 19, m || 0, 0, 0);
+    return d;
+  };
+
+  const setStopTime = (index: number, picked: Date) => {
+    const hh = String(picked.getHours()).padStart(2, '0');
+    const mm = String(picked.getMinutes()).padStart(2, '0');
+    const next = draft.slice();
+    next[index] = { ...next[index], time: `${hh}:${mm}` };
+    setDraft(next);
+  };
+
+  const nudgeDuration = (index: number, delta: number) => {
+    const next = draft.slice();
+    const current = next[index].durationMinutes || 60;
+    next[index] = { ...next[index], durationMinutes: Math.max(15, current + delta) };
+    setDraft(next);
+  };
+
+  // Tap the header title to rename (own plans, iOS prompt).
+  const handleRename = () => {
+    if (!plan || isPartnersPlan || Platform.OS !== 'ios') return;
+    Alert.prompt(
+      'Rename this date',
+      undefined,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Rename',
+          onPress: async (title?: string) => {
+            const trimmed = (title ?? '').trim();
+            if (!trimmed || trimmed === plan.title) return;
+            try {
+              await updatePlanTitle(plan.id, trimmed);
+              setPlan({ ...plan, title: trimmed });
+            } catch (e) {
+              Alert.alert('Rename failed', e instanceof Error ? e.message : 'Please try again.');
+            }
+          },
+        },
+      ],
+      'plain-text',
+      plan.title
+    );
   };
 
   // Surprise mode: the partner learns when to be ready and nothing else.
@@ -308,13 +410,24 @@ export default function SavedPlanScreen() {
             <Pressable onPress={() => router.back()} style={styles.backBtn}>
               <ArrowLeft size={24} color={colors.textLight} />
             </Pressable>
-            <Text style={styles.headerTitle}>{plan ? plan.title : 'Date plan'}</Text>
+            <Pressable style={{ flex: 1 }} onPress={handleRename}>
+              <Text style={styles.headerTitle}>{plan ? plan.title : 'Date plan'}</Text>
+            </Pressable>
             {isPartnersPlan ? (
-              <View style={styles.backBtn} />
-            ) : (
-              <Pressable onPress={handleDelete} style={styles.backBtn}>
-                <Trash2 size={20} color={colors.textLight} />
+              <View style={styles.headerBtnRow} />
+            ) : editing ? (
+              <Pressable onPress={cancelEditing} style={styles.backBtn}>
+                <X size={20} color={colors.textLight} />
               </Pressable>
+            ) : (
+              <View style={styles.headerBtnRow}>
+                <Pressable onPress={startEditing} style={styles.backBtn}>
+                  <Pencil size={18} color={colors.textLight} />
+                </Pressable>
+                <Pressable onPress={handleDelete} style={styles.backBtn}>
+                  <Trash2 size={20} color={colors.textLight} />
+                </Pressable>
+              </View>
             )}
           </View>
         </SafeAreaView>
@@ -351,10 +464,11 @@ export default function SavedPlanScreen() {
             </View>
           </View>
 
-          {plan.stops.map((stop, si) => {
+          {(editing ? draft : plan.stops).map((stop, si) => {
+            const stopsList = editing ? draft : plan.stops;
             const CategoryIcon = categoryIcons[stop.category] ?? MapPinIcon;
             const showDayHeader =
-              stop.day != null && (si === 0 || plan.stops[si - 1].day !== stop.day);
+              stop.day != null && (si === 0 || stopsList[si - 1].day !== stop.day);
             return (
             <View key={stop.order}>
             {showDayHeader && <Text style={styles.dayHeader}>Day {stop.day}</Text>}
@@ -393,6 +507,58 @@ export default function SavedPlanScreen() {
                     </Pressable>
                   )}
                 </View>
+                {editing ? (
+                  <View style={styles.editControls}>
+                    <View style={styles.editGroup}>
+                      <Pressable
+                        style={[styles.editBtn, si === 0 && styles.editBtnDisabled]}
+                        onPress={() => moveStop(si, -1)}
+                        disabled={si === 0}
+                      >
+                        <ChevronUp size={16} color={colors.primaryLight} />
+                      </Pressable>
+                      <Pressable
+                        style={[
+                          styles.editBtn,
+                          si === (editing ? draft : plan.stops).length - 1 &&
+                            styles.editBtnDisabled,
+                        ]}
+                        onPress={() => moveStop(si, 1)}
+                        disabled={si === (editing ? draft : plan.stops).length - 1}
+                      >
+                        <ChevronDown size={16} color={colors.primaryLight} />
+                      </Pressable>
+                    </View>
+                    <Pressable
+                      style={styles.editBtnWide}
+                      onPress={() =>
+                        setTimePickerFor(timePickerFor === stop.order ? null : stop.order)
+                      }
+                    >
+                      <Clock size={14} color={colors.primaryLight} />
+                      <Text style={styles.editBtnText}>{stop.time.slice(0, 5)}</Text>
+                    </Pressable>
+                    <View style={styles.editGroup}>
+                      <Pressable style={styles.editBtn} onPress={() => nudgeDuration(si, -15)}>
+                        <Minus size={14} color={colors.primaryLight} />
+                      </Pressable>
+                      <Text style={styles.editBtnText}>{stop.durationMinutes} min</Text>
+                      <Pressable style={styles.editBtn} onPress={() => nudgeDuration(si, 15)}>
+                        <Plus size={14} color={colors.primaryLight} />
+                      </Pressable>
+                    </View>
+                  </View>
+                ) : null}
+                {editing && timePickerFor === stop.order && (
+                  <DateTimePicker
+                    value={timeToDate(stop.time)}
+                    mode="time"
+                    minuteInterval={5}
+                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                    onChange={(_, picked) => picked && setStopTime(si, picked)}
+                  />
+                )}
+                {!editing && (
                 <View style={styles.stopActions}>
                   {isReservable(stop) && (
                     <Pressable
@@ -457,12 +623,32 @@ export default function SavedPlanScreen() {
                   </View>
                   )}
                 </View>
+                )}
               </View>
             </View>
             </View>
             );
           })}
 
+          {editing ? (
+            <View style={styles.actions}>
+              <Pressable
+                style={[styles.primaryAction, savingEdits && { opacity: 0.6 }]}
+                onPress={saveEditing}
+                disabled={savingEdits}
+              >
+                {savingEdits ? (
+                  <ActivityIndicator size="small" color={colors.textLight} />
+                ) : (
+                  <Check size={18} color={colors.textLight} />
+                )}
+                <Text style={styles.primaryActionText}>Save changes</Text>
+              </Pressable>
+              <Pressable style={styles.secondaryAction} onPress={cancelEditing}>
+                <Text style={styles.secondaryActionText}>Cancel</Text>
+              </Pressable>
+            </View>
+          ) : (
           <View style={styles.actions}>
             {isPartnersPlan && (
               <View style={styles.partnerNote}>
@@ -550,6 +736,7 @@ export default function SavedPlanScreen() {
               </Pressable>
             )}
           </View>
+          )}
         </ScrollView>
       )}
     </View>
@@ -796,8 +983,54 @@ const createStyles = (colors: ThemeColors) =>
   stopActions: {
     flexDirection: 'row',
     alignItems: 'center',
+    flexWrap: 'wrap',
     gap: 10,
     marginTop: 10,
+  },
+  headerBtnRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  editControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginTop: 10,
+  },
+  editGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: colors.surfaceSecondary,
+    borderRadius: 10,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+  },
+  editBtn: {
+    width: 30,
+    height: 30,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  editBtnDisabled: {
+    opacity: 0.3,
+  },
+  editBtnWide: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: colors.surfaceSecondary,
+    borderRadius: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+  },
+  editBtnText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.primaryLight,
+    fontVariant: ['tabular-nums'],
   },
   stopActionBtn: {
     flexDirection: 'row',

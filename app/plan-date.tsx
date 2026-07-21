@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Alert,
   Linking,
+  Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -363,26 +364,48 @@ export default function PlanDateScreen() {
       Alert.alert('Pick more stops', 'Select at least 2 stops across the plans.');
       return;
     }
-    const estimatedCost = customStops.reduce((sum, s) => sum + (s.estimatedCost || 0), 0);
-    const custom: GeneratedPlan = {
-      title: 'My Custom Date',
-      city: plans[0]?.city ?? city,
-      vibe: 'Hand-picked from your favorite stops',
-      planDate: chipToDate(dateChip) ?? null,
-      startTime: customStops[0]?.time ?? startTime,
-      totalBudget: budget,
-      estimatedCost,
-      source: 'custom',
-      stops: customStops,
+    const saveCity = plans[0]?.city ?? city;
+    const defaultTitle = `Date night in ${saveCity.split(',')[0].trim()}`;
+
+    const saveWithTitle = async (title: string) => {
+      const estimatedCost = customStops.reduce((sum, s) => sum + (s.estimatedCost || 0), 0);
+      const custom: GeneratedPlan = {
+        title: title.trim() || defaultTitle,
+        city: saveCity,
+        vibe: 'Hand-picked from your favorite stops',
+        planDate: chipToDate(dateChip) ?? null,
+        startTime: customStops[0]?.time ?? startTime,
+        totalBudget: budget,
+        estimatedCost,
+        source: 'custom',
+        stops: customStops,
+      };
+      setSavingIndex(-1);
+      try {
+        const saved = await savePlan(custom);
+        router.replace({ pathname: '/saved-plan', params: { id: saved.id } });
+      } catch (e) {
+        Alert.alert('Could not save', e instanceof Error ? e.message : 'Please try again.');
+      } finally {
+        setSavingIndex(null);
+      }
     };
-    setSavingIndex(-1);
-    try {
-      const saved = await savePlan(custom);
-      router.replace({ pathname: '/saved-plan', params: { id: saved.id } });
-    } catch (e) {
-      Alert.alert('Could not save', e instanceof Error ? e.message : 'Please try again.');
-    } finally {
-      setSavingIndex(null);
+
+    if (Platform.OS === 'ios') {
+      // Alert.prompt is iOS-only; Android falls through to the smart default
+      // (rename is always available on the saved plan afterwards).
+      Alert.prompt(
+        'Name your date',
+        'What should this plan be called?',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Save', onPress: (title?: string) => saveWithTitle(title ?? defaultTitle) },
+        ],
+        'plain-text',
+        defaultTitle
+      );
+    } else {
+      await saveWithTitle(defaultTitle);
     }
   };
 
@@ -436,7 +459,9 @@ export default function PlanDateScreen() {
     if (!quota || monthlyLeft === null || dailyLeft === null) return null;
     const text =
       monthlyLeft === 0
-        ? `Monthly limit reached (${quota.monthlyLimit} plans${quota.isPaid ? '' : ' on the free plan'}) — resets on the 1st`
+        ? quota.tier === 'trial'
+          ? 'Your free trial date is used — subscribe to keep planning'
+          : `Monthly limit reached (${quota.monthlyLimit} plans${quota.tier === 'basic' ? ' on the Basic plan' : ''}) — resets on the 1st`
         : dailyLeft === 0
           ? `Daily limit reached (${quota.dailyLimit} plans) — more tomorrow`
           : `${monthlyLeft} of ${quota.monthlyLimit} plans left this month`;

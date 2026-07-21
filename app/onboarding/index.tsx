@@ -464,7 +464,11 @@ export default function OnboardingScreen() {
           {step > 0 && <View style={styles.backButton} />}
         </View>
 
-        <Animated.View style={[styles.content, { opacity: fadeAnim }]}>{steps[step]()}</Animated.View>
+        {/* Keyed by step so each step's ScrollView remounts at the top —
+            otherwise the previous step's scroll offset carries over. */}
+        <Animated.View key={step} style={[styles.content, { opacity: fadeAnim }]}>
+          {steps[step]()}
+        </Animated.View>
 
         <View style={styles.footer}>
           <Pressable
@@ -574,7 +578,10 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   welcomeSubtitle: {
     fontSize: 18,
-    color: colors.accent,
+    // The welcome panel is dark in both themes (photo + black gradient), so
+    // this must be light regardless of color scheme.
+    color: colors.textLight,
+    opacity: 0.9,
     lineHeight: 26,
     marginBottom: 32,
   },

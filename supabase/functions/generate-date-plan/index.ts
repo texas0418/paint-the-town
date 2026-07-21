@@ -10,7 +10,7 @@
 
 import Anthropic from 'npm:@anthropic-ai/sdk';
 import { createClient } from 'npm:@supabase/supabase-js@2';
-import { bucketForMode, checkQuota, isPaidTier, windowStarts } from './quota.ts';
+import { bucketForMode, checkQuota, tierFor, windowStarts } from './quota.ts';
 
 declare const EdgeRuntime: { waitUntil(promise: Promise<unknown>): void };
 
@@ -1167,7 +1167,7 @@ Deno.serve(async (req: Request) => {
       .eq('id', user.id)
       .maybeSingle();
     const pushToken = (profileRow?.push_token as string | null) ?? null;
-    const isPaid = isPaidTier(profileRow);
+    const tier = tierFor(profileRow);
 
     const { monthStart, dayStart } = windowStarts(new Date());
 
@@ -1184,9 +1184,12 @@ Deno.serve(async (req: Request) => {
 
     const verdict = checkQuota({
       mode: body.mode,
-      isPaid,
+      tier,
       monthlyUsed: await countJobs(monthStart),
       dailyUsed: await countJobs(dayStart),
+      // Trial users are gated on lifetime usage, not calendar windows.
+      lifetimeUsed:
+        tier === 'trial' && !isSuggestion ? await countJobs('1970-01-01T00:00:00.000Z') : 0,
     });
     if (!verdict.allowed) {
       return new Response(
@@ -1194,6 +1197,7 @@ Deno.serve(async (req: Request) => {
           error: verdict.error,
           limitReached: true,
           ...(verdict.premiumRequired ? { premiumRequired: true } : {}),
+          ...(verdict.subscriptionRequired ? { subscriptionRequired: true } : {}),
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );

@@ -3,10 +3,10 @@
  * generations. index.ts supplies the DB counts; everything else — tier
  * parsing, buckets, windows, and the verdict — lives here.
  *
- * Caps are sized against measured API cost (~$0.40-0.50/generation on
- * Sonnet 5 builders): premium median usage ~5/mo stays high-margin, worst
- * case ~15 stays profitable at $9.99/mo after the App Store cut. The
- * monthly cap is the cost ceiling; the daily cap only spreads usage out.
+ * Pricing model (2026-07-21, Simon): no free plan. One lifetime trial date
+ * for unsubscribed users, then Basic $9.99/mo = 3 dates/month, Premium
+ * $19.99/mo = 15/month (5/day) + multi-day vacations. Caps sized against
+ * measured API cost (~$0.40-0.50/generation on Sonnet 5 builders).
  *
  * The client mirrors these numbers in services/datePlanService.ts
  * (getPlanQuota) — keep the two in sync.
@@ -16,6 +16,8 @@
 export const PLAN_MODES = ['plan_for_me', 'single', 'vacation'];
 /** Cheap calls (destination search, stop swap) share their own bucket. */
 export const LIGHT_MODES = ['suggest_destinations', 'replace_stop'];
+
+export type Tier = 'trial' | 'basic' | 'premium';
 
 export interface QuotaLimits {
   monthly: number;
@@ -37,13 +39,21 @@ export function bucketForMode(mode: unknown): QuotaBucket {
   };
 }
 
-/** A missing profile row is free; any non-'free' tier counts as paid. */
-export function isPaidTier(profileRow: { subscription_tier?: string | null } | null): boolean {
-  return !!profileRow && profileRow.subscription_tier !== 'free';
+/**
+ * Missing profile / 'free' / anything unrecognized = trial (the safe,
+ * cheap default). Only explicit 'basic' and 'premium' unlock paid caps.
+ */
+export function tierFor(profileRow: { subscription_tier?: string | null } | null): Tier {
+  const t = profileRow?.subscription_tier;
+  if (t === 'premium') return 'premium';
+  if (t === 'basic') return 'basic';
+  return 'trial';
 }
 
-export function limitsForTier(isPaid: boolean): QuotaLimits {
-  return isPaid ? { monthly: 15, daily: 5 } : { monthly: 3, daily: 3 };
+/** Monthly/daily caps for the paid buckets; trial is handled by lifetime count. */
+export function limitsForTier(tier: Tier): QuotaLimits {
+  if (tier === 'premium') return { monthly: 15, daily: 5 };
+  return { monthly: 3, daily: 3 }; // basic, and trial's light-bucket allowance
 }
 
 /** UTC month/day window starts, as ISO strings for created_at comparison. */
@@ -58,34 +68,48 @@ export function windowStarts(now: Date): { monthStart: string; dayStart: string 
 
 export type QuotaVerdict =
   | { allowed: true }
-  | { allowed: false; error: string; premiumRequired?: boolean };
+  | { allowed: false; error: string; premiumRequired?: boolean; subscriptionRequired?: boolean };
 
 /**
  * The gate itself. Vacation mode fans out one generation per day — a 10-day
- * trip costs dollars, not cents — so it's premium-only (destination browsing
- * stays free as an upsell funnel).
+ * trip costs dollars, not cents — so it stays Premium-only. Trial users get
+ * exactly one lifetime plan generation; quick searches for trial users share
+ * the Basic-sized bucket so destination browsing still works as an upsell.
  */
 export function checkQuota(params: {
   mode: unknown;
-  isPaid: boolean;
+  tier: Tier;
   monthlyUsed: number;
   dailyUsed: number;
+  /** All-time plan generations; only consulted for trial users. */
+  lifetimeUsed?: number;
 }): QuotaVerdict {
-  const { mode, isPaid, monthlyUsed, dailyUsed } = params;
-  const { label } = bucketForMode(mode);
-  const limits = limitsForTier(isPaid);
+  const { mode, tier, monthlyUsed, dailyUsed, lifetimeUsed = 0 } = params;
+  const { label, isSuggestion } = bucketForMode(mode);
+  const limits = limitsForTier(tier);
 
-  if (String(mode) === 'vacation' && !isPaid) {
+  if (String(mode) === 'vacation' && tier !== 'premium') {
     return {
       allowed: false,
       error: 'Multi-day trip planning is a Premium feature. Upgrade to plan vacations.',
       premiumRequired: true,
     };
   }
+  if (tier === 'trial' && !isSuggestion) {
+    if (lifetimeUsed >= 1) {
+      return {
+        allowed: false,
+        error:
+          "Your free trial date is used — hope it was a good one. Subscribe to keep planning.",
+        subscriptionRequired: true,
+      };
+    }
+    return { allowed: true };
+  }
   if (monthlyUsed >= limits.monthly) {
     return {
       allowed: false,
-      error: `You've used all ${limits.monthly} ${label} for this month${isPaid ? '' : ' on the free plan'}. Your limit resets on the 1st.`,
+      error: `You've used all ${limits.monthly} ${label} for this month${tier === 'basic' ? ' on the Basic plan' : ''}. Your limit resets on the 1st.`,
     };
   }
   if (dailyUsed >= limits.daily) {

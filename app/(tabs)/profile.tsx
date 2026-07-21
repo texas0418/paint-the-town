@@ -244,7 +244,11 @@ export default function ProfileScreen() {
               <Text style={styles.rowTitle}>Membership</Text>
               <Text style={styles.rowDesc}>
                 {quota
-                  ? `${quota.isPaid ? 'Premium' : 'Free'} · ${Math.max(0, quota.monthlyLimit - quota.monthlyUsed)} of ${quota.monthlyLimit} plans left this month`
+                  ? quota.tier === 'trial'
+                    ? quota.monthlyUsed >= 1
+                      ? 'Trial used · pick a plan'
+                      : 'Free trial · your first date is on us'
+                    : `${quota.tier === 'premium' ? 'Premium' : 'Basic'} · ${Math.max(0, quota.monthlyLimit - quota.monthlyUsed)} of ${quota.monthlyLimit} plans left this month`
                   : 'Plans and limits'}
               </Text>
             </View>
