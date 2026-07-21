@@ -34,6 +34,7 @@ import {
   Share2,
   Gift,
   CalendarPlus,
+  BookHeart,
 } from 'lucide-react-native';
 import { ThemeColors } from '@/constants/colors';
 import { useTheme } from '@/hooks/useTheme';
@@ -46,6 +47,7 @@ import {
   replaceStop,
 } from '@/services/datePlanService';
 import { getTasteProfile } from '@/services/tasteProfileService';
+import { JournalEntry, getEntryForPlan } from '@/services/dateJournalService';
 import { categoryIcons } from '@/app/plan-date';
 import { MapPin as MapPinIcon } from 'lucide-react-native';
 
@@ -86,6 +88,7 @@ export default function SavedPlanScreen() {
   const styles = useMemo(() => createStyles(colors), [colors]);
   const { id } = useLocalSearchParams<{ id: string }>();
   const [plan, setPlan] = useState<DatePlan | null>(null);
+  const [journalEntry, setJournalEntry] = useState<JournalEntry | null>(null);
   const [loading, setLoading] = useState(true);
   const [swappingOrder, setSwappingOrder] = useState<number | null>(null);
 
@@ -96,16 +99,21 @@ export default function SavedPlanScreen() {
         .then(setPlan)
         .catch((e) => console.error('Failed to load plan:', e))
         .finally(() => setLoading(false));
+      getEntryForPlan(id)
+        .then(setJournalEntry)
+        .catch(() => {});
     }, [id])
   );
 
-  const setStatus = async (status: DatePlan['status']) => {
-    if (!plan) return;
+  const setStatus = async (status: DatePlan['status']): Promise<boolean> => {
+    if (!plan) return false;
     try {
       await updatePlanStatus(plan.id, status);
       setPlan({ ...plan, status });
+      return true;
     } catch (e) {
       Alert.alert('Update failed', e instanceof Error ? e.message : 'Please try again.');
+      return false;
     }
   };
 
@@ -422,9 +430,30 @@ export default function SavedPlanScreen() {
               </Pressable>
             )}
             {plan.status === 'scheduled' && (
-              <Pressable style={styles.primaryAction} onPress={() => setStatus('completed')}>
+              <Pressable
+                style={styles.primaryAction}
+                onPress={async () => {
+                  // Straight into the journal while the night is still fresh.
+                  if (await setStatus('completed')) {
+                    router.push(`/rate-date?planId=${plan.id}` as never);
+                  }
+                }}
+              >
                 <CheckCircle2 size={18} color={colors.textLight} />
                 <Text style={styles.primaryActionText}>We did it! Mark completed</Text>
+              </Pressable>
+            )}
+            {plan.status === 'completed' && (
+              <Pressable
+                style={styles.journalAction}
+                onPress={() => router.push(`/rate-date?planId=${plan.id}` as never)}
+              >
+                <BookHeart size={17} color={colors.primaryLight} />
+                <Text style={styles.journalActionText}>
+                  {journalEntry
+                    ? `In your journal · ${'♥'.repeat(journalEntry.rating)} — edit`
+                    : 'How was it? Add it to your date journal'}
+                </Text>
               </Pressable>
             )}
             <View style={styles.secondaryRow}>
@@ -628,6 +657,22 @@ const createStyles = (colors: ThemeColors) =>
   secondaryRow: {
     flexDirection: 'row',
     gap: 12,
+  },
+  journalAction: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: colors.surface,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingVertical: 13,
+  },
+  journalActionText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.primaryLight,
   },
   surpriseAction: {
     flexDirection: 'row',

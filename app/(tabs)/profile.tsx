@@ -17,6 +17,7 @@ import {
   SlidersHorizontal,
   CalendarHeart,
   BellRing,
+  BookHeart,
   HeartHandshake,
   LogOut,
   ChevronRight,
@@ -190,6 +191,17 @@ export default function ProfileScreen() {
             <View style={{ flex: 1 }}>
               <Text style={styles.rowTitle}>My plans</Text>
               <Text style={styles.rowDesc}>Saved dates and trips</Text>
+            </View>
+            <ChevronRight size={18} color={colors.textTertiary} />
+          </Pressable>
+
+          <Pressable style={styles.row} onPress={() => router.push('/date-journal' as never)}>
+            <View style={styles.rowIcon}>
+              <BookHeart size={20} color={colors.primaryLight} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.rowTitle}>Date journal</Text>
+              <Text style={styles.rowDesc}>Ratings, notes & photos from past dates</Text>
             </View>
             <ChevronRight size={18} color={colors.textTertiary} />
           </Pressable>

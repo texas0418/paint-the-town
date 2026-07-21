@@ -99,6 +99,50 @@ export type Database = {
         }
         Relationships: []
       }
+      date_journal_entries: {
+        Row: {
+          created_at: string
+          entry_date: string | null
+          id: string
+          note: string | null
+          photo_urls: Json
+          plan_id: string
+          rating: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          entry_date?: string | null
+          id?: string
+          note?: string | null
+          photo_urls?: Json
+          plan_id: string
+          rating: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          entry_date?: string | null
+          id?: string
+          note?: string | null
+          photo_urls?: Json
+          plan_id?: string
+          rating?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "date_journal_entries_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: true
+            referencedRelation: "date_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       date_plans: {
         Row: {
           city: string
