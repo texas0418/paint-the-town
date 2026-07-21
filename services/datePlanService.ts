@@ -83,7 +83,10 @@ async function waitForJob(
 
 /**
  * Taste memory: venues from past plans, so new suggestions never repeat places
- * the user has been, and thumbs up/down verdicts steer future picks.
+ * the user has been, and thumbs up/down verdicts steer future picks. Journal
+ * ratings add a whole-evening signal — an unforgettable night endorses all
+ * its venues, a bad one warns against them — but explicit per-stop thumbs
+ * always win over the evening-level inference.
  */
 async function getVenueHistory(): Promise<{
   avoidVenues: string[];
@@ -97,22 +100,42 @@ async function getVenueHistory(): Promise<{
     } = await supabase.auth.getUser();
     if (!user) return empty;
 
-    const { data } = await supabase
-      .from('date_plans')
-      .select('status, items')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(25);
+    const [{ data }, { data: journalRows }] = await Promise.all([
+      supabase
+        .from('date_plans')
+        .select('id, status, items')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(25),
+      supabase
+        .from('date_journal_entries')
+        .select('plan_id, rating')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(25),
+    ]);
+    const ratingByPlan = new Map<string, number>();
+    for (const j of journalRows ?? []) ratingByPlan.set(j.plan_id, j.rating);
 
     const avoid = new Set<string>();
     const loved = new Set<string>();
     const disliked = new Set<string>();
     for (const row of data ?? []) {
       const stops = (Array.isArray(row.items) ? row.items : []) as unknown as PlanStop[];
+      const rating = ratingByPlan.get(row.id);
       for (const stop of stops) {
         if (!stop?.venueName) continue;
-        if (stop.feedback === 'up') loved.add(stop.venueName);
-        if (stop.feedback === 'down') disliked.add(stop.venueName);
+        // Evening-level signal first, so per-stop thumbs can override it.
+        if (rating != null && rating >= 5) loved.add(stop.venueName);
+        if (rating != null && rating <= 2) disliked.add(stop.venueName);
+        if (stop.feedback === 'up') {
+          loved.add(stop.venueName);
+          disliked.delete(stop.venueName);
+        }
+        if (stop.feedback === 'down') {
+          disliked.add(stop.venueName);
+          loved.delete(stop.venueName);
+        }
         // Places from scheduled/completed plans are "been there" — don't repeat.
         if (row.status === 'scheduled' || row.status === 'completed') {
           avoid.add(stop.venueName);
