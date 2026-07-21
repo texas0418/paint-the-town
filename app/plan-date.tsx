@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import {
   ArrowLeft,
+  CalendarClock,
   Sparkles,
   MapPin,
   Clock,
@@ -50,6 +51,7 @@ import {
   PlanProgress,
 } from '@/types/planner';
 import { getTasteProfile } from '@/services/tasteProfileService';
+import { buildReservationUrl, isReservable } from '@/utils/reservations';
 import {
   generatePlans,
   getPlanQuota,
@@ -701,6 +703,25 @@ export default function PlanDateScreen() {
               <Pressable style={styles.stopMetaItem} onPress={() => Linking.openURL(stop.url!)}>
                 <ExternalLink size={13} color={colors.primaryLight} />
                 <Text style={[styles.stopMetaText, { color: colors.primaryLight }]}>Website</Text>
+              </Pressable>
+            )}
+            {isReservable(stop) && (
+              <Pressable
+                style={styles.stopMetaItem}
+                onPress={() =>
+                  Linking.openURL(
+                    buildReservationUrl(
+                      stop,
+                      plans[planIndex]?.planDate ?? null,
+                      plans[planIndex]?.city ?? ''
+                    )
+                  )
+                }
+              >
+                <CalendarClock size={13} color={colors.secondary} />
+                <Text style={[styles.stopMetaText, { color: colors.secondary, fontWeight: '700' }]}>
+                  Reserve
+                </Text>
               </Pressable>
             )}
           </View>

@@ -71,6 +71,7 @@ const STOP_SCHEMA = {
     'description',
     'estimatedCost',
     'url',
+    'reservationUrl',
     'whyItMatches',
   ],
   properties: {
@@ -87,6 +88,11 @@ const STOP_SCHEMA = {
     description: { type: 'string', description: '1-2 sentences on what to do there' },
     estimatedCost: { type: 'number', description: 'Estimated USD cost for the whole party' },
     url: { type: 'string', description: 'Venue website or listing URL; empty string if unknown' },
+    reservationUrl: {
+      type: 'string',
+      description:
+        "Direct booking link you saw during research (OpenTable/Resy/Tock page or the venue's own reservation page). Empty string if the venue doesn't take reservations or you didn't see one — never invent this URL.",
+    },
     whyItMatches: {
       type: 'string',
       description: "One sentence tying this stop to the user's stated tastes",

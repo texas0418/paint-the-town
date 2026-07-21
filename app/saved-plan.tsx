@@ -15,6 +15,7 @@ import * as Calendar from 'expo-calendar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router';
+import { buildReservationUrl, isReservable } from '@/utils/reservations';
 import {
   ArrowLeft,
   MapPin,
@@ -27,6 +28,7 @@ import {
   CalendarCheck,
   Navigation,
   RefreshCw,
+  CalendarClock,
   ThumbsUp,
   ThumbsDown,
   Share2,
@@ -321,6 +323,17 @@ export default function SavedPlanScreen() {
                   )}
                 </View>
                 <View style={styles.stopActions}>
+                  {isReservable(stop) && (
+                    <Pressable
+                      style={[styles.stopActionBtn, styles.reserveBtn]}
+                      onPress={() =>
+                        Linking.openURL(buildReservationUrl(stop, plan.planDate, plan.city))
+                      }
+                    >
+                      <CalendarClock size={14} color={colors.textLight} />
+                      <Text style={[styles.stopActionText, styles.reserveText]}>Reserve</Text>
+                    </Pressable>
+                  )}
                   <Pressable
                     style={styles.stopActionBtn}
                     onPress={() => Linking.openURL(directionsUrl(stop))}
@@ -620,6 +633,13 @@ const createStyles = (colors: ThemeColors) =>
     fontSize: 12,
     fontWeight: '600',
     color: colors.primaryLight,
+  },
+  reserveBtn: {
+    backgroundColor: colors.secondary,
+  },
+  reserveText: {
+    color: colors.textLight,
+    fontWeight: '700',
   },
   feedbackGroup: {
     flexDirection: 'row',

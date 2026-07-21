@@ -51,6 +51,7 @@ export interface PlanStop {
   description: string;
   estimatedCost: number; // USD for the whole party
   url?: string;
+  reservationUrl?: string; // direct booking link (OpenTable/Resy/venue site) seen during research
   whyItMatches: string; // ties back to the user's taste profile
 }
 
