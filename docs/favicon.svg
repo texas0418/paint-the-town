@@ -16,8 +16,6 @@
            C 788 588, 660 700, 560 772"
         fill="none" stroke="#c9853f" stroke-width="88"
         stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- wet paint dripping from the center notch -->
-  <rect x="490" y="410" width="44" height="150" rx="22" fill="#c9853f"/>
   <!-- sparkle, carried over from the old mark -->
   <path d="M 812 148 C 822 214, 838 230, 904 240 C 838 250, 822 266, 812 332 C 802 266, 786 250, 720 240 C 786 230, 802 214, 812 148 Z"
         fill="#ffffff" fill-opacity="0.92"/>
