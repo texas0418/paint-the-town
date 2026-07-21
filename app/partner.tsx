@@ -109,7 +109,7 @@ export default function PartnerScreen() {
               disabled={busy}
               onPress={() =>
                 Share.share({
-                  message: `Link with me on W4nder so our date plans match both of us — my code is ${state.code}`,
+                  message: `Link with me on W4nder so our date plans match both of us — my code is ${state.code}. Don't have W4nder yet? https://texas0418.github.io/W4nderApp/`,
                 }).catch(() => {})
               }
             >

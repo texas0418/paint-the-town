@@ -135,7 +135,7 @@ export default function SavedPlanScreen() {
         message: [
           `${when}. Be ready at ${time}.`,
           `${stops} stops. All planned. That's all you get to know.`,
-          '— planned with W4nder',
+          '— planned with W4nder · https://texas0418.github.io/W4nderApp/',
         ].join('\n'),
       });
     } catch {
