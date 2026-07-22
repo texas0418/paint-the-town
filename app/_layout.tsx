@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AppProvider, useApp } from '@/contexts/AppContext';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { PurchasesProvider } from '@/contexts/PurchasesContext';
 import { View, ActivityIndicator, Text, TextInput } from 'react-native';
 import { useTheme } from '@/hooks/useTheme';
 
@@ -128,9 +129,11 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <AuthProvider>
-          <AppProvider>
-          <RootLayoutNav />
-          </AppProvider>
+          <PurchasesProvider>
+            <AppProvider>
+              <RootLayoutNav />
+            </AppProvider>
+          </PurchasesProvider>
         </AuthProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>
