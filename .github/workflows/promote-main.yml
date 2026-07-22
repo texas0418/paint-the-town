@@ -16,7 +16,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Typecheck
-        run: npx tsc --noEmit || true  # TODO(#4): make blocking once legacy type errors are fixed
+        run: npx tsc --noEmit
       - name: Lint (incl. complexity limits)
         run: npx eslint .
       - name: Pure-module tests

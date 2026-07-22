@@ -46,14 +46,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
         }}
       />
-
-      {/* ===== Hidden while we focus on the core date-planning loop ===== */}
-      <Tabs.Screen name="explore" options={{ href: null }} />
-      <Tabs.Screen name="trips" options={{ href: null }} />
-      <Tabs.Screen name="notifications" options={{ href: null }} />
-      <Tabs.Screen name="calendar" options={{ href: null }} />
-      <Tabs.Screen name="date-night" options={{ href: null }} />
-      <Tabs.Screen name="bookings" options={{ href: null }} />
     </Tabs>
   );
 }

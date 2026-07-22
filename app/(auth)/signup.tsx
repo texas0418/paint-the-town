@@ -91,7 +91,7 @@ export default function SignupScreen() {
     setLoading(false);
 
     if (result.success) {
-      router.replace('/(tabs)');
+      router.replace('/(tabs)' as never);
     } else if (result.error !== 'Sign in was cancelled') {
       Alert.alert('Sign Up Failed', result.error || 'An error occurred');
     }

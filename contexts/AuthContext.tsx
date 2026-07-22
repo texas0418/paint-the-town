@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       router.replace('/(auth)/login');
     } else if (user && inAuthGroup) {
       // Redirect to home if authenticated and in auth flow
-      router.replace('/(tabs)');
+      router.replace('/(tabs)' as never);
     }
   }, [user, segments, isLoading, navigationState?.key]);
 

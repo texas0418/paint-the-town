@@ -51,7 +51,7 @@ export default function LoginScreen() {
     setLoading(false);
 
     if (result.success) {
-      router.replace('/(tabs)');
+      router.replace('/(tabs)' as never);
     } else {
       Alert.alert('Login Failed', result.error || 'An error occurred');
     }
@@ -63,7 +63,7 @@ export default function LoginScreen() {
     setLoading(false);
 
     if (result.success) {
-      router.replace('/(tabs)');
+      router.replace('/(tabs)' as never);
     } else if (result.error !== 'Sign in was cancelled') {
       Alert.alert('Login Failed', result.error || 'An error occurred');
     }
