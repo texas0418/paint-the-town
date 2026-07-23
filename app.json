@@ -17,7 +17,7 @@
       "backgroundColor": "#16344F"
     },
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "app.paintthetown.com",
       "infoPlist": {
         "NSCalendarsUsageDescription": "Paint the Town needs calendar access to find free times for date nights and sync availability with your partner.",
