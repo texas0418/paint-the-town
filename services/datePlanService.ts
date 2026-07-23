@@ -81,6 +81,37 @@ async function waitForJob(
   throw new Error('Plan generation timed out. Please try again.');
 }
 
+type VenueSignalSets = { avoid: Set<string>; loved: Set<string>; disliked: Set<string> };
+
+/**
+ * Folds one past plan's stops into the loved/disliked/avoid sets. The evening-level
+ * journal rating is applied first so an explicit per-stop thumb always overrides it.
+ */
+function applyPlanSignals(
+  stops: PlanStop[],
+  rating: number | undefined,
+  status: string | null | undefined,
+  sets: VenueSignalSets
+): void {
+  // Places from scheduled/completed plans are "been there" — don't repeat.
+  const beenThere = status === 'scheduled' || status === 'completed';
+  for (const stop of stops) {
+    if (!stop?.venueName) continue;
+    const name = stop.venueName;
+    if (rating != null && rating >= 5) sets.loved.add(name);
+    if (rating != null && rating <= 2) sets.disliked.add(name);
+    if (stop.feedback === 'up') {
+      sets.loved.add(name);
+      sets.disliked.delete(name);
+    }
+    if (stop.feedback === 'down') {
+      sets.disliked.add(name);
+      sets.loved.delete(name);
+    }
+    if (beenThere) sets.avoid.add(name);
+  }
+}
+
 /**
  * Taste memory: venues from past plans, so new suggestions never repeat places
  * the user has been, and thumbs up/down verdicts steer future picks. Journal
@@ -88,7 +119,6 @@ async function waitForJob(
  * its venues, a bad one warns against them — but explicit per-stop thumbs
  * always win over the evening-level inference.
  */
-// eslint-disable-next-line complexity -- tracked in #1
 async function getVenueHistory(): Promise<{
   avoidVenues: string[];
   lovedVenues: string[];
@@ -118,35 +148,15 @@ async function getVenueHistory(): Promise<{
     const ratingByPlan = new Map<string, number>();
     for (const j of journalRows ?? []) ratingByPlan.set(j.plan_id, j.rating);
 
-    const avoid = new Set<string>();
-    const loved = new Set<string>();
-    const disliked = new Set<string>();
+    const sets: VenueSignalSets = { avoid: new Set(), loved: new Set(), disliked: new Set() };
     for (const row of data ?? []) {
       const stops = (Array.isArray(row.items) ? row.items : []) as unknown as PlanStop[];
-      const rating = ratingByPlan.get(row.id);
-      for (const stop of stops) {
-        if (!stop?.venueName) continue;
-        // Evening-level signal first, so per-stop thumbs can override it.
-        if (rating != null && rating >= 5) loved.add(stop.venueName);
-        if (rating != null && rating <= 2) disliked.add(stop.venueName);
-        if (stop.feedback === 'up') {
-          loved.add(stop.venueName);
-          disliked.delete(stop.venueName);
-        }
-        if (stop.feedback === 'down') {
-          disliked.add(stop.venueName);
-          loved.delete(stop.venueName);
-        }
-        // Places from scheduled/completed plans are "been there" — don't repeat.
-        if (row.status === 'scheduled' || row.status === 'completed') {
-          avoid.add(stop.venueName);
-        }
-      }
+      applyPlanSignals(stops, ratingByPlan.get(row.id), row.status, sets);
     }
     return {
-      avoidVenues: [...avoid].slice(0, 40),
-      lovedVenues: [...loved].slice(0, 20),
-      dislikedVenues: [...disliked].slice(0, 20),
+      avoidVenues: [...sets.avoid].slice(0, 40),
+      lovedVenues: [...sets.loved].slice(0, 20),
+      dislikedVenues: [...sets.disliked].slice(0, 20),
     };
   } catch (e) {
     console.error('Failed to gather venue history:', e);
