@@ -62,12 +62,6 @@
 	<string>W4nder needs calendar access to find free times for date nights and sync availability with your partner.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to access your camera</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>W4nder uses your location to send travel alerts and notify your partner when you've arrived.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>W4nder uses your location in the background to provide timely travel alerts.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>W4nder uses your location to provide directions and travel time estimates.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to access your microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -84,7 +78,6 @@
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>location</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>

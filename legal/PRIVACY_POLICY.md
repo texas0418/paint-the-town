@@ -1,111 +1,58 @@
 # Paint the Town Privacy Policy
 
-**Last Updated: February 5, 2026**
+**Last updated: July 22, 2026**
 
-## 1. Introduction
+Paint the Town ("the app") is built and operated by Simon Builds. This policy explains what information Paint the Town collects, why, and what happens to it. The short version: we collect only what's needed to plan dates and trips for you, we don't run ads, and we never sell your data.
 
-Paint the Town ("we," "our," or "us") operates the Paint the Town mobile application (the "App"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our App.
+## What we collect
 
-By using Paint the Town, you agree to the collection and use of information in accordance with this policy.
+- **Account information.** Your name, email address, and a password (stored as a secure hash), used to sign you in and keep your data yours.
+- **Taste profile.** The preferences you enter — cuisines, activities, music, drinks, venue style, home city, and typical budget. This is the data that makes plans personal.
+- **Plans and history.** The date and trip plans you generate, save, schedule, and complete, including your thumbs-up/down feedback on venues. Venue history is used so we don't suggest places you've already been.
+- **Anniversaries you add.** Occasion names and dates, used to schedule your reminders and stored with your account.
+- **Partner link.** If you link accounts with your partner, each of you can see the other's display name and taste profile (preferences only — never plans, history, or account details), and plans are generated against both profiles. Unlinking removes this access immediately.
+- **Date journal.** The ratings, notes, and photos you add after a date. Journal entries are visible only to you; photos are stored under your account and served via unguessable links.
+- **Share links.** When you share a plan "as a surprise," we create a link that reveals only your first name, the day, the be-ready time, and the number of stops — never venues, places, or costs. Deleting the plan disables the link.
+- **Push token.** If you allow notifications, a device push token so we can tell you when your plans are ready.
+- **Purchases.** If you subscribe, your subscription status and purchase history, handled through Apple and our subscription provider (RevenueCat). We never see or store your payment card details.
+- **Usage metadata.** Counts of plan generations (to enforce fair-use quotas) and technical usage measurements (AI token counts) that contain no personal content.
 
-## 2. Information We Collect
+## What we don't collect
 
-### Information You Provide
+- **No location.** Plans are generated from the city name you type. Paint the Town does not request or collect your device location.
+- **No calendar contents.** Calendar access (if you grant it) is used only to add plans you choose to your calendar, on your device. We never read or upload your existing events.
+- **No advertising identifiers, no third-party analytics trackers, no data brokers, and no tracking across apps or websites.**
 
-- **Account Information:** Name, email address, and password when you create an account
-- **Profile & Preferences:** Travel style, budget ranges, activity preferences, dietary restrictions, and accessibility needs
-- **Booking Information:** Travel dates, destinations, guest details, and payment information
-- **Communications:** Messages sent through our AI assistant, group chat, and customer support
+## How plans are generated
 
-### Information Collected Automatically
+When you request a plan, Paint the Town sends your request (city, date, budget, preferences from your taste profile, and any notes you type) to Anthropic's Claude API, which performs live web searches to find real venues. Anthropic processes this data to generate your plans and does not use it to train models. Don't include sensitive personal information in free-text notes — it's sent as part of the planning request.
 
-- **Location Data:** With your permission, we collect precise location data to provide navigation, nearby recommendations, and real-time travel assistance
-- **Device Information:** Device type, operating system, unique device identifiers, and mobile network information
-- **Usage Data:** App features used, search queries, booking history, and interaction patterns
-- **Camera & Photos:** Only when you explicitly use photo journal or receipt capture features
+## Service providers
 
-### Information from Third Parties
+| Provider | Purpose | Data involved |
+|---|---|---|
+| Supabase | Authentication, database, and API hosting (US East) | Account, taste profile, plans, usage counts |
+| Anthropic | AI plan generation with web search | Planning requests (city, date, budget, preferences, notes) |
+| RevenueCat | Subscription management and receipt validation | Subscription status and purchase history |
+| Expo | Push notification delivery | Device push token |
+| Apple | App distribution and subscription billing | Handled under Apple's own terms; we never see payment details |
 
-- **Booking Partners:** Confirmation details from airlines, hotels, restaurants, and activity providers
-- **Payment Processors:** Transaction confirmation (we do not store full payment card numbers)
+## Data retention and deletion
 
-## 3. How We Use Your Information
+Your data is kept while your account is active. To delete your account and all associated data (profile, plans, history), email simonshih@hotmail.com from the address on the account — deletion is completed within 30 days. You can also clear individual saved plans in the app at any time.
 
-We use collected information to:
+## Security
 
-- Create and manage your account
-- Generate personalized travel itineraries and recommendations
-- Process bookings for flights, accommodations, restaurants, and activities
-- Provide real-time travel assistance and notifications
-- Enable group travel coordination and shared itineraries
-- Track budgets and manage expense splitting
-- Improve our AI recommendation engine
-- Send booking confirmations and travel alerts
-- Provide customer support
-- Comply with legal obligations
+Data is encrypted in transit (TLS) and at rest. Database access is protected by row-level security, meaning your records are readable only by your authenticated account.
 
-## 4. How We Share Your Information
+## Children
 
-We share your information only in these circumstances:
+Paint the Town is not directed at children under 13 (or the minimum age in your jurisdiction) and we do not knowingly collect data from them.
 
-- **Booking Partners:** To complete reservations with airlines, hotels, restaurants, and activity providers
-- **Payment Processors:** To process transactions securely
-- **Group Travel Members:** Shared itinerary details with group members you approve
-- **Service Providers:** With vendors who assist in operating our App (hosting, analytics, customer support)
-- **Legal Requirements:** When required by law, regulation, or legal process
-- **Safety:** To protect the rights, safety, and property of Paint the Town and our users
+## Changes
 
-We do **not** sell your personal information to third parties.
+If this policy changes materially, we'll update this page and note it in the app. Continued use after changes means acceptance.
 
-## 5. Data Retention
+## Contact
 
-We retain your information for as long as your account is active or as needed to provide services. You may request deletion of your account and associated data at any time (see Section 8).
-
-Booking records may be retained for up to 7 years for legal and tax compliance.
-
-## 6. Data Security
-
-We implement industry-standard security measures including:
-
-- Encryption of data in transit (TLS/SSL) and at rest
-- Secure payment processing through PCI DSS-compliant partners
-- Regular security assessments
-- Access controls and authentication requirements
-
-No method of electronic transmission or storage is 100% secure, and we cannot guarantee absolute security.
-
-## 7. Your Rights
-
-Depending on your location, you may have the right to:
-
-- **Access** the personal data we hold about you
-- **Correct** inaccurate or incomplete data
-- **Delete** your personal data
-- **Export** your data in a portable format
-- **Opt out** of marketing communications
-- **Withdraw consent** for location tracking or other permissions
-
-### For California Residents (CCPA)
-
-You have the right to know what personal information is collected, request deletion, and opt out of any sale of personal information. We do not sell personal information.
-
-### For EU/EEA Residents (GDPR)
-
-Our legal bases for processing include consent, contract performance, and legitimate interests. You may contact us to exercise your rights under GDPR.
-
-## 8. How to Contact Us
-
-To exercise your rights or ask questions about this policy:
-
-**Email:** simonshih@hotmail.com
-**Mail:** Paint the Town, [Your Business Address]
-
-We will respond to requests within 30 days.
-
-## 9. Children's Privacy
-
-Paint the Town is not intended for children under 13. We do not knowingly collect personal information from children under 13. If we learn we have collected such information, we will delete it promptly.
-
-## 10. Changes to This Policy
-
-We may update this Privacy Policy from time to time. We will notify you of material changes through the App or by email. Continued use of the App after changes constitutes acceptance of the updated policy.
+Questions about privacy: simonshih@hotmail.com
