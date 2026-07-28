@@ -23,11 +23,12 @@ import {
   ChevronRight,
   Crown,
   Camera,
+  Trash2,
 } from 'lucide-react-native';
 import { ThemeColors } from '@/constants/colors';
 import { useTheme } from '@/hooks/useTheme';
 import { useAuth } from '@/contexts/AuthContext';
-import { signOut } from '@/services';
+import { deleteAccount, signOut } from '@/services';
 import { supabase } from '@/lib/supabase';
 import { PlanQuota, getPlanQuota, listPlans } from '@/services/datePlanService';
 import {
@@ -47,6 +48,7 @@ export default function ProfileScreen() {
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [reminder, setReminder] = useState<ReminderSettings | null>(null);
   const [quota, setQuota] = useState<PlanQuota | null>(null);
+  const [deletingAccount, setDeletingAccount] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -129,6 +131,35 @@ export default function ProfileScreen() {
     ]);
   };
 
+  const runAccountDeletion = async () => {
+    setDeletingAccount(true);
+    const res = await deleteAccount();
+    setDeletingAccount(false);
+    if (!res.success) {
+      Alert.alert('Deletion failed', res.error ?? 'Please try again.');
+    }
+    // On success the auth listener sees the cleared session and routes to sign-in.
+  };
+
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      'Delete account?',
+      'This permanently deletes your account and all your data — plans, journal, taste profile, and partner links. This cannot be undone.\n\nAn active subscription is billed through Apple and must be canceled separately in Settings > Apple Account > Subscriptions.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Continue',
+          style: 'destructive',
+          onPress: () =>
+            Alert.alert('Are you sure?', 'Your account and data will be gone forever.', [
+              { text: 'Keep my account', style: 'cancel' },
+              { text: 'Delete forever', style: 'destructive', onPress: runAccountDeletion },
+            ]),
+        },
+      ]
+    );
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
@@ -137,7 +168,11 @@ export default function ProfileScreen() {
             <View style={styles.headerContent}>
               <Pressable style={styles.avatar} onPress={handlePickAvatar}>
                 {avatarUrl ? (
-                  <Image source={{ uri: avatarUrl }} style={styles.avatarImage} contentFit="cover" />
+                  <Image
+                    source={{ uri: avatarUrl }}
+                    style={styles.avatarImage}
+                    contentFit="cover"
+                  />
                 ) : (
                   <Text style={styles.avatarText} maxFontSizeMultiplier={1.1}>
                     {initials}
@@ -258,6 +293,21 @@ export default function ProfileScreen() {
           <Pressable style={styles.signOutRow} onPress={handleSignOut}>
             <LogOut size={18} color={colors.error} />
             <Text style={styles.signOutText}>Sign out</Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.deleteAccountRow}
+            onPress={handleDeleteAccount}
+            disabled={deletingAccount}
+          >
+            {deletingAccount ? (
+              <ActivityIndicator size="small" color={colors.textTertiary} />
+            ) : (
+              <Trash2 size={14} color={colors.textTertiary} />
+            )}
+            <Text style={styles.deleteAccountText}>
+              {deletingAccount ? 'Deleting account…' : 'Delete account'}
+            </Text>
           </Pressable>
 
           <Text style={styles.version}>Paint the Town 1.0.0</Text>
@@ -396,6 +446,19 @@ const createStyles = (colors: ThemeColors) =>
       fontSize: 15,
       fontWeight: '600',
       color: colors.error,
+    },
+    deleteAccountRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 6,
+      paddingVertical: 10,
+      marginBottom: 4,
+    },
+    deleteAccountText: {
+      fontSize: 13,
+      fontWeight: '500',
+      color: colors.textTertiary,
     },
     version: {
       textAlign: 'center',
