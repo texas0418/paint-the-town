@@ -63,10 +63,7 @@ export const signUpWithEmail = async (
 };
 
 // Sign in with email and password
-export const signInWithEmail = async (
-  email: string,
-  password: string
-): Promise<AuthResult> => {
+export const signInWithEmail = async (email: string, password: string): Promise<AuthResult> => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -141,10 +138,7 @@ export const signInWithApple = async (): Promise<AuthResult> => {
         });
 
         // Also update the profiles table
-        await supabase
-          .from('profiles')
-          .update({ full_name: fullName })
-          .eq('id', data.user.id);
+        await supabase.from('profiles').update({ full_name: fullName }).eq('id', data.user.id);
       }
     }
 
@@ -168,7 +162,9 @@ export const signInWithApple = async (): Promise<AuthResult> => {
 // Get current user
 export const getCurrentUser = async (): Promise<AuthUser | null> => {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     return user ? transformUser(user) : null;
   } catch {
     return null;
@@ -177,7 +173,9 @@ export const getCurrentUser = async (): Promise<AuthUser | null> => {
 
 // Get current session
 export const getSession = async () => {
-  const { data: { session } } = await supabase.auth.getSession();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
   return session;
 };
 
@@ -194,12 +192,30 @@ export const signOut = async (): Promise<{ success: boolean; error?: string }> =
   }
 };
 
+// Permanently delete the signed-in user's account (App Store 5.1.1(v)).
+// The delete-account Edge Function verifies the JWT and removes the auth user;
+// every user table cascades from auth.users, so this wipes all personal data.
+export const deleteAccount = async (): Promise<{ success: boolean; error?: string }> => {
+  try {
+    const { data, error } = await supabase.functions.invoke('delete-account', { body: {} });
+    if (error) return { success: false, error: error.message };
+    if (data?.error) return { success: false, error: String(data.error) };
+    // The server already revoked the session; local signOut just clears state.
+    await supabase.auth.signOut().catch(() => {});
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'An error occurred' };
+  }
+};
+
 // ============================================
 // PASSWORD MANAGEMENT
 // ============================================
 
 // Send password reset email
-export const resetPassword = async (email: string): Promise<{ success: boolean; error?: string }> => {
+export const resetPassword = async (
+  email: string
+): Promise<{ success: boolean; error?: string }> => {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: 'painthetown://reset-password', // Deep link to your app
@@ -216,7 +232,9 @@ export const resetPassword = async (email: string): Promise<{ success: boolean; 
 };
 
 // Update password (when user is logged in)
-export const updatePassword = async (newPassword: string): Promise<{ success: boolean; error?: string }> => {
+export const updatePassword = async (
+  newPassword: string
+): Promise<{ success: boolean; error?: string }> => {
   try {
     const { error } = await supabase.auth.updateUser({
       password: newPassword,
@@ -261,10 +279,7 @@ export const updateProfile = async (updates: {
     if (updates.avatarUrl) profileUpdates.avatar_url = updates.avatarUrl;
     if (updates.phone) profileUpdates.phone = updates.phone;
 
-    const { error } = await supabase
-      .from('profiles')
-      .update(profileUpdates)
-      .eq('id', user.id);
+    const { error } = await supabase.from('profiles').update(profileUpdates).eq('id', user.id);
 
     if (error) {
       return { success: false, error: error.message };
@@ -281,11 +296,7 @@ export const getProfile = async () => {
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single();
+  const { data, error } = await supabase.from('profiles').select('*').eq('id', user.id).single();
 
   if (error) {
     console.error('Error fetching profile:', error);
@@ -301,7 +312,9 @@ export const getProfile = async () => {
 
 // Subscribe to auth state changes
 export const onAuthStateChange = (callback: (user: AuthUser | null) => void) => {
-  const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((event, session) => {
     if (session?.user) {
       callback(transformUser(session.user));
     } else {

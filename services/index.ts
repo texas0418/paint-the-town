@@ -11,6 +11,7 @@ export {
   getCurrentUser,
   getSession,
   signOut,
+  deleteAccount,
   resetPassword,
   updatePassword,
   updateProfile,
