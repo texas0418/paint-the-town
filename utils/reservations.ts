@@ -37,11 +37,7 @@ export function isReservable(stop: PlanStop): boolean {
  * @param planDate ISO date (YYYY-MM-DD) or null when the plan is flexible.
  * @param city Included in the fallback search term to disambiguate venues.
  */
-export function buildReservationUrl(
-  stop: PlanStop,
-  planDate: string | null,
-  city: string
-): string {
+export function buildReservationUrl(stop: PlanStop, planDate: string | null, city: string): string {
   if (stop.reservationUrl && /^https?:\/\//.test(stop.reservationUrl)) {
     return stop.reservationUrl;
   }

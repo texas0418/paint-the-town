@@ -1,4 +1,23 @@
-import { TravelPreference, TravelStyle, BudgetRange, FoodPreference } from '@/types';
+/**
+ * Onboarding / taste-profile option lists.
+ *
+ * Types live here rather than in the type barrel: these shapes exist only to
+ * describe this data, and the travel-era barrel they came from is gone.
+ */
+
+export interface TravelStyle {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+}
+
+export interface FoodPreference {
+  id: string;
+  name: string;
+  icon: string;
+  emoji: string;
+}
 
 export const travelStyles: TravelStyle[] = [
   {
@@ -25,60 +44,6 @@ export const travelStyles: TravelStyle[] = [
     description: 'Shared experiences with friends',
     icon: 'UsersRound',
   },
-];
-
-export const budgetRanges: BudgetRange[] = [
-  {
-    id: 'budget',
-    label: 'Budget Friendly',
-    min: 0,
-    max: 100,
-    icon: 'Wallet',
-  },
-  {
-    id: 'moderate',
-    label: 'Moderate',
-    min: 100,
-    max: 250,
-    icon: 'CreditCard',
-  },
-  {
-    id: 'comfort',
-    label: 'Comfortable',
-    min: 250,
-    max: 500,
-    icon: 'Gem',
-  },
-  {
-    id: 'luxury',
-    label: 'Luxury',
-    min: 500,
-    max: null,
-    icon: 'Crown',
-  },
-];
-
-export const travelPreferences: TravelPreference[] = [
-  { id: 'outdoor', name: 'Outdoor Adventures', icon: 'Mountain', selected: false },
-  { id: 'beach', name: 'Beach & Relaxation', icon: 'Umbrella', selected: false },
-  { id: 'cultural', name: 'Cultural Experiences', icon: 'Landmark', selected: false },
-  { id: 'foodie', name: 'Food & Culinary', icon: 'UtensilsCrossed', selected: false },
-  { id: 'nightlife', name: 'Nightlife', icon: 'Moon', selected: false },
-  { id: 'wellness', name: 'Wellness & Spa', icon: 'Sparkles', selected: false },
-  { id: 'adventure', name: 'Extreme Sports', icon: 'Flame', selected: false },
-  { id: 'photography', name: 'Photography', icon: 'Camera', selected: false },
-  { id: 'shopping', name: 'Shopping', icon: 'ShoppingBag', selected: false },
-  { id: 'wildlife', name: 'Wildlife & Nature', icon: 'TreePine', selected: false },
-  { id: 'history', name: 'History & Museums', icon: 'Building', selected: false },
-  { id: 'romantic', name: 'Romantic', icon: 'Heart', selected: false },
-  { id: 'concerts', name: 'Concerts & Live Music', icon: 'Music', selected: false },
-  { id: 'clubs', name: 'Clubs & Dancing', icon: 'PartyPopper', selected: false },
-  { id: 'bars', name: 'Bars & Cocktails', icon: 'Wine', selected: false },
-  { id: 'festivals', name: 'Festivals & Events', icon: 'Ticket', selected: false },
-  { id: 'art', name: 'Art & Galleries', icon: 'Palette', selected: false },
-  { id: 'sports', name: 'Sports & Games', icon: 'Trophy', selected: false },
-  { id: 'markets', name: 'Local Markets', icon: 'Store', selected: false },
-  { id: 'coffee', name: 'Coffee & Cafes', icon: 'Coffee', selected: false },
 ];
 
 export const foodPreferences: FoodPreference[] = [

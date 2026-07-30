@@ -17,8 +17,7 @@ Notifications.setNotificationHandler({
 
 /** The EAS projectId needed to mint an Expo push token, or null when not configured. */
 function resolveExpoProjectId(): string | null {
-  const projectId =
-    Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
+  const projectId = Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
   if (!projectId || projectId === 'your-project-id-here') return null;
   return projectId;
 }
