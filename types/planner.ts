@@ -30,13 +30,7 @@ export const emptyTasteProfile: TasteProfile = {
 };
 
 export type PlanStopCategory =
-  | 'food'
-  | 'drinks'
-  | 'activity'
-  | 'entertainment'
-  | 'outdoors'
-  | 'culture'
-  | 'other';
+  'food' | 'drinks' | 'activity' | 'entertainment' | 'outdoors' | 'culture' | 'other';
 
 export interface PlanStop {
   order: number;
