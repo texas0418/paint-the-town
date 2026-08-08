@@ -20,6 +20,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { DatePlan } from '@/types/planner';
 import { getPlan } from '@/services/datePlanService';
 import { getEntryForPlan, saveEntry, uploadJournalPhoto } from '@/services/dateJournalService';
+import { maybeAskForReview } from '@/lib/review';
 
 const MAX_PHOTOS = 6;
 
@@ -90,6 +91,9 @@ export default function RateDateScreen() {
         photoUrls,
         entryDate: plan?.planDate ?? new Date().toISOString().slice(0, 10),
       });
+      // Earned-value moment: a positive rating just landed. Fire-and-forget;
+      // the OS decides whether a review sheet actually appears.
+      if (rating >= 4) maybeAskForReview();
       router.back();
     } catch (e) {
       Alert.alert('Could not save', e instanceof Error ? e.message : 'Please try again.');
