@@ -1,0 +1,46 @@
+PAINT THE TOWN — GOOGLE PLAY STORE LISTING (draft 2026-08-15)
+===============================================================
+
+APP NAME (30 chars max)
+Paint the Town: Date Nights
+
+SHORT DESCRIPTION (80 chars max)
+Plan date nights you'll actually go on — ideas, plans, and calendar in one app.
+
+FULL DESCRIPTION (4000 chars max)
+-----------------------------------------------------
+"We should go out more." You've both said it. Paint the Town is how it actually happens.
+
+A date-night planner for couples: collect ideas when inspiration strikes, turn them into concrete plans, put them on the calendar, and keep a running record of the nights that were worth repeating.
+
+IDEAS WORTH KEEPING
+Save date ideas the moment you think of them — that restaurant someone mentioned, the drive-in, the ramen place from the show. Browse them when the "what do you want to do?" conversation stalls.
+
+FROM IDEA TO PLAN
+Pick the idea, pick the night, and Paint the Town puts it on your calendar with reminders — so Thursday-you actually follows through on Sunday-you's good intentions.
+
+REMEMBER THE GOOD ONES
+Rate and note the nights you loved. Build your own greatest-hits list for anniversaries, birthdays, and "we need a win" weeks.
+
+MADE FOR TWO
+Simple enough that both of you will actually use it. Sign in on both phones and share the plan.
+
+Date night shouldn't be a project. Open the app, pick a night, paint the town.
+-----------------------------------------------------
+
+CATEGORY: Lifestyle
+PRIVACY POLICY URL: https://texas0418.github.io/PaintTheTown/privacy.html
+  *** ACTION NEEDED (Simon): enable GitHub Pages (main /docs) after promotion — docs/privacy.html is in this PR.
+
+GRAPHIC ASSETS (store/): icon + feature graphic DONE; screenshots-android/ from release APK this run
+
+DATA SAFETY FORM (prep) — NOT LOCAL-ONLY: this app has ACCOUNTS + a Supabase backend
+- Collected: email address (account), app content the user saves (ideas/plans) stored in Supabase — declare "collected", encrypted in transit, deletable on request
+- CALENDAR permission (READ/WRITE_CALENDAR): used to create the user's own date events — app functionality; Play may require a permissions justification
+- Purchases via RevenueCat if premium products exist — verify in app at submission
+- docs/privacy.html in this PR was drafted with local-first language — REWRITE it for the account/backend reality before enabling Pages (flagged so it isn't published wrong)
+
+CONTENT RATING: Everyone
+
+RELEASE NOTES (first release)
+Paint the Town arrives on Android: save date ideas, turn them into plans, get them on the calendar, and remember the nights worth repeating.
