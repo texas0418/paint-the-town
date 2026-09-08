@@ -43,3 +43,15 @@ CONTENT RATING: Everyone
 
 RELEASE NOTES (first release)
 Paint the Town arrives on Android: save date ideas, turn them into plans, get them on the calendar, and remember the nights worth repeating.
+
+PERMISSIONS TO REVIEW BEFORE SUBMISSION (checked on the real Moto g pure 08-17)
+The installed build requests more than app.json asks for, because Expo library
+manifests get merged in. Actually requested on device:
+  ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, CAMERA, INTERNET,
+  READ_CALENDAR, READ_EXTERNAL_STORAGE, RECEIVE_BOOT_COMPLETED, RECORD_AUDIO,
+  SCHEDULE_EXACT_ALARM, SYSTEM_ALERT_WINDOW, VIBRATE, WRITE_CALENDAR
+ACCESS_BACKGROUND_LOCATION is now gone (that came from the stale committed
+manifest, removed in PR #34). Of the rest, camera, microphone, fine location
+and draw-over-other-apps each have to be justified on the data safety form.
+Work out which library pulls each one in, and strip the ones nothing uses
+before uploading, since every extra permission is a question Play will ask.
