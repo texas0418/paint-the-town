@@ -63,7 +63,8 @@
           "color": "#27567F"
         }
       ],
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      "./plugins/withReleaseSigning.js"
     ],
     "experiments": {
       "typedRoutes": true
