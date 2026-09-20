@@ -17,6 +17,9 @@ import type { SubscriptionTier } from '@/services/datePlanService';
 
 /** Public SDK key — safe to ship in the binary (unlike the secret/`.p8`). */
 const IOS_API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY ?? '';
+/** Google Play public SDK key, RC project db395507. */
+const ANDROID_API_KEY = 'goog_MIfzIJQJusMQbdmyxkVkWpVfbRC';
+const API_KEY = Platform.OS === 'android' ? ANDROID_API_KEY : IOS_API_KEY;
 
 /** RevenueCat entitlement identifiers (configured in the dashboard). */
 export const ENTITLEMENTS = {
@@ -35,19 +38,19 @@ export const PACKAGES = {
 
 let configured = false;
 
-/** Configure the SDK once. No-op on non-iOS or when the key is missing. */
+/** Configure the SDK once. No-op when the platform key is missing. */
 export function configurePurchases(): void {
-  if (configured || Platform.OS !== 'ios') return;
-  if (!IOS_API_KEY) {
+  if (configured) return;
+  if (!API_KEY) {
     if (__DEV__) {
       console.warn(
-        '[purchases] EXPO_PUBLIC_REVENUECAT_IOS_KEY is not set — in-app purchases are disabled.'
+        '[purchases] no RevenueCat key for this platform — in-app purchases are disabled.'
       );
     }
     return;
   }
   if (__DEV__) Purchases.setLogLevel(LOG_LEVEL.WARN);
-  Purchases.configure({ apiKey: IOS_API_KEY });
+  Purchases.configure({ apiKey: API_KEY });
   configured = true;
 }
 
