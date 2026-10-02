@@ -32,3 +32,9 @@ drop trigger if exists plan_jobs_set_updated_at on public.plan_jobs;
 create trigger plan_jobs_set_updated_at
   before update on public.plan_jobs
   for each row execute function public.set_updated_at();
+
+-- From 2026-10-30 Supabase stops auto-granting Data API roles on new tables
+-- (existing tables keep their grants). Restate what the auto-grant gave
+-- production so fresh environments (supabase db reset, preview branches)
+-- behave identically. RLS policies remain the actual access control.
+grant select, insert, update, delete on public.plan_jobs to anon, authenticated, service_role;

@@ -65,3 +65,9 @@ drop policy if exists "Users delete own date photos" on storage.objects;
 create policy "Users delete own date photos"
   on storage.objects for delete to authenticated
   using (bucket_id = 'date-photos' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- From 2026-10-30 Supabase stops auto-granting Data API roles on new tables
+-- (existing tables keep their grants). Restate what the auto-grant gave
+-- production so fresh environments (supabase db reset, preview branches)
+-- behave identically. RLS policies remain the actual access control.
+grant select, insert, update, delete on public.date_journal_entries to anon, authenticated, service_role;
