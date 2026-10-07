@@ -58,3 +58,9 @@ as $$
 $$;
 
 grant execute on function public.get_shared_plan(text) to anon, authenticated;
+
+-- From 2026-10-30 Supabase stops auto-granting Data API roles on new tables
+-- (existing tables keep their grants). Restate what the auto-grant gave
+-- production so fresh environments (supabase db reset, preview branches)
+-- behave identically. RLS policies remain the actual access control.
+grant select, insert, update, delete on public.plan_shares to anon, authenticated, service_role;
