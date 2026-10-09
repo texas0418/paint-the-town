@@ -27,6 +27,7 @@ import {
 } from 'lucide-react-native';
 import { ThemeColors } from '@/constants/colors';
 import { useTheme } from '@/hooks/useTheme';
+import MoreApps from '@/components/MoreApps';
 import { useAuth } from '@/contexts/AuthContext';
 import { deleteAccount, signOut } from '@/services';
 import { supabase } from '@/lib/supabase';
@@ -289,6 +290,8 @@ export default function ProfileScreen() {
             </View>
             <ChevronRight size={18} color={colors.textTertiary} />
           </Pressable>
+
+          <MoreApps />
 
           <Pressable style={styles.signOutRow} onPress={handleSignOut}>
             <LogOut size={18} color={colors.error} />
